@@ -1,7 +1,6 @@
-using TradesWorker;
 using TradesWorker.Configurations;
 using TradesWorker.Extensions;
-using TradesWorker.HttpClients;
+using TradesWorker.Infrastructure.HttpClients;
 using TradesWorker.Infrastructure.Data;
 using TradesWorker.Services;
 
@@ -12,7 +11,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
         services.AddScoped<ITradeService, TradeService>();
         services.AddDbContext<LocalBitcoinsDbContext>();
-        services.AddHostedService<Worker>();
+        services.AddCronJobs(context.Configuration);
     })
     .Build();
 

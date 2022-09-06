@@ -1,7 +1,7 @@
 using TradesWorker.Constants;
 using TradesWorker.Extensions;
-using TradesWorker.HttpClients;
 using TradesWorker.Infrastructure.Data;
+using TradesWorker.Infrastructure.HttpClients;
 using TradesWorker.Models;
 
 namespace TradesWorker.Services;
@@ -25,12 +25,11 @@ public class TradeService : ITradeService
     {
         _logger.LogInformation($"Updating LocalBitcoins trades at {DateTime.Now}");
         
-        var trades = new List<Trade>(); 
         var localBitcoinsTrades = await _localBitcoinsHttpClient.GetTradesAsync(cancellationToken);
         var addedTrades = await AddAsync(localBitcoinsTrades, cancellationToken);
-        trades.AddRange(addedTrades);
-        _logger.LogInformation($"Successfully updated LocalBitcoins trades at {DateTime.Now}");
-        return trades;
+        
+        _logger.LogInformation($"Successfully updated {addedTrades.Count} LocalBitcoins trades at {DateTime.Now}");
+        return addedTrades;
     }
 
     /*public async Task<IList<Trade>> UpdateTradesAsync(CancellationToken cancellationToken = default)
@@ -55,17 +54,22 @@ public class TradeService : ITradeService
 
     private async Task<IList<Trade>> AddAsync(IList<LocalBitcoinsTrade> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var trades = localBitcoinsTrades.Select(x => new Trade(x));
-        var asyncTrades = trades.ToAsyncEnumerable();
+        var addedTrades = new List<Trade>();
+        var asyncTrades = localBitcoinsTrades.Select(x => new Trade(x)).ToAsyncEnumerable();
 
         await foreach(var trade in asyncTrades)
         {
-            await AddAsync(trade, cancellationToken);
+            if (!_dbContext.Trades.Any(x => x.TransactionId == trade.TransactionId))
+            {
+                var result = await _dbContext.Trades.AddAsync(trade, cancellationToken);
+                addedTrades.Add(result.Entity);
+            }
         }
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        if (addedTrades.Count > 0)
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return trades.ToList();
+        return addedTrades;
     }
 
     private async Task<Trade> AddAsync(Trade trade, CancellationToken cancellationToken = default)

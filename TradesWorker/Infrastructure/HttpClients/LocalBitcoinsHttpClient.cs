@@ -4,7 +4,7 @@ using TradesWorker.Configurations;
 using TradesWorker.Constants;
 using TradesWorker.Models;
 
-namespace TradesWorker.HttpClients;
+namespace TradesWorker.Infrastructure.HttpClients;
 
 public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
 {

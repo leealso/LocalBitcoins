@@ -1,7 +1,7 @@
 using TradesWorker.Constants;
 using TradesWorker.Models;
 
-namespace TradesWorker.HttpClients;
+namespace TradesWorker.Infrastructure.HttpClients;
 
 public interface ILocalBitcoinsHttpClient
 {
