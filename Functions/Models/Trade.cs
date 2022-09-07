@@ -6,6 +6,7 @@ using LocalBitcoins.Functions.Utilities;
 
 namespace LocalBitcoins.Functions.Models;
 
+[Table("trades")]
 public class Trade
 {
     [Key]

@@ -9,4 +9,10 @@ public static class DateTimeUtility
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(epoch);
         return dateTimeOffset.DateTime;
     }
+
+    public static string GetNonce()
+    {
+        var nonce = (long)((DateTime.UtcNow - DateTime.UnixEpoch).TotalMilliseconds * 1000);
+        return nonce.ToString();
+    }
 }
