@@ -43,7 +43,7 @@ public class ClosedTradeService : IClosedTradeService
         }        
     }
 
-    private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContact> localBitcoinsTrades, CancellationToken cancellationToken = default)
+    private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContactData> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
         var addedTrades = new List<ClosedTrade>();
         var asyncTrades = localBitcoinsTrades.Select(x => new ClosedTrade(x)).ToAsyncEnumerable();

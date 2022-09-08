@@ -14,6 +14,7 @@ namespace LocalBitcoins.Functions
         {
             builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
             builder.Services.AddScoped<ITradeService, TradeService>();
+            builder.Services.AddScoped<IClosedTradeService, ClosedTradeService>();
             builder.Services.AddDbContext<LocalBitcoinsDbContext>();
         }
     }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 using LocalBitcoins.Functions.Utilities;
+using System.Linq;
 
 namespace LocalBitcoins.Functions.Infrastructure.HttpClients;
 
@@ -46,7 +47,7 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         return trades;
     }
 
-    public async Task<IList<LocalBitcoinsContact>> GetClosedTradesAsync(CancellationToken cancellationToken = default)
+    public async Task<IList<LocalBitcoinsContactData>> GetClosedTradesAsync(CancellationToken cancellationToken = default)
     {
         var route = $"/api/dashboard/closed/";
         var nonce = DateTimeUtility.GetNonce();
@@ -65,6 +66,6 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         var localBitcoinsResponse = JsonConvert.DeserializeObject<LocalBitcoinsResponse<LocalBitcoinsDashboardClosedResponse>>(responseContent);
         _logger.LogDebug($"Calling GET {route} response body {responseContent}");
 
-        return localBitcoinsResponse.Data.ContactList;
+        return localBitcoinsResponse.Data.ContactList.Select(x => x.Data).ToList();
     }
 }

@@ -41,7 +41,7 @@ public class ClosedTrade
         
     }
 
-    public ClosedTrade(LocalBitcoinsContact localBitcoinsContact)
+    public ClosedTrade(LocalBitcoinsContactData localBitcoinsContact)
     {
         ContactId = localBitcoinsContact.ContactId;
         Buyer = localBitcoinsContact.Buyer.Username;
