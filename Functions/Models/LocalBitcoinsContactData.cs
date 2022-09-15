@@ -13,21 +13,24 @@ public class LocalBitcoinsContactData
     public LocalBitcoinsUser Seller { get; set; }
 
     [JsonProperty("is_buying")]
-    public bool IsBuying {get; set; }
+    public bool IsBuying { get; set; }
 
     [JsonProperty("is_selling")]
-    public bool IsSelling {get; set; }
+    public bool IsSelling { get; set; }
 
-    public string Currency {get; set; }
+    public string Currency { get; set; }
 
-    public decimal Amount {get; set; }
+    public decimal Amount { get; set; }
 
     [JsonProperty("amount_btc")]
-    public decimal AmountBtc {get; set; }
+    public decimal AmountBtc { get; set; }
 
     [JsonProperty("fee_btc")]
-    public decimal FeeBtc {get; set; }
+    public decimal FeeBtc { get; set; }
 
     [JsonProperty("closed_at")]
-    public DateTime ClosedAt {get; set; }
+    public DateTime ClosedAt { get; set; }
+
+    [JsonProperty("payment_completed_at")]
+    public DateTime? PaymentCompletedAt { get; set; }
 }

@@ -31,10 +31,11 @@ public class ClosedTradeService : IClosedTradeService
         _logger.LogInformation($"Updating LocalBitcoins closed trades at {DateTime.Now}");
         
         var localBitcoinsTrades = await _localBitcoinsHttpClient.GetClosedTradesAsync(cancellationToken);
+        localBitcoinsTrades = localBitcoinsTrades.Where(x => x.PaymentCompletedAt.HasValue).ToList();
 
         if (localBitcoinsTrades.Any())
         {
-            var addedTrades = await AddAsync(localBitcoinsTrades.ToList(), cancellationToken);
+            var addedTrades = await AddAsync(localBitcoinsTrades, cancellationToken);
             _logger.LogInformation($"Successfully added {addedTrades.Count} new LocalBitcoins closed trades at {DateTime.Now}");
         }
         else 
