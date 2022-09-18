@@ -1,7 +1,19 @@
-import PropTypes from 'prop-types'
-import { Table } from 'react-bootstrap'
+import PropTypes from 'prop-types';
+import { Table } from 'react-bootstrap';
+import TradeRow from './TradeRow';
+import { connect } from 'react-redux';
+import { fetchTrades } from '../store/actions/tradeActions';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 
 const Trades = ({ trades }) => {
+    const dispatch = useDispatch()
+    //const usersListData = useSelector(state => state.usersList)
+    //const { loading, error, users } = usersListData
+    useEffect(() => {
+        dispatch(fetchTrades()) 
+      }, [dispatch])
+
     return (
         <Table striped bordered hover variant="dark">
             <thead>
@@ -16,15 +28,8 @@ const Trades = ({ trades }) => {
             </thead>
             <tbody>
                 {
-                    trades.map((trade) => (
-                        <tr>
-                            <td>{ trade.tid }</td>
-                            <td>{ trade.date }</td>
-                            <td>{ trade.price }</td>
-                            <td>{ trade.amount_btc }</td>
-                            <td>{ trade.amount_fiat }</td>
-                            <td>{ trade.currency_code }</td>
-                        </tr>
+                    trades.map((trade, i) => (
+                        <TradeRow key={i} trade={trade} />
                     ))
                 }
             </tbody>
@@ -55,4 +60,4 @@ Trades.propTypes = {
     trades: PropTypes.any.isRequired
 }
 
-export default Trades
+export default connect(null, { fetchTrades })(Trades);
