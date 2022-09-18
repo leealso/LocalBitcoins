@@ -1,0 +1,2 @@
+export const FETCH_CLOSED_TRADES = 'FETCH_CLOSED_TRADES';
+export const FETCH_TRADES = 'FETCH_TRADES';

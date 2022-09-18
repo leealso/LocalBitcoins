@@ -8,8 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //builder.Services.AddControllers();
-
-builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options => {
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("*");
+    });
+});
+builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options => 
+{
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
