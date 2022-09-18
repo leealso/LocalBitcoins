@@ -18,9 +18,6 @@ export const fetchTrades = () => async dispatch => {
         const response = await axios({
             url: 'https://localbitcoinsapi.azurewebsites.net/grahql',
             method: 'post',
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
             data: {
                 query: getTradesQuery
             }
