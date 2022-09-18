@@ -27,8 +27,8 @@ env:
 on:
   push:
     branches: [ "main" ]
-  paths:
-      - 'LocalBitcoinsAPI'
+#  paths:
+#      - 'LocalBitcoinsAPI'
   workflow_dispatch:
 
 permissions:
