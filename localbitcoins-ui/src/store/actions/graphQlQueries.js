@@ -1,6 +1,8 @@
 export const getTradesQuery = `
     query trades {
-        trades {
+        trades(first: 25 order: {
+            date: DESC
+        }) {
             nodes {
                 transactionId
                 amountBtc

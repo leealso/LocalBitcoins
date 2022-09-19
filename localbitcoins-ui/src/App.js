@@ -1,4 +1,4 @@
-import Trades from './components/Trades';
+import TradesGrid from './components/TradesGrid';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -6,7 +6,7 @@ function App() {
   return (
     <Provider store ={store}>
       <div className="App">
-        <Trades></Trades>
+        <TradesGrid />
       </div>
     </Provider>
   );

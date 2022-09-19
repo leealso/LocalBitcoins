@@ -2,21 +2,10 @@ import { FETCH_TRADES } from './types';
 import { getTradesQuery } from './graphQlQueries';
 import axios from 'axios';
 
-/*export function fetchTrades() {
-    return function (dispatch) {
-        return .then(({ trades }) => {
-            dispatch({
-                type: FETCH_TRADES,
-                payload: trades
-            });
-        });
-    };
-}*/
-
 export const fetchTrades = () => async dispatch => {
     try {
         const response = await axios({
-            url: 'https://localbitcoinsapi.azurewebsites.net/grahql',
+            url: 'https://localbitcoinsapi.azurewebsites.net/graphql',
             method: 'post',
             headers: {
                 'Access-Control-Allow-Origin': '*'
