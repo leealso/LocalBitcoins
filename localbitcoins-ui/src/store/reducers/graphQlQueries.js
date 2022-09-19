@@ -1,8 +1,8 @@
 export const getTradesQuery = `
-    query trades {
+    query trades($where: TradeFilterInput) {
         trades(first: 25 order: {
             date: DESC
-        }) {
+        } where: $where) {
             nodes {
                 transactionId
                 amountBtc
@@ -15,5 +15,6 @@ export const getTradesQuery = `
                 hasNextPage
                 hasPreviousPage
             }
+            totalCount
         }
     }`

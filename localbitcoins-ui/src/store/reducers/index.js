@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-//import closedTradeReducer from './closedTradeReducer';
-import tradeReducer from './tradeReducer';
+import tradeReducer from './tradeSlice';
 
 export default combineReducers({
     trades: tradeReducer
-    //closedTrades: closedTradeReducer
 })
