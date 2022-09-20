@@ -6,15 +6,17 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
-import { fetchTrades, setSelectedDate } from '../store/reducers/tradeSlice';
+import { setSelectedDate } from '../store/reducers/tradeSlice.ts';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useGetTradesQuery } from '../services/localBitcoinsService'
 
 const TodayTrades = ({ date, trades }) => {
     const dispatch = useDispatch()
+    const { data: posts } = useGetTradesQuery({})
 
     useEffect(() => {
-        dispatch(fetchTrades())
+        //dispatch(fetchTrades())
     }, [dispatch]);
 
     return (
@@ -52,4 +54,4 @@ const mapStateToProps = state => ({
     trades: state.trades.trades
 });
 
-export default connect(mapStateToProps, { fetchTrades, setSelectedDate })(TodayTrades);
+export default connect(mapStateToProps, { setSelectedDate })(TodayTrades);
