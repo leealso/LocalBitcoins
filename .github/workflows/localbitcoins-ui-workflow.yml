@@ -40,7 +40,8 @@ jobs:
         with:
           command: c
           cwd: './${{ env.PROJECT_PATH }}/build'
-          files: ''./'
+          files: |
+            './'
           outPath: '${{ AZURE_WEBAPP_NAME }}.tar.gz'
       
       - name: Upload artifact for deployment job
