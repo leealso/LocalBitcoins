@@ -41,7 +41,7 @@ const TodayTrades = ({ date }) => {
                     <h1 className="text-light">Daily Trades</h1>
                 </Col>
                 <Col lg="2">
-                    <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
+                    <DatePickerButton className="float-right" date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
                 </Col>
             </Row>
             <Row>
