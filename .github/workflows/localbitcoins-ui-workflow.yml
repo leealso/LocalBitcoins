@@ -41,7 +41,7 @@ jobs:
           command: c
           cwd: './${{ env.PROJECT_PATH }}'
           files: |
-            ./build/*
+            ./*
           outPath: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'
       
       - name: Upload artifact for deployment job
@@ -68,7 +68,6 @@ jobs:
         id: extract
         with:
           command: x
-          cwd: './${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
           files: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'   
 
       - name: Log in with Azure
