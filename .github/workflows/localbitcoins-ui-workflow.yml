@@ -1,11 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - LocalBitcoinsUI
+name: LocalBitcoinsUI - Azure Web App
 
 env:
-
   AZURE_WEBAPP_NAME: LocalBitcoinsUI    # set this to the name of your Azure Web App
+  PROJECT_PATH: localbitcoins-ui 
+
 on:
   push:
     branches:
@@ -28,9 +29,9 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm install --prefix {{ $env.PROJECT_PATH }}
+          npm run build --prefix {{ $env.PROJECT_PATH }} --if-present
+          npm run test --prefix {{ $env.PROJECT_PATH }} --if-present
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
