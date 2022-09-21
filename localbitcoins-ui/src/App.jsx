@@ -1,12 +1,13 @@
-import TradesGrid from './components/TradesGrid';
+import TodayTrades from './components/TodayTrades';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './store/index.ts';
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   return (
     <Provider store ={store}>
       <div className="App">
-        <TradesGrid />
+        <TodayTrades />
       </div>
     </Provider>
   );
