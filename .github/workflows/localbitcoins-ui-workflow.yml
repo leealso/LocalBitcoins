@@ -28,10 +28,11 @@ jobs:
           node-version: '16.x'
 
       - name: npm install, build, and test
+        working-directory: './{{ $env.PROJECT_PATH }}'
         run: |
-          npm install --prefix {{ $env.PROJECT_PATH }}
-          npm run build --prefix {{ $env.PROJECT_PATH }} --if-present
-          npm run test --prefix {{ $env.PROJECT_PATH }} --if-present
+          npm install
+          npm run build --if-present
+          npm run test --if-present
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
