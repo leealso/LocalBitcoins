@@ -28,7 +28,7 @@ jobs:
           node-version: '16.x'
 
       - name: npm install, build, and test
-        working-directory: ./{{ $env.PROJECT_PATH }}
+        working-directory: localbitcoins-ui
         run: |
           npm install
           npm run build --if-present
