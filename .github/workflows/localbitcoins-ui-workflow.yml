@@ -42,13 +42,13 @@ jobs:
           cwd: './${{ env.PROJECT_PATH }}/build'
           files: |
             './'
-          outPath: '${{ AZURE_WEBAPP_NAME }}.tar.gz'
+          outPath: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: './${{ env.PROJECT_PATH }}/${{ AZURE_WEBAPP_NAME }}.tar.gz'
+          path: './${{ env.PROJECT_PATH }}/${{ env.AZURE_WEBAPP_NAME }}.tar.gz'
 
   deploy:
     runs-on: windows-latest
@@ -68,8 +68,8 @@ jobs:
         id: extract
         with:
           command: x
-          cwd: './${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
-          files: '${{ AZURE_WEBAPP_NAME }}.tar.gz'   
+          cwd: './${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+          files: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'   
 
       - name: Log in with Azure
         uses: azure/login@v1
