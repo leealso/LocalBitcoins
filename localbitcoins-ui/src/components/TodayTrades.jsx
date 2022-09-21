@@ -11,22 +11,29 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetTradesQuery } from '../services/localBitcoinsService'
 
-const TodayTrades = ({ date, trades }) => {
+const TodayTrades = ({ date }) => {
     const dispatch = useDispatch()
     const selectedDate = useSelector(state => state.trades.selectedDate)
-    var currentDate = new Date(selectedDate);
-    currentDate.setHours(0, 0, 0, 0);
+    var startDate = new Date(selectedDate)
+    startDate.setHours(0, 0, 0, 0)
+    var endDate = new Date(startDate)
+    endDate.setTime(endDate.getTime() + (24*60*60*1000))
     const where = {
-        date: {
-            gte: currentDate.toISOString()
-        }
+        and: [
+            {
+                date: {
+                    gte: startDate.toISOString()
+                }
+            },
+            {
+                date: {
+                    lt: endDate.toISOString()
+                }
+            }
+        ]
+        
     }
-    const { data: posts } = useGetTradesQuery({ where: where})
-
-    useEffect(() => {
-        //dispatch(fetchTrades())
-    }, [dispatch]);
-
+    const { data: trades } = useGetTradesQuery({ where: where })
     return (
         <Container>
             <Row>
@@ -39,7 +46,7 @@ const TodayTrades = ({ date, trades }) => {
             </Row>
             <Row>
                 <Col>
-                    <TradesGrid trades={trades} />
+                    <TradesGrid trades={trades?.trades?.nodes ?? []} />
                 </Col>
             </Row>
         </Container>
@@ -48,18 +55,15 @@ const TodayTrades = ({ date, trades }) => {
 //<DatePicker selected={date} onChange={(date) => dispatch(setSelectedDate(date))} />
 
 TodayTrades.defaultProps = {
-    date: new Date().getTime(),
-    trades: []
+    date: new Date().getTime()
 }
 
 TodayTrades.propTypes = {
-    date: PropTypes.any.isRequired,
-    trades: PropTypes.array.isRequired,
+    date: PropTypes.any.isRequired
 }
 
 const mapStateToProps = state => ({
-    date: state.trades.selectedDate,
-    trades: state.trades.trades
+    date: state.trades.selectedDate
 });
 
 export default connect(mapStateToProps, { setSelectedDate })(TodayTrades);
