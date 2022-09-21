@@ -27,8 +27,8 @@ env:
 on:
   push:
     branches: [ "main" ]
-#  paths:
-#      - 'LocalBitcoinsAPI'
+    paths:
+        - '${{ env.AZURE_WEBAPP_NAME }}'
   workflow_dispatch:
 
 permissions:
