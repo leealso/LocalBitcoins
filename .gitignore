@@ -350,7 +350,8 @@ MigrationBackup/
 .ionide/
 
 # VS Code files for those working on multiple tools
-.vscode/*
+./Functions/vscode
+./Functions/.DS_Store
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
