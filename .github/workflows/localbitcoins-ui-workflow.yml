@@ -33,21 +33,12 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present --passWithNoTests
-
-      - name: Compress action step
-        uses: a7ul/tar-action@v1.1.0
-        id: compress
-        with:
-          command: c
-          files: |
-            ./${{ env.PROJECT_PATH }}/build
-          outPath: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: '**/${{ env.AZURE_WEBAPP_NAME }}.tar.gz'
+          path: './${{ env.PROJECT_PATH }}/build'
 
   deploy:
     runs-on: windows-latest
@@ -60,14 +51,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: node-app
-
-      - name: Extract files
-        uses: a7ul/tar-action@v1.1.0
-        id: extract
-        with:
-          command: x
-          files: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'   
+          name: node-app  
 
       - name: Log in with Azure
         uses: azure/login@v1
