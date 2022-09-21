@@ -68,7 +68,6 @@ jobs:
         id: extract
         with:
           command: x
-          cwd: './${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
           files: '${{ env.AZURE_WEBAPP_NAME }}.tar.gz'   
 
       - name: Log in with Azure
