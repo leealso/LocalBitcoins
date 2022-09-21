@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import IndicatorCard from './IndicatorCard';
 import TradesGrid from './TradesGrid';
 import DatePickerButton from './DatePickerButton';
 import Container from 'react-bootstrap/Container';
@@ -7,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
 import { setSelectedDate } from '../store/reducers/tradeSlice.ts';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetTradesQuery } from '../services/localBitcoinsService'
 
