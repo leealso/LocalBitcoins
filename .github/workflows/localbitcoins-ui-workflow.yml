@@ -40,10 +40,9 @@ jobs:
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
-        working-directory: './${{ env.PROJECT_PATH }}'
         with:
           name: node-app
-          path: release.zip
+          path: './${{ env.PROJECT_PATH }}/release.zip'
 
   deploy:
     runs-on: windows-latest
@@ -59,6 +58,7 @@ jobs:
           name: node-app
           
       - name: Unzip artifact for deployment
+        working-directory: './${{ env.PROJECT_PATH }}'
         run: unzip release.zip
 
       - name: Log in with Azure
