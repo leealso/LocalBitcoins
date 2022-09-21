@@ -35,7 +35,7 @@ jobs:
           npm run test --if-present --passWithNoTests
 
       - name: Zip artifact for deployment
-        working-directory: './${{ env.PROJECT_PATH }}'
+        working-directory: './${{ env.PROJECT_PATH }}/build'
         run: zip release.zip ./* -r
       
       - name: Upload artifact for deployment job
