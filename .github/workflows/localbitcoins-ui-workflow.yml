@@ -34,7 +34,7 @@ jobs:
           npm run build --if-present
           npm run test --if-present --passWithNoTests
 
-       - name: Compress action step
+      - name: Compress action step
         uses: a7ul/tar-action@v1.1.0
         id: compress
         with:
