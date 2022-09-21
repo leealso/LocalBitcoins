@@ -8,12 +8,20 @@ import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
 import { setSelectedDate } from '../store/reducers/tradeSlice.ts';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetTradesQuery } from '../services/localBitcoinsService'
 
 const TodayTrades = ({ date, trades }) => {
     const dispatch = useDispatch()
-    const { data: posts } = useGetTradesQuery({})
+    const selectedDate = useSelector(state => state.trades.selectedDate)
+    var currentDate = new Date(selectedDate);
+    currentDate.setHours(0, 0, 0, 0);
+    const where = {
+        date: {
+            gte: currentDate.toISOString()
+        }
+    }
+    const { data: posts } = useGetTradesQuery({ where: where})
 
     useEffect(() => {
         //dispatch(fetchTrades())
