@@ -29,6 +29,7 @@ on:
     branches: [ "main" ]
     paths:
         - '${{ env.AZURE_WEBAPP_NAME }}'
+        - '.github/workflows/localbitcoins-ui-workflow.yml'
   workflow_dispatch:
 
 permissions:
