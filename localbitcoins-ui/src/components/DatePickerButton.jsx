@@ -10,13 +10,12 @@ const DatePickerButton = ({ date, onDateChange }) => {
         </Button>
     ));
     return (
-        <div className="d-flex h-100 align-items-center">
-            <DatePicker
-                selected={date}
-                onChange={(date) => onDateChange(date)}
-                customInput={<CustomInput />}
-            />
-        </div>
+        <DatePicker
+            selected={date}
+            onChange={(date) => onDateChange(date)}
+            customInput={<CustomInput />}
+            wrapperClassName="d-flex"
+        />
     );
 }
 

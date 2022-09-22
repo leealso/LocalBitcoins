@@ -36,7 +36,7 @@ const TodayTrades = ({ date }) => {
         
     }
     const { data: trades, isLoading } = useGetTradesQuery({ where: where })
-    // <LoadingButton isLoading={isLoading} handleClick={() => {}} />
+    // 
     return (
         <Container>
             <Row>
@@ -44,7 +44,10 @@ const TodayTrades = ({ date }) => {
                     <h1 className="text-light">Daily Trades</h1>
                 </Col>
                 <Col xs="4" sm="2">
-                    <DatePickerButton className="float-right" date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
+                    <div className="d-flex h-100 align-items-center">
+                        <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
+                        <div className="ml-2"><LoadingButton isLoading={isLoading} handleClick={() => {}} /></div>
+                    </div>
                 </Col>
             </Row>
             <Row>
