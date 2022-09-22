@@ -1,14 +1,17 @@
-import PropTypes from 'prop-types';
-import TradesGrid from './TradesGrid';
-import DatePickerButton from './DatePickerButton';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { connect } from 'react-redux';
-import { setSelectedDate } from '../store/reducers/tradeSlice.ts';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types'
+import TradesGrid from './TradesGrid'
+import MobileTradesGrid from './MobileTradesGrid'
+import DatePickerButton from './DatePickerButton'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { connect } from 'react-redux'
+import { setSelectedDate } from '../store/reducers/tradeSlice.ts'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useGetTradesQuery } from '../services/localBitcoinsService'
+import LoadingSpinner from './LoadingSpinner'
+import LoadingButton from './LoadingButton'
 
 const TodayTrades = ({ date }) => {
     const dispatch = useDispatch()
@@ -32,26 +35,30 @@ const TodayTrades = ({ date }) => {
         ]
         
     }
-    const { data: trades } = useGetTradesQuery({ where: where })
+    const { data: trades, isLoading } = useGetTradesQuery({ where: where })
+    // <LoadingButton isLoading={isLoading} handleClick={() => {}} />
     return (
         <Container>
             <Row>
-                <Col>
+                <Col xs="8" sm="10">
                     <h1 className="text-light">Daily Trades</h1>
                 </Col>
-                <Col lg="2">
+                <Col xs="4" sm="2">
                     <DatePickerButton className="float-right" date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <TradesGrid trades={trades?.trades?.nodes ?? []} />
+                    { 
+                        isLoading 
+                            ? <LoadingSpinner isLoading={isLoading} /> 
+                            : <TradesGrid trades={trades?.trades?.nodes ?? []} /> 
+                    }
                 </Col>
             </Row>
         </Container>
     )
 }
-//<DatePicker selected={date} onChange={(date) => dispatch(setSelectedDate(date))} />
 
 TodayTrades.defaultProps = {
     date: new Date().getTime()

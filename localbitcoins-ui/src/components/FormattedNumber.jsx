@@ -4,7 +4,7 @@ const FormattedNumber = ({ text, prefix, decimals, thousandSeparator }) => {
     return (
         <span>
             {
-                (prefix ? `${prefix} ` : ``) 
+                `${prefix}`
                 + (thousandSeparator 
                     ? text.toFixed(decimals).replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`)
                     : text.toFixed(decimals)
