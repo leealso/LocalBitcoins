@@ -7,8 +7,7 @@ const TradesGrid = ({ trades }) => {
         <Table striped bordered hover variant="dark">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
-                    <th>Date</th>
+                    <th>Time</th>
                     <th>Fiat</th>
                     <th>BTC</th>
                     <th>Price</th>
@@ -18,7 +17,7 @@ const TradesGrid = ({ trades }) => {
                 
                 {
                     trades.map((trade, i) => (
-                        <TradeRow key={i} trade={trade} />
+                        <TradeRow key={i} trade={trade} displayTransactionId={false} />
                     ))
                 }
             </tbody>
