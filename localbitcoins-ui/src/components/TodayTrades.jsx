@@ -34,7 +34,7 @@ const TodayTrades = ({ date, pageSize }) => {
         ]
         
     }
-    const { data: trades, isLoading, refetch } = useGetTradesQuery({ where: where })
+    const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ first: pageSize, where: where })
     return (
         <Container className='pt-2'>
             <Row>
@@ -44,7 +44,7 @@ const TodayTrades = ({ date, pageSize }) => {
                 <Col xs={6} sm={3}>
                     <div className="d-flex h-100 align-items-center">
                         <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
-                        <LoadingButton isLoading={isLoading} handleClick={() => isToday ? refetch() : null} />
+                        <LoadingButton isLoading={isLoading || isFetching} handleClick={() => isToday ? refetch() : null} />
                     </div>
                 </Col>
             </Row>
@@ -52,7 +52,7 @@ const TodayTrades = ({ date, pageSize }) => {
                 <Col>
                     { 
                         isLoading 
-                            ? <LoadingSpinner isLoading={isLoading} /> 
+                            ? <LoadingSpinner isLoading={isLoading || isFetching} /> 
                             : <TradesGrid trades={trades?.trades?.nodes ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} /> 
                     }
                 </Col>

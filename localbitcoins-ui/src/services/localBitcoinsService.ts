@@ -12,6 +12,8 @@ export interface BaseResponse<TResponse> {
 export interface PageInfo {
     hasNextPage: boolean
     hasPreviousPage: boolean
+    startCursor: string
+    endCursor: string
 }
 
 export interface GetTradesResponse {
@@ -29,12 +31,12 @@ export const localBitcoinsApi = createApi({
     endpoints: (builder) => ({
         getTrades: builder.query<
             BaseResponse<GetTradesResponse>,
-            { where?: any }
+            { first: number, after?: number, where?: any }
         >({
-            query: ({ where }) => ({
+            query: ({ first, after, where }) => ({
                 document: gql`
-                query trades($where: TradeFilterInput) {
-                    trades(first: 25 order: {
+                query trades($first: Int $after: String $where: TradeFilterInput) {
+                    trades(first: $first after: $after order: {
                         date: DESC
                     } where: $where) {
                         nodes {
@@ -53,6 +55,8 @@ export const localBitcoinsApi = createApi({
                     }
                 }`,
                 variables: {
+                    first,
+                    after,
                     where
                 },
             }),
