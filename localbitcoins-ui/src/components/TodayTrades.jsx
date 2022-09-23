@@ -36,7 +36,7 @@ const TodayTrades = ({ date }) => {
     }
     const { data: trades, isLoading, refetch } = useGetTradesQuery({ where: where })
     return (
-        <Container>
+        <Container className='pt-2'>
             <Row>
                 <Col xs={6} sm={9}>
                     <h1 className="text-light">Daily Trades</h1>

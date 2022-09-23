@@ -8,7 +8,8 @@ const TradesGrid = ({ trades }) => {
             <thead>
                 <tr>
                     <th className='d-none d-md-table-cell'>Transaction ID</th>
-                    <th>Date</th>
+                    <th className='d-md-none'>Time</th>
+                    <th className='d-none d-md-table-cell'>Date</th>
                     <th>Fiat</th>
                     <th>BTC</th>
                     <th>Price</th>
