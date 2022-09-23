@@ -8,14 +8,20 @@ const TradeRow = ({ trade }) => {
             <td className='d-none d-md-table-cell'>{ trade.transactionId }</td>
             <td className='d-md-none'>{ dayjs(trade.date).format('HH:mm') }</td>
             <td className='d-none d-md-table-cell'>{ dayjs(trade.date).format('MMM DD, YYYY HH:mm') }</td>
-            <td className='numberText'>
-                <FormattedNumber text={ trade.amountFiat } prefix='₡'/>
+            <td className='numberText td-md-none'>
+                <FormattedNumber text={trade.amountFiat} decimals={0} prefix='₡'/>
+            </td>
+            <td className='numberText d-none d-md-table-cell'>
+                <FormattedNumber text={trade.amountFiat} prefix='₡'/>
             </td>
             <td className='numberText'>
-                <FormattedNumber text={ trade.amountBtc } decimals={ 8 } thousandSeparator={ false }/>
+                <FormattedNumber text={trade.amountBtc} decimals={8} thousandSeparator={false}/>
             </td>
-            <td className='numberText'>
-                <FormattedNumber text={ trade.price } prefix='₡'/>
+            <td className='numberTex td-md-none'>
+                <FormattedNumber text={trade.price} decimals={0} prefix='₡'/>
+            </td>
+            <td className='numberText d-none d-md-table-cell'>
+                <FormattedNumber text={trade.price} prefix='₡'/>
             </td>
         </tr>
     )

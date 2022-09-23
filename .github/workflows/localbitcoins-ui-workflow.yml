@@ -12,7 +12,7 @@ on:
     branches:
       - main
     paths:
-      - 'localbitcoins-ui'
+      - 'localbitcoins-ui/**'
   workflow_dispatch:
 
 jobs:
