@@ -9,9 +9,10 @@ env:
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
     paths:
-        - '${{ env.PROJECT_PATH }}'
+      - 'localbitcoins-ui'
   workflow_dispatch:
 
 jobs:
