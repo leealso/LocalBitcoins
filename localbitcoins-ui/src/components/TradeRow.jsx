@@ -5,8 +5,9 @@ import dayjs from 'dayjs';
 const TradeRow = ({ trade }) => {
     return (
         <tr>
-            <td>{ trade.transactionId }</td>
-            <td>{ dayjs(trade.date).format('MMM DD, YYYY HH:mm') }</td>
+            <td className='d-none d-md-table-cell'>{ trade.transactionId }</td>
+            <td className='d-md-none'>{ dayjs(trade.date).format('HH:mm') }</td>
+            <td className='d-none d-md-table-cell'>{ dayjs(trade.date).format('MMM DD, YYYY HH:mm') }</td>
             <td className='numberText'>
                 <FormattedNumber text={ trade.amountFiat } prefix='₡'/>
             </td>

@@ -4,10 +4,10 @@ import TradeRow from './TradeRow'
 
 const TradesGrid = ({ trades }) => {
     return (
-        <Table striped bordered hover variant="dark">
+        <Table striped bordered hover variant="dark" className='mt-2'>
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th className='d-none d-md-table-cell'>Transaction ID</th>
                     <th>Date</th>
                     <th>Fiat</th>
                     <th>BTC</th>
