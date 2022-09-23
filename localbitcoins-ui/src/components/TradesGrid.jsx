@@ -1,38 +1,59 @@
 import PropTypes from 'prop-types'
 import { Table } from 'react-bootstrap'
 import TradeRow from './TradeRow'
+import Pagination from 'react-bootstrap/Pagination'
 
-const TradesGrid = ({ trades }) => {
+const TradesGrid = ({ trades, totalCount, pageSize, selectedPage }) => {
+    const pages = Math.ceil(totalCount / pageSize)
+    let paginationItems = [];
+    for (let i = 1; i <= pages; i++) {
+        paginationItems.push(
+            <Pagination.Item key={i} active={i === selectedPage}>
+              {i}
+            </Pagination.Item>,
+          );
+    }
     return (
-        <Table striped bordered hover variant="dark" className='mt-2'>
-            <thead>
-                <tr>
-                    <th className='d-none d-md-table-cell'>Transaction ID</th>
-                    <th className='d-md-none'>Time</th>
-                    <th className='d-none d-md-table-cell'>Date</th>
-                    <th>Fiat</th>
-                    <th>BTC</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                {
-                    trades.map((trade, i) => (
-                        <TradeRow key={i} trade={trade} />
-                    ))
-                }
-            </tbody>
-        </Table>
+        <div>
+            <Table striped bordered hover variant="dark" className='mt-2'>
+                <thead>
+                    <tr>
+                        <th className='d-none d-md-table-cell'>Transaction ID</th>
+                        <th className='d-md-none'>Time</th>
+                        <th className='d-none d-md-table-cell'>Date</th>
+                        <th>Fiat</th>
+                        <th>BTC</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {
+                        trades.map((trade, i) => (
+                            <TradeRow key={i} trade={trade} />
+                        ))
+                    }
+                </tbody>
+            </Table>
+            <Pagination className='justify-content-center'>
+                {paginationItems}
+            </Pagination>
+        </div>
     )
 }
 
 TradesGrid.defaultProps = {
-    trades: []
+    trades: [],
+    totalCount: 0,
+    pageSize: 0,
+    selectedPage: 1
 }
 
 TradesGrid.propTypes = {
-    trades: PropTypes.any.isRequired
+    trades: PropTypes.array.isRequired,
+    totalCount: PropTypes.number,
+    pageSize: PropTypes.number.isRequired,
+    selectedPage: PropTypes.number
 }
 
 export default TradesGrid;
