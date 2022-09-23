@@ -38,10 +38,10 @@ const TodayTrades = ({ date }) => {
     return (
         <Container>
             <Row>
-                <Col xs="8" sm="10">
+                <Col xs={6} sm={9}>
                     <h1 className="text-light">Daily Trades</h1>
                 </Col>
-                <Col xs="4" sm="2">
+                <Col xs={6} sm={3}>
                     <div className="d-flex h-100 align-items-center">
                         <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
                         <LoadingButton isLoading={isLoading} handleClick={() => isToday ? refetch() : null} />
