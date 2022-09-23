@@ -12,7 +12,8 @@ on:
     branches:
       - main
     paths:
-      - 'localbitcoins-ui'
+      - '${{ env.PROJECT_PATH }}'
+      - '.github/workflows/localbitcoins-ui-workflow.yml'
   workflow_dispatch:
 
 jobs:
