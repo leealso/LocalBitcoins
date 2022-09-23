@@ -1,19 +1,20 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
+import React from 'react'
+import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types'
 import { FaSyncAlt } from 'react-icons/fa'
 
 const LoadingButton = ({ isLoading, handleClick }) => {
     return (
         <Button
-            variant="primary"
-            disabled={isLoading}
+            className="ms-2"
+            variant="success"
             onClick={!isLoading ? handleClick : null}
         >
-            <FaSyncAlt/>
+            <FaSyncAlt className={isLoading ? 'icon-spin' : ''}/>
         </Button>
     )
 }
+// <Icon faStyle={"refresh"} animate="spin"/>
 
 LoadingButton.defaultProps = {
     isLoading: false,
