@@ -38,3 +38,15 @@ code {
             transform: rotate(359deg);
   }
 }
+
+a.page-link {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-light-rgb),var(--bs-text-opacity))!important;
+}
+
+li.page-item.active span.page-link {
+  --bs-border-opacity: 1;
+  border-color: rgba(var(--bs-light-rgb),var(--bs-border-opacity))!important;
+}

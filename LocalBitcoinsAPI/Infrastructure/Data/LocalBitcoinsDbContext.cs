@@ -14,4 +14,8 @@ public class LocalBitcoinsDbContext : DbContext
     public DbSet<Trade> Trades { get; set; }
 
     public DbSet<ClosedTrade> ClosedTrades { get; set; }
+
+    public DbSet<Currency> Currencies { get; set; }
+
+    public DbSet<ExchangeRate> ExchanteRates { get; set; }
 }

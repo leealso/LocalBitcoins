@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalBitcoinsAPI.Services;
 
-public class ClosedTradeService : IClosedTradeService
+public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
 {
     private readonly LocalBitcoinsDbContext _dbContext;
 

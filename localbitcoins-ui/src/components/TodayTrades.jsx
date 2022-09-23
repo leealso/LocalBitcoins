@@ -12,7 +12,7 @@ import { useGetTradesQuery } from '../services/localBitcoinsService'
 import LoadingSpinner from './LoadingSpinner'
 import LoadingButton from './LoadingButton'
 
-const TodayTrades = ({ date }) => {
+const TodayTrades = ({ date, pageSize }) => {
     const dispatch = useDispatch()
     let startDate = new Date(date)
     startDate.setHours(0, 0, 0, 0)
@@ -34,7 +34,7 @@ const TodayTrades = ({ date }) => {
         ]
         
     }
-    const { data: trades, isLoading, refetch } = useGetTradesQuery({ where: where })
+    const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ first: pageSize, where: where })
     return (
         <Container className='pt-2'>
             <Row>
@@ -44,7 +44,7 @@ const TodayTrades = ({ date }) => {
                 <Col xs={6} sm={3}>
                     <div className="d-flex h-100 align-items-center">
                         <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
-                        <LoadingButton isLoading={isLoading} handleClick={() => isToday ? refetch() : null} />
+                        <LoadingButton isLoading={isLoading || isFetching} handleClick={() => isToday ? refetch() : null} />
                     </div>
                 </Col>
             </Row>
@@ -52,8 +52,8 @@ const TodayTrades = ({ date }) => {
                 <Col>
                     { 
                         isLoading 
-                            ? <LoadingSpinner isLoading={isLoading} /> 
-                            : <TradesGrid trades={trades?.trades?.nodes ?? []} /> 
+                            ? <LoadingSpinner isLoading={isLoading || isFetching} /> 
+                            : <TradesGrid trades={trades?.trades?.nodes ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} /> 
                     }
                 </Col>
             </Row>
@@ -62,15 +62,18 @@ const TodayTrades = ({ date }) => {
 }
 
 TodayTrades.defaultProps = {
-    date: new Date().getTime()
+    date: new Date().getTime(),
+    pageSize: 0
 }
 
 TodayTrades.propTypes = {
-    date: PropTypes.any.isRequired
+    date: PropTypes.any.isRequired,
+    pageSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
-    date: state.trades.selectedDate
+    date: state.trades.selectedDate,
+    pageSize: state.trades.pageSize
 });
 
 export default connect(mapStateToProps, { setSelectedDate })(TodayTrades);

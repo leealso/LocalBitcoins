@@ -1,10 +1,11 @@
 using LocalBitcoinsAPI.Models;
+using LocalBitcoinsAPI.Services;
 
 namespace LocalBitcoinsAPI.GraphQL;
 
 public class LocalBitcoinsQuery
 {
-    [UsePaging(MaxPageSize = 100, IncludeTotalCount = true)]
+    [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
     public IQueryable<Trade> GetTrades([Service] ITradeService queryService)
@@ -13,7 +14,7 @@ public class LocalBitcoinsQuery
     }
 
 
-    [UsePaging(MaxPageSize = 100, IncludeTotalCount = true)]
+    [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
     public IQueryable<ClosedTrade> GetClosedTrades([Service] IClosedTradeService queryService)

@@ -21,7 +21,8 @@ builder.Services
     .AddFiltering()
     .AddSorting()
     .RegisterDbContext<LocalBitcoinsDbContext>()
-    .AddQueryType<LocalBitcoinsQuery>();
+    .AddQueryType<LocalBitcoinsQuery>()
+    .AddMutationType<LocalBitcoinsMutation>();
 
 var app = builder.Build();
 
