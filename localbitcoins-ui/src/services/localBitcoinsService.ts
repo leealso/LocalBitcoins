@@ -39,17 +39,13 @@ export const localBitcoinsApi = createApi({
                     trades(take: $take skip: $skip order: {
                         date: DESC
                     } where: $where) {
-                        nodes {
+                        items {
                             transactionId
                             amountBtc
                             amountFiat
                             price
                             date
                             currencyCode
-                        }
-                        pageInfo {
-                            hasNextPage
-                            hasPreviousPage
                         }
                         totalCount
                     }

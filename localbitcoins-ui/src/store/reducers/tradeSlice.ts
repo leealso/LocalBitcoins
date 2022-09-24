@@ -18,6 +18,7 @@ export const tradeSlice = createSlice({
   reducers: {
     setSelectedDate: (state, action) => {
       state.selectedDate = action.payload
+      state.selectedPage = 1
     },
     setPageSize: (state, action) => {
       state.pageSize = action.payload
