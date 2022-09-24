@@ -19,7 +19,7 @@ public class ExchangeRate
     [Column("exchange_rate")]
     public decimal Value { get; set; }
 
-    [Column("exchange_rate")]
+    [Column("date")]
     public DateTime Date { get; set; }
 
     public ExchangeRate()

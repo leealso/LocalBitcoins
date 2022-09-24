@@ -34,7 +34,7 @@ const TodayTrades = ({ date, pageSize }) => {
         ]
         
     }
-    const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ first: pageSize, where: where })
+    const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ take: pageSize, skip: where: where })
     return (
         <Container className='pt-2'>
             <Row>

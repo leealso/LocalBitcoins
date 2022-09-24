@@ -2,12 +2,11 @@ using LocalBitcoinsAPI.GraphQL;
 using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-//builder.Services.AddControllers();
 builder.Services.AddCors();
 builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options => 
 {
