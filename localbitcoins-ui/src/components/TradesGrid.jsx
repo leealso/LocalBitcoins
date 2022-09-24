@@ -3,12 +3,12 @@ import { Table } from 'react-bootstrap'
 import TradeRow from './TradeRow'
 import Pagination from 'react-bootstrap/Pagination'
 
-const TradesGrid = ({ trades, totalCount, pageSize, selectedPage }) => {
+const TradesGrid = ({ trades, totalCount, pageSize, selectedPage, onPageClick }) => {
     const pages = Math.ceil(totalCount / pageSize)
     let paginationItems = [];
     for (let i = 1; i <= pages; i++) {
         paginationItems.push(
-            <Pagination.Item key={i} active={i === selectedPage}>
+            <Pagination.Item key={i} active={i === selectedPage} onClick={() => onPageClick(i)}>
               {i}
             </Pagination.Item>,
           );
