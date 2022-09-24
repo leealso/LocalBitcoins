@@ -31,12 +31,12 @@ export const localBitcoinsApi = createApi({
     endpoints: (builder) => ({
         getTrades: builder.query<
             BaseResponse<GetTradesResponse>,
-            { first: number, after?: number, where?: any }
+            { take: number, skip?: number, where?: any }
         >({
-            query: ({ first, after, where }) => ({
+            query: ({ take, skip, where }) => ({
                 document: gql`
-                query trades($first: Int $after: String $where: TradeFilterInput) {
-                    trades(first: $first after: $after order: {
+                query trades($take: Int $skip: Int $where: TradeFilterInput) {
+                    trades(take: $take skip: $skip order: {
                         date: DESC
                     } where: $where) {
                         nodes {
@@ -55,8 +55,8 @@ export const localBitcoinsApi = createApi({
                     }
                 }`,
                 variables: {
-                    first,
-                    after,
+                    take,
+                    skip,
                     where
                 },
             }),
