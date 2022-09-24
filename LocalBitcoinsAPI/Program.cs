@@ -15,6 +15,7 @@ builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options =>
 });
 builder.Services.AddTransient<ITradeService, TradeService>();
 builder.Services.AddTransient<IClosedTradeService, ClosedTradeService>();
+builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
 builder.Services
     .AddGraphQLServer()
     .AddFiltering()

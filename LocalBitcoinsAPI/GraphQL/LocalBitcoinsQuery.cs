@@ -21,4 +21,9 @@ public class LocalBitcoinsQuery
     {
         return queryService.GetClosedTrades();
     }
+
+    public DailySummary GetDailySummary(DateTime date, [Service] IDailySummaryService queryService)
+    {
+        return queryService.GetDailySummary(date);
+    } 
 }
