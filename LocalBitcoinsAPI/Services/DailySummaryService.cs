@@ -6,6 +6,7 @@ namespace LocalBitcoinsAPI.Services;
 
 public class DailySummaryService : IDailySummaryService, IAsyncDisposable
 {
+    private const int timeZone = -6;
     private readonly LocalBitcoinsDbContext _dbContext;
 
     public DailySummaryService(IDbContextFactory<LocalBitcoinsDbContext> dbContextFactory)
@@ -15,8 +16,9 @@ public class DailySummaryService : IDailySummaryService, IAsyncDisposable
 
     public DailySummary GetDailySummary(DateTime date)
     {
-        var dateOnly = DateOnly.FromDateTime(date);
-        var trades = _dbContext.Trades.Where(x => DateOnly.FromDateTime(x.Date) == dateOnly);
+        var startDate = date.Date.AddHours(timeZone);
+        var endDate = startDate.AddHours(24);
+        var trades = _dbContext.Trades.Where(x => x.Date >= startDate && x.Date < endDate);
         return new DailySummary 
         {
             Date = date.Date,
