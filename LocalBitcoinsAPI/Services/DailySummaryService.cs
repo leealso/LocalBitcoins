@@ -16,10 +16,8 @@ public class DailySummaryService : IDailySummaryService, IAsyncDisposable
 
     public DailySummary GetDailySummary(DateTime date)
     {
-        TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
-        DateTime startDate = TimeZoneInfo.ConvertTime(date.Date, TimeZoneInfo.Local, tst);      
-        var endDate = startDate.AddDays(1);
-        var trades = _dbContext.Trades.Where(x => x.Date >= startDate && x.Date < endDate);
+        var endDate = date.AddDays(1);
+        var trades = _dbContext.Trades.Where(x => x.Date >= date && x.Date < endDate);
         return new DailySummary 
         {
             Date = date.Date,
