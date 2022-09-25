@@ -15,6 +15,7 @@ const TradesGrid = ({ trades, totalCount, pageSize, selectedPage, onPageClick })
     }
     return (
         <div>
+            
             <Table striped bordered hover variant="dark" className='mt-2'>
                 <thead>
                     <tr>

@@ -24,6 +24,15 @@ export interface GetTradesResponse {
     }
 }
 
+export interface GetDailySummaryResponse {
+    dailySummary: {
+        date: Date
+        transactionCount: number
+        btcVolume: number
+        fiatVolume: number
+    }
+}
+
 export const localBitcoinsApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
         url: 'https://localbitcoinsapi.azurewebsites.net/graphql',
@@ -57,6 +66,25 @@ export const localBitcoinsApi = createApi({
                 },
             }),
         }),
+        getDailySummary: builder.query<
+            BaseResponse<GetDailySummaryResponse>,
+            { date: string }
+        >({
+            query: ({ date }) => ({
+                document: gql`
+                query dailySummary($date: DateTime!) {
+                    dailySummary(date: $date) {
+                        date
+                        transactionCount
+                        btcVolume
+                        fiatVolume       
+                    }
+                }`,
+                variables: {
+                    date
+                },
+            }),
+        }),
         /*getPost: builder.query<Post, string>({
             query: (id) => ({
                 document: gql`
@@ -74,4 +102,4 @@ export const localBitcoinsApi = createApi({
     }),
 })
 
-export const { useGetTradesQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery } = localBitcoinsApi

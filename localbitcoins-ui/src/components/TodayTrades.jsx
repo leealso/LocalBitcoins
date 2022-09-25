@@ -8,9 +8,10 @@ import { connect } from 'react-redux'
 import { setSelectedDate, setSelectedPage } from '../store/reducers/tradeSlice.ts'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useGetTradesQuery } from '../services/localBitcoinsService'
+import { useGetDailySummaryQuery, useGetTradesQuery } from '../services/localBitcoinsService'
 import LoadingSpinner from './LoadingSpinner'
 import LoadingButton from './LoadingButton'
+import DailySummaryCard from './DailySummaryCard'
 
 const TodayTrades = ({ date, pageSize, selectedPage }) => {
     const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
     }
     const skip = pageSize * (selectedPage - 1)
     const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
+    const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refect: refectSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
     return (
         <Container className='pt-2'>
             <Row>
@@ -54,7 +56,11 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
                     {
                         isLoading
                             ? <LoadingSpinner isLoading={isLoading || isFetching} />
-                            : <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
+                            : <div>
+                                <DailySummaryCard totalCount={dailySummary?.dailySummary?.transactionCount} btcVolume={dailySummary?.dailySummary?.btcVolume} fiatVoulme={dailySummary?.dailySummary?.fiatVolume} />
+                                <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
+                            </div> 
+                            
                     }
                 </Col>
             </Row>
