@@ -8,7 +8,7 @@ interface TradeState {
 
 const initialState = {
   selectedDate: new Date().getTime(),
-  pageSize: 13,
+  pageSize: 10,
   selectedPage: 1
 } as TradeState
 
