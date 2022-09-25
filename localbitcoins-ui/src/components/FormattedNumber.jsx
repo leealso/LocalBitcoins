@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 const FormattedNumber = ({ text, prefix, decimals, thousandSeparator }) => {
     return (
-        <span>
+        <span className='float-end'>
             {
                 `${prefix}`
                 + (thousandSeparator 
