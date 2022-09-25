@@ -36,8 +36,13 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
 
     }
     const skip = pageSize * (selectedPage - 1)
-    const { data: trades, isLoading, isFetching, refetch } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
-    const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refect: refectSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
+    const { data: trades, isLoading: isLoadingTrades, isFetching: isFetchingTrades, refetch: refetchTrades } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
+    const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refetch: refetchSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
+    const refresh = () => {
+        refetchTrades()
+        refetchSummary()
+    }
+    const isLoading = isLoadingTrades || isFetchingTrades || isLoadingSummary || isFetchingSummary
     return (
         <Container className='pt-2'>
             <Row>
@@ -47,7 +52,7 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
                 <Col xs={6} sm={3}>
                     <div className="d-flex h-100 align-items-center">
                         <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
-                        <LoadingButton isLoading={isLoading || isFetching} handleClick={() => isToday ? refetch() : null} />
+                        <LoadingButton isLoading={isLoading} handleClick={() => isToday ? refresh() : null} />
                     </div>
                 </Col>
             </Row>
@@ -55,7 +60,7 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
                 <Col>
                     {
                         isLoading
-                            ? <LoadingSpinner isLoading={isLoading || isFetching} />
+                            ? <LoadingSpinner isLoading={isLoading} />
                             : <div>
                                 <DailySummaryCard totalCount={dailySummary?.dailySummary?.transactionCount} btcVolume={dailySummary?.dailySummary?.btcVolume} fiatVoulme={dailySummary?.dailySummary?.fiatVolume} />
                                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
