@@ -1,8 +1,8 @@
 using LocalBitcoinsAPI.GraphQL;
 using LocalBitcoinsAPI.Infrastructure.Data;
+using LocalBitcoinsAPI.Infrastructure.HttpClients;
 using LocalBitcoinsAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +13,11 @@ builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
 builder.Services.AddTransient<ITradeService, TradeService>();
 builder.Services.AddTransient<IClosedTradeService, ClosedTradeService>();
 builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
+builder.Services.AddTransient<IAdvertisementService, AdvertisementService>();
 builder.Services
     .AddGraphQLServer()
     .AddFiltering()

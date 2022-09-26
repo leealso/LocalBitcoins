@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import FormattedNumber from './FormattedNumber';
-import dayjs from 'dayjs';
+import PropTypes from 'prop-types'
+import FormattedNumber from './FormattedNumber'
+import dayjs from 'dayjs'
 
 const TradeRow = ({ trade }) => {
     return (
