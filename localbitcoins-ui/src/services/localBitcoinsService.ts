@@ -30,6 +30,9 @@ export interface GetDailySummaryResponse {
         transactionCount: number
         btcVolume: number
         fiatVolume: number
+        transactionCountPercentage: number
+        btcVolumePercentage: number
+        fiatVolumePercentage: number
     }
 }
 
@@ -77,7 +80,10 @@ export const localBitcoinsApi = createApi({
                         date
                         transactionCount
                         btcVolume
-                        fiatVolume       
+                        fiatVolume
+                        transactionCountPercentage
+                        btcVolumePercentage
+                        fiatVolumePercentage
                     }
                 }`,
                 variables: {

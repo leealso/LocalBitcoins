@@ -62,7 +62,9 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
                         isLoading
                             ? <LoadingSpinner isLoading={isLoading} />
                             : <div>
-                                <DailySummaryCard totalCount={dailySummary?.dailySummary?.transactionCount} btcVolume={dailySummary?.dailySummary?.btcVolume} fiatVoulme={dailySummary?.dailySummary?.fiatVolume} />
+                                <DailySummaryCard totalCount={dailySummary?.dailySummary?.transactionCount} btcVolume={dailySummary?.dailySummary?.btcVolume} fiatVolume={dailySummary?.dailySummary?.fiatVolume} 
+                                     totalCountPercentage={dailySummary?.dailySummary?.transactionCountPercentage} btcVolumePercentage={dailySummary?.dailySummary?.btcVolumePercentage} fiatVolumePercentage={dailySummary?.dailySummary?.fiatVolumePercentage} 
+                                />
                                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
                             </div> 
                             
