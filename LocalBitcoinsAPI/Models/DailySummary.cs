@@ -21,14 +21,14 @@ public class DailySummary
         
     }
 
-    public DailySummary(DateTime date, IQueryable<Trade> trades, IQueryable<Trade> yesterdayTrades)
+    public DailySummary(DateTime date, IQueryable<Trade> trades, IQueryable<Trade> lastMonthTrades)
     {
         Date = date.Date;
         TransactionCount = trades.Count();
         BtcVolume = trades.Sum(x => x.AmountBtc);
         FiatVolume = trades.Sum(x => x.AmountFiat);
-        TransactionCountPercentage = ((decimal)TransactionCount / yesterdayTrades.Count()) - 1;
-        BtcVolumePercentage = (BtcVolume / yesterdayTrades.Sum(x => x.AmountBtc)) - 1;
-        FiatVolumePercentage = (FiatVolume / yesterdayTrades.Sum(x => x.AmountFiat)) - 1;
+        TransactionCountPercentage = ((decimal)TransactionCount / lastMonthTrades.Count() / 30) - 1;
+        BtcVolumePercentage = (BtcVolume / lastMonthTrades.Sum(x => x.AmountBtc) / 30) - 1;
+        FiatVolumePercentage = (FiatVolume / lastMonthTrades.Sum(x => x.AmountFiat) / 30) - 1;
     }
 }

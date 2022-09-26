@@ -18,9 +18,9 @@ public class DailySummaryService : IDailySummaryService, IAsyncDisposable
     {
         var endDate = date.AddDays(1);
         var trades = _dbContext.Trades.Where(x => x.Date >= date && x.Date < endDate);
-        var yesterdayStartDate = date.AddDays(-1);
-        var yesterdayTrades = _dbContext.Trades.Where(x => x.Date >= yesterdayStartDate && x.Date < date);
-        return new DailySummary (date, trades, yesterdayTrades);
+        var lastMonthStartDate = date.AddDays(-30);
+        var lastMonthTrades = _dbContext.Trades.Where(x => x.Date >= lastMonthStartDate && x.Date < date);
+        return new DailySummary (date, trades, lastMonthTrades);
     }
 
     public ValueTask DisposeAsync()
