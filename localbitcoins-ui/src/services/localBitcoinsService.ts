@@ -12,13 +12,13 @@ export interface GetAdvertisementsResponse {
 
 export const localBitcoins = createApi({
     reducerPath: 'localBitcoins',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://localbitcoins.com/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: '/localBitcoins' }),
     endpoints: (builder) => ({
         getBuyAds: builder.query<BaseResponse<GetAdvertisementsResponse>, { countryCode: string, countryName: string }>({
-            query: ({ countryCode, countryName }) => `buy-bitcoins-online/${countryCode}/${countryName}/.json`,
+            query: ({ countryCode, countryName }) => `/buy-bitcoins-online/${countryCode}/${countryName}/.json`,
         }),
         getSellAds: builder.query<BaseResponse<GetAdvertisementsResponse>, { countryCode: string, countryName: string }>({
-            query: ({ countryCode, countryName }) => `sell-bitcoins-online/${countryCode}/${countryName}/.json`,
+            query: ({ countryCode, countryName }) => `/sell-bitcoins-online/${countryCode}/${countryName}/.json`,
         }),
     }),
 })
