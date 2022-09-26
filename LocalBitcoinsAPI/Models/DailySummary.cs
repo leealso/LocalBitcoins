@@ -27,8 +27,8 @@ public class DailySummary
         TransactionCount = trades.Count();
         BtcVolume = trades.Sum(x => x.AmountBtc);
         FiatVolume = trades.Sum(x => x.AmountFiat);
-        TransactionCountPercentage = ((decimal)TransactionCount / lastMonthTrades.Count() / 30) - 1;
-        BtcVolumePercentage = (BtcVolume / lastMonthTrades.Sum(x => x.AmountBtc) / 30) - 1;
-        FiatVolumePercentage = (FiatVolume / lastMonthTrades.Sum(x => x.AmountFiat) / 30) - 1;
+        TransactionCountPercentage = ((decimal)TransactionCount / (lastMonthTrades.Count() / 30)) - 1;
+        BtcVolumePercentage = (BtcVolume / lastMonthTrades.Average(x => x.AmountBtc)) - 1;
+        FiatVolumePercentage = (FiatVolume / lastMonthTrades.Average(x => x.AmountFiat) / 30) - 1;
     }
 }
