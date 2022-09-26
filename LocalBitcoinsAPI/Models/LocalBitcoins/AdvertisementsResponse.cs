@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 
-namespace LocalBitcoinsAPI.LocalBitcoins.Models;
+namespace LocalBitcoinsAPI.Models.LocalBitcoins;
 
 public class AdvertisementsResponse
 {
     [JsonProperty("ad_list")]
-    public IList<Advertisement> Advertisements { get; set; }
+    public IEnumerable<Advertisement> Advertisements { get; set; }
 
     [JsonProperty("ad_count")]
     public int AdCount { get; set; }

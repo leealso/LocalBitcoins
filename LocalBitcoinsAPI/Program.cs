@@ -17,6 +17,7 @@ builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient
 builder.Services.AddTransient<ITradeService, TradeService>();
 builder.Services.AddTransient<IClosedTradeService, ClosedTradeService>();
 builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
+builder.Services.AddTransient<IAdvertisementService, AdvertisementService>();
 builder.Services
     .AddGraphQLServer()
     .AddFiltering()

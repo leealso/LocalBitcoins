@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace LocalBitcoinsAPI.LocalBitcoins.Models;
+namespace LocalBitcoinsAPI.Models.LocalBitcoins;
 
 public class AdvertisementData
 {
@@ -23,7 +23,7 @@ public class AdvertisementData
     [JsonProperty("max_amount_available_usd")]
     public string MaxAmountAvailableUsd { get; set; }
 
-    [JsonProperty("temp_price_used")]
+    [JsonProperty("temp_price_usd")]
     public string TempPriceUsd { get; set; }
 
     [JsonProperty("temp_price")]

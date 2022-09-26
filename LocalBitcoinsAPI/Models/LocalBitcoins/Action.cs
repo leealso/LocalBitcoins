@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace LocalBitcoinsAPI.LocalBitcoins.Models;
+namespace LocalBitcoinsAPI.Models.LocalBitcoins;
 
 public class Action
 {

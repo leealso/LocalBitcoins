@@ -4,9 +4,9 @@ public static class LocalBitcoinsUtility
 {
     public static string GetCountryName(string countryCode)
     {
-        switch (countryCode)
+        switch (countryCode.ToLower())
         {
-            case "crc":
+            case "cr":
                 return "costa-rica";
             default:
             return string.Empty;

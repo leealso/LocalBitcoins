@@ -13,7 +13,6 @@ public class LocalBitcoinsQuery
         return queryService.GetTrades();
     }
 
-
     [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
@@ -25,5 +24,21 @@ public class LocalBitcoinsQuery
     public DailySummary GetDailySummary(DateTime date, [Service] IDailySummaryService queryService)
     {
         return queryService.GetDailySummary(date);
-    } 
+    }
+
+    [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IQueryable<Advertisement>> GetBuyAdvertisementsAsync(string countryCode, [Service] IAdvertisementService queryService, CancellationToken cancellationToken = default)
+    {
+        return await queryService.GetBuyAdvertisementsAsync(countryCode, cancellationToken);
+    }
+
+    [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IQueryable<Advertisement>> GetSellAdvertisementsAsync(string countryCode, [Service] IAdvertisementService queryService, CancellationToken cancellationToken = default)
+    {
+        return await queryService.GetSellAdvertisementsAsync(countryCode, cancellationToken);
+    }
 }

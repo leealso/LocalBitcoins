@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using LocalBitcoinsAPI.LocalBitcoins.Models;
+using LocalBitcoinsAPI.Models.LocalBitcoins;
 using LocalBitcoinsAPI.Utilities;
 
 namespace LocalBitcoinsAPI.Infrastructure.HttpClients;
@@ -10,13 +10,14 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
 
     private readonly ILogger<LocalBitcoinsHttpClient> _logger;
 
-    public LocalBitcoinsHttpClient(HttpClient httpClient, ILogger<LocalBitcoinsHttpClient> logger)
+    public LocalBitcoinsHttpClient(HttpClient httpClient, IConfiguration configuration, ILogger<LocalBitcoinsHttpClient> logger)
     {
+        httpClient.BaseAddress = new Uri(configuration.GetValue<string>("LocalBitcoinsApi:Url"));
         _httpClient = httpClient;
         _logger = logger;
     }
 
-    public async Task<IList<Advertisement>> GetAdsAsync(string tradeType, string countryCode, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Advertisement>> GetAdsAsync(string tradeType, string countryCode, CancellationToken cancellationToken = default)
     {
         var route = $"/{tradeType.ToLower()}-bitcoins-online/{countryCode}/{LocalBitcoinsUtility.GetCountryName(countryCode)}/.json";
         _logger.LogDebug($"Calling GET {route}");
@@ -25,9 +26,9 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         response.EnsureSuccessStatusCode();
 
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var advertisementsResponse = JsonConvert.DeserializeObject<AdvertisementsResponse>(responseContent);
-        _logger.LogDebug($"Calling GET {route} response body {advertisementsResponse.Advertisements}");
+        var advertisementsResponse = JsonConvert.DeserializeObject<Response<AdvertisementsResponse>>(responseContent);
+        _logger.LogDebug($"Calling GET {route} response body {advertisementsResponse.Data.Advertisements}");
 
-        return advertisementsResponse.Advertisements;
+        return advertisementsResponse.Data.Advertisements;
     }
 }
