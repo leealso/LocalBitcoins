@@ -2,6 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { gql } from 'graphql-request'
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { Trade } from '../types/trade'
+import { Advertisement } from '../types/advertisement'
 
 export interface BaseResponse<TResponse> {
     data: TResponse
@@ -17,6 +18,12 @@ export interface GetTradesResponse {
         nodes: Trade[]
         pageInfo: PageInfo
         totalCount: number
+    }
+}
+
+export interface GetAdvertisementsResponse {
+    ads: {
+        items: Advertisement[]
     }
 }
 
@@ -87,6 +94,50 @@ export const localBitcoinsApi = createApi({
                 },
             }),
         }),
+        getBuyAds: builder.query<
+            BaseResponse<GetAdvertisementsResponse>,
+            { countryCode: string }
+        >({
+            query: ({ countryCode }) => ({
+                document: gql`
+                query buyAdvertisements($countryCode: String!) {
+                    ads: buyAdvertisements(countryCode: $countryCode) {
+                        items {
+                            username
+                            currency
+                            tempPrice
+                            tempPriceUsd
+                            publicViewUrl
+                        }
+                    }
+                }`,
+                variables: {
+                    countryCode
+                },
+            }),
+        }),
+        getSellAds: builder.query<
+            BaseResponse<GetAdvertisementsResponse>,
+            { countryCode: string }
+        >({
+            query: ({ countryCode }) => ({
+                document: gql`
+                query sellAdvertisements($countryCode: String!) {
+                    ads: sellAdvertisements(countryCode: $countryCode) {
+                        items {
+                            username
+                            currency
+                            tempPrice
+                            tempPriceUsd
+                            publicViewUrl
+                        }
+                    }
+                }`,
+                variables: {
+                    countryCode
+                },
+            }),
+        })
         /*getPost: builder.query<Post, string>({
             query: (id) => ({
                 document: gql`
@@ -104,4 +155,4 @@ export const localBitcoinsApi = createApi({
     }),
 })
 
-export const { useGetTradesQuery, useGetDailySummaryQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery } = localBitcoinsApi

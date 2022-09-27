@@ -1,31 +1,33 @@
 import PropTypes from 'prop-types'
+import BuySellButton from './BuySellButton'
 import FormattedNumber from './FormattedNumber'
 
-// <FormattedNumber text={advertisement.data.temp_price} decimals={2} prefix='₡'/>
-const AdvertisementRow = ({ advertisement }) => {
+const AdvertisementRow = ({ advertisement, isBuy }) => {
+    const openInNewTab = url => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
     return (
         <tr>
-            <td>{ advertisement.data.profile.username }</td>
-            <td>{ advertisement.data.currency }</td>
+            <td>{advertisement.username}</td>
+            <td>{advertisement.currency}</td>
             <td>
-                { advertisement.data.temp_price }
+                {<FormattedNumber text={advertisement.tempPriceUsd} decimals={0} prefix='$' />}
             </td>
-            <td>
-                2.00%
-            </td>
-            <td>
-                Buy
+            <td className="text-center">
+                <BuySellButton isBuy={isBuy} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
             </td>
         </tr>
     )
 }
 
 AdvertisementRow.defaultProps = {
-    advertisement: {}
+    advertisement: {},
+    isBuy: true
 }
 
 AdvertisementRow.propTypes = {
-    advertisement: PropTypes.any.isRequired
+    advertisement: PropTypes.any.isRequired,
+    isBuy: PropTypes.bool
 }
 
 export default AdvertisementRow;

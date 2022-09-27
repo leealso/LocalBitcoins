@@ -6,15 +6,14 @@ import { FaSyncAlt } from 'react-icons/fa'
 const LoadingButton = ({ isLoading, handleClick }) => {
     return (
         <Button
-            className="ms-2"
-            variant="success"
+            className="ms-2 text-light"
+            variant="info"
             onClick={!isLoading ? handleClick : null}
         >
             <FaSyncAlt className={isLoading ? 'icon-spin' : ''}/>
         </Button>
     )
 }
-// <Icon faStyle={"refresh"} animate="spin"/>
 
 LoadingButton.defaultProps = {
     isLoading: false,
