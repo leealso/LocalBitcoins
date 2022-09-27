@@ -9,19 +9,19 @@ public class AdvertisementData
     public string Currency { get; set; }
 
     [JsonProperty("min_amount")]
-    public decimal MinAmount { get; set; }
+    public decimal? MinAmount { get; set; }
 
     [JsonProperty("online_provider")]
     public string OnlineProvider { get; set; }
 
     [JsonProperty("min_amount_available")]
-    public string MinAmountAvailable { get; set; }
+    public string? MinAmountAvailable { get; set; }
+
+    [JsonProperty("max_amount")]
+    public string? MaxAmount { get; set; }
 
     [JsonProperty("max_amount_available")]
-    public string MaxAmountAvailable { get; set; }
-
-    [JsonProperty("max_amount_available_usd")]
-    public string MaxAmountAvailableUsd { get; set; }
+    public string? MaxAmountAvailable { get; set; }
 
     [JsonProperty("temp_price_usd")]
     public string TempPriceUsd { get; set; }
