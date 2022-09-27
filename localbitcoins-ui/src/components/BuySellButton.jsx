@@ -1,5 +1,5 @@
+import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types'
-import ActionButton from './ActionButton';
 
 const BuySellButton = ({ isBuy, onClick }) => {
     const customClassName = isBuy
@@ -9,7 +9,9 @@ const BuySellButton = ({ isBuy, onClick }) => {
         ? 'Buy'
         : 'Sell'
     return (
-        <ActionButton text={text} customClassName={customClassName} onClick={onClick} />
+        <Button className={customClassName} onClick={onClick}>
+            {text}
+        </Button>
     )
 };
 

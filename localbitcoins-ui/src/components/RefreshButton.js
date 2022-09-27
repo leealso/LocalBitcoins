@@ -3,26 +3,26 @@ import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types'
 import { FaSyncAlt } from 'react-icons/fa'
 
-const LoadingButton = ({ isLoading, handleClick }) => {
+const RefreshButton = ({ isLoading, onClick }) => {
     return (
         <Button
             className="ms-2 text-light"
             variant="info"
-            onClick={!isLoading ? handleClick : null}
+            onClick={!isLoading ? onClick : null}
         >
             <FaSyncAlt className={isLoading ? 'icon-spin' : ''}/>
         </Button>
     )
 }
 
-LoadingButton.defaultProps = {
+RefreshButton.defaultProps = {
     isLoading: false,
-    handleClick: null
+    onClick: null
 }
 
-LoadingButton.propTypes = {
+RefreshButton.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    handleClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired
 }
 
-export default LoadingButton;
+export default RefreshButton;
