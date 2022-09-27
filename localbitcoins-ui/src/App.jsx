@@ -2,7 +2,8 @@ import TodayTrades from './components/TodayTrades'
 import { Provider } from 'react-redux'
 import store from './store/index.ts'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Advertisements from './components/Advertisements'
+import BuyAdvertisements from './components/BuyAdvertisements'
+import SellAdvertisements from './components/SellAdvertisements'
 
 function App() {
   return (
@@ -10,8 +11,10 @@ function App() {
       <div className="App">
       <BrowserRouter>
           <Routes>
+            <Route exact path='/' element={<TodayTrades/>} />
             <Route exact path='/trades' element={<TodayTrades/>} />
-            <Route exact path='/ads/:tradeType' element={<Advertisements/>} />
+            <Route exact path='/ads/buy' element={<BuyAdvertisements/>} />
+            <Route exact path='/ads/sell' element={<SellAdvertisements/>} />
           </Routes>
         </BrowserRouter>
       </div>
