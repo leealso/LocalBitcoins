@@ -10,14 +10,13 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useGetDailySummaryQuery, useGetTradesQuery } from '../services/localBitcoinsApiService'
 import LoadingSpinner from './LoadingSpinner'
-import LoadingButton from './LoadingButton'
 import DailySummaryCard from './DailySummaryCard'
+import ContentHeader from './ContentHeader'
 
-const TodayTrades = ({ date, pageSize, selectedPage }) => {
+const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const dispatch = useDispatch()
     let startDate = new Date(date)
     startDate.setHours(0, 0, 0, 0)
-    let isToday = startDate.toDateString() === new Date().toDateString()
     let endDate = new Date(startDate)
     endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000))
     const where = {
@@ -38,24 +37,20 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
     const skip = pageSize * (selectedPage - 1)
     const { data: trades, isLoading: isLoadingTrades, isFetching: isFetchingTrades, refetch: refetchTrades } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
     const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refetch: refetchSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
+    
+    const isToday = startDate.toDateString() === new Date().toDateString()
     const refresh = () => {
-        refetchTrades()
-        refetchSummary()
+        if (isToday) {
+            refetchTrades()
+            refetchSummary()
+        }
     }
     const isLoading = isLoadingTrades || isFetchingTrades || isLoadingSummary || isFetchingSummary
     return (
         <Container className='pt-2'>
-            <Row>
-                <Col xs={6} sm={9}>
-                    <h1 className="text-light">Daily Trades</h1>
-                </Col>
-                <Col xs={6} sm={3}>
-                    <div className="d-flex h-100 align-items-center">
-                        <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
-                        <LoadingButton isLoading={isLoading} handleClick={() => isToday ? refresh() : null} />
-                    </div>
-                </Col>
-            </Row>
+            <ContentHeader title={'Daily Trades'} isLoading={isLoading} onRefreshClick={refresh}>
+                <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
+            </ContentHeader>
             <Row>
                 <Col>
                     {
@@ -75,13 +70,13 @@ const TodayTrades = ({ date, pageSize, selectedPage }) => {
     )
 }
 
-TodayTrades.defaultProps = {
+DailyTrades.defaultProps = {
     date: new Date().getTime(),
     pageSize: 0,
     selectedPage: 1
 }
 
-TodayTrades.propTypes = {
+DailyTrades.propTypes = {
     date: PropTypes.any.isRequired,
     pageSize: PropTypes.number.isRequired,
     selectedPage: PropTypes.number.isRequired
@@ -93,4 +88,4 @@ const mapStateToProps = state => ({
     selectedPage: state.trades.selectedPage
 });
 
-export default connect(mapStateToProps, { setSelectedDate, setSelectedPage })(TodayTrades);
+export default connect(mapStateToProps, { setSelectedDate, setSelectedPage })(DailyTrades);

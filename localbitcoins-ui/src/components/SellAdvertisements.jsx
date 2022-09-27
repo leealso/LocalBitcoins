@@ -5,11 +5,11 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { connect } from 'react-redux'
 import React from 'react'
-import { useGetBuyAdsQuery, useGetSellAdsQuery } from '../services/localBitcoinsApiService'
+import { useGetSellAdsQuery } from '../services/localBitcoinsApiService'
 import LoadingSpinner from './LoadingSpinner'
-import LoadingButton from './LoadingButton'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import BuySellButton from './BuySellButton'
+import ContentHeader from './ContentHeader'
 
 const SellAdvertisements = ({  }) => {
     const navigate = useNavigate();
@@ -23,17 +23,9 @@ const SellAdvertisements = ({  }) => {
     }
     return (
         <Container className='pt-2'>
-            <Row>
-                <Col xs={8} sm={10}>
-                    <h1 className="text-light">Buy Ads</h1>
-                </Col>
-                <Col xs={4} sm={2}>
-                    <div className="d-flex h-100 align-items-center float-end">
-                        <BuySellButton isBuy={true} onClick={onBuySellClick} />
-                        <LoadingButton isLoading={isLoading} handleClick={() => refresh() } />
-                    </div>
-                </Col>
-            </Row>
+            <ContentHeader title={'Buy Ads'} isLoading={isLoading} onRefreshClick={refresh}>
+                <BuySellButton isBuy={true} onClick={onBuySellClick} />
+            </ContentHeader>
             <Row>
                 <Col>
                     {
