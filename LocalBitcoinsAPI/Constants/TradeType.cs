@@ -4,7 +4,7 @@ public static class TradeType
 {
     public const string Buy = "BUY";
 
-    public const string Sell = "BUY";
+    public const string Sell = "SELL";
 
     public static bool IsBuy(string tradeType) => Buy.Equals(tradeType.ToUpper());
 
