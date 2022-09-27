@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
           <Routes>
             <Route exact path='/trades' element={<TodayTrades/>} />
-            <Route exact path='/buy-online' element={<Advertisements/>} />
+            <Route exact path='/ads/:tradeType' element={<Advertisements/>} />
           </Routes>
         </BrowserRouter>
       </div>

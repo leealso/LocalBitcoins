@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import BuySellButton from './BuySellButton'
 import FormattedNumber from './FormattedNumber'
 
-const AdvertisementRow = ({ advertisement }) => {
+const AdvertisementRow = ({ advertisement, isBuy }) => {
     const openInNewTab = url => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
@@ -14,18 +14,20 @@ const AdvertisementRow = ({ advertisement }) => {
                 {<FormattedNumber text={advertisement.tempPriceUsd} decimals={0} prefix='$' />}
             </td>
             <td className="text-center">
-                <BuySellButton isBuy={true} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
+                <BuySellButton isBuy={isBuy} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
             </td>
         </tr>
     )
 }
 
 AdvertisementRow.defaultProps = {
-    advertisement: {}
+    advertisement: {},
+    isBuy: true
 }
 
 AdvertisementRow.propTypes = {
-    advertisement: PropTypes.any.isRequired
+    advertisement: PropTypes.any.isRequired,
+    isBuy: PropTypes.bool
 }
 
 export default AdvertisementRow;
