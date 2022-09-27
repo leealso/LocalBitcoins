@@ -18,6 +18,7 @@ builder.Services.AddTransient<ITradeService, TradeService>();
 builder.Services.AddTransient<IClosedTradeService, ClosedTradeService>();
 builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
 builder.Services.AddTransient<IAdvertisementService, AdvertisementService>();
+builder.Services.AddTransient<IQuoteService, QuoteService>();
 builder.Services
     .AddGraphQLServer()
     .AddFiltering()
