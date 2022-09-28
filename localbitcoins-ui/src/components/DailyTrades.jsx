@@ -7,9 +7,10 @@ import { setSelectedDate, setSelectedPage } from '../store/reducers/tradeSlice.t
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useGetDailySummaryQuery, useGetTradesQuery } from '../services/localBitcoinsApiService'
-import DailySummaryCard from './DailySummaryCard'
 import ContentHeader from './ContentHeader'
 import ContentBody from './ContentBody'
+import SummaryContainer from './SummaryContainer'
+import SummaryRow from './SummaryRow'
 
 const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const { data: trades, isLoading: isLoadingTrades, isFetching: isFetchingTrades, refetch: refetchTrades } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
     const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refetch: refetchSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
 
+    const fiatVolumeFormatted = `₡${dailySummary?.dailySummary?.fiatVolume.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`)}`
     const isToday = startDate.toDateString() === new Date().toDateString()
     const refresh = () => {
         if (isToday) {
@@ -50,9 +52,11 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
                 <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
-                <DailySummaryCard totalCount={dailySummary?.dailySummary?.transactionCount} btcVolume={dailySummary?.dailySummary?.btcVolume} fiatVolume={dailySummary?.dailySummary?.fiatVolume}
-                    totalCountPercentage={dailySummary?.dailySummary?.transactionCountPercentage} btcVolumePercentage={dailySummary?.dailySummary?.btcVolumePercentage} fiatVolumePercentage={dailySummary?.dailySummary?.fiatVolumePercentage}
-                />
+                <SummaryContainer>
+                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage} />
+                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage} />
+                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage} />
+                </SummaryContainer>
                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
             </ContentBody>
         </Container>
