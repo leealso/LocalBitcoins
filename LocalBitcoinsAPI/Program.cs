@@ -14,10 +14,12 @@ builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
+builder.Services.AddHttpClient<ICoinMarketCapHttpClient, CoinMarketCapHttpClient>();
 builder.Services.AddTransient<ITradeService, TradeService>();
 builder.Services.AddTransient<IClosedTradeService, ClosedTradeService>();
 builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
 builder.Services.AddTransient<IAdvertisementService, AdvertisementService>();
+builder.Services.AddTransient<IQuoteService, QuoteService>();
 builder.Services
     .AddGraphQLServer()
     .AddFiltering()
