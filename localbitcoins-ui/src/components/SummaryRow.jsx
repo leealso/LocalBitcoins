@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import { Col, Row } from 'react-bootstrap';
-import ProfitAndLossIndicator from './ProfitAndLossIndicator';
+import PropTypes from 'prop-types'
+import { Col, Row } from 'react-bootstrap'
+import ProfitAndLossIndicator from './ProfitAndLossIndicator'
 
 const SummaryRow = ({ label, value, reference }) => {
   return (
@@ -8,8 +8,8 @@ const SummaryRow = ({ label, value, reference }) => {
       <Col xs={4}>
         <span className='text-secondary align-middle'>{label}</span>
       </Col>
-      <Col xs={5} className='text-end text-light'>
-        <span className='fs-4'>{value}</span>
+      <Col xs={5} className='text-end text-light fs-4'>
+        <span>{value}</span>
       </Col>
       <Col xs={3} className='text-end'>
         <ProfitAndLossIndicator percentage={reference} />
@@ -18,16 +18,10 @@ const SummaryRow = ({ label, value, reference }) => {
   );
 }
 
-SummaryRow.defaultProps = {
-  label: '',
-  value: '',
-  reference: 1
-}
-
 SummaryRow.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  reference: PropTypes.number
+  value: PropTypes.string.isRequired,
+  reference: PropTypes.number.isRequired
 }
 
 export default SummaryRow;
