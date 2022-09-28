@@ -46,6 +46,7 @@ export interface GetQuoteResponse {
 export interface Quote {
     symbol: string
     price: number
+    percentChange24h: number
     lastUpdated: Date
 }
 
@@ -158,6 +159,7 @@ export const localBitcoinsApi = createApi({
                     quote(symbol: $symbol) {
                         symbol
                         price
+                        percentChange24h
                         lastUpdated
                     }
                 }`,
