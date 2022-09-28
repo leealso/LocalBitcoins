@@ -34,7 +34,7 @@ const SellAdvertisements = ({ }) => {
                 <SummaryContainer>
                     <SummaryRow label={'BTC Price'} value={`$${price}`} reference={quote?.quote?.percentChange24h / 100} />
                 </SummaryContainer>
-                <AdvertisementsGrid advertisements={advertisements?.ads?.items ?? []} isBuy={false} />
+                <AdvertisementsGrid advertisements={advertisements?.ads?.items ?? []} isBuy={false} btcPrice={quote?.quote?.price} />
             </ContentBody>
         </Container>
     )

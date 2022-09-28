@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'react-bootstrap'
 import AdvertisementRow from './AdvertisementRow'
 
-const AdvertisementsGrid = ({ advertisements, isBuy }) => {
+const AdvertisementsGrid = ({ advertisements, isBuy, btcPrice }) => {
     return (
         <div>
             <Table striped hover variant="dark" className='border-secondary border-bottom'>
@@ -11,14 +11,14 @@ const AdvertisementsGrid = ({ advertisements, isBuy }) => {
                         <th>User ID</th>
                         <th>Currency</th>
                         <th>Price</th>
-                        <th></th>
+                        <th>P&L</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     {
                         advertisements.map((advertisement, i) => (
-                            <AdvertisementRow key={i} advertisement={advertisement} isBuy={isBuy} />
+                            <AdvertisementRow key={i} advertisement={advertisement} isBuy={isBuy} btcPrice={btcPrice} />
                         ))
                     }
                 </tbody>
@@ -29,12 +29,14 @@ const AdvertisementsGrid = ({ advertisements, isBuy }) => {
 
 AdvertisementsGrid.defaultProps = {
     advertisements: [],
-    isBuy: true
+    isBuy: true,
+    btcPrice: 1
 }
 
 AdvertisementsGrid.propTypes = {
     advertisements: PropTypes.array.isRequired,
-    isBuy: PropTypes.bool
+    isBuy: PropTypes.bool,
+    btcPrice: PropTypes.number.isRequired
 }
 
 export default AdvertisementsGrid;
