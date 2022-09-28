@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router'
 import BuySellButton from './BuySellButton'
 import ContentHeader from './ContentHeader'
 import ContentBody from './ContentBody'
+import BtcPriceSummaryRow from './BtcPriceSummaryRow'
 
 const BuyAdvertisements = ({ }) => {
     const navigate = useNavigate();
@@ -25,6 +26,9 @@ const BuyAdvertisements = ({ }) => {
                 <BuySellButton isBuy={false} onClick={onBuySellClick} />
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
+                <Container className='text-light my-3'>
+                    <BtcPriceSummaryRow />
+                </Container>
                 <div>
                     <AdvertisementsGrid advertisements={advertisements?.ads?.items ?? []} isBuy={true} />
                 </div>

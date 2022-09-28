@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
+import BtcPriceSummaryRow from './BtcPriceSummaryRow';
 import SummaryRow from './SummaryRow';
 
 const DailySummaryCard = ({ totalCount, btcVolume, fiatVolume, totalCountPercentage, btcVolumePercentage, fiatVolumePercentage }) => {
@@ -9,6 +10,7 @@ const DailySummaryCard = ({ totalCount, btcVolume, fiatVolume, totalCountPercent
       <SummaryRow label={'Transactions'} value={`${totalCount}`} reference={totalCountPercentage} />
       <SummaryRow label={'BTC Volume'} value={`${btcVolume}`} reference={btcVolumePercentage} />
       <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={fiatVolumePercentage} />
+      <BtcPriceSummaryRow />
     </Container>
   );
 }
