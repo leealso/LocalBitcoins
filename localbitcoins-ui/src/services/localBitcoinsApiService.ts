@@ -39,6 +39,16 @@ export interface GetDailySummaryResponse {
     }
 }
 
+export interface GetQuoteResponse {
+    quote: Quote
+}
+
+export interface Quote {
+    symbol: string
+    price: number
+    lastUpdated: Date
+}
+
 export const localBitcoinsApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
         url: 'https://localbitcoinsapi.azurewebsites.net/graphql',
@@ -137,22 +147,26 @@ export const localBitcoinsApi = createApi({
                     countryCode
                 },
             }),
-        })
-        /*getPost: builder.query<Post, string>({
-            query: (id) => ({
+        }),
+        getQuote: builder.query<
+            BaseResponse<GetQuoteResponse>,
+            { symbol: string }
+        >({
+            query: ({ symbol }) => ({
                 document: gql`
-        query GetPost($id: ID!) {
-          post(id: ${id}) {
-            id
-            title
-            body
-          }
-        }
-        `,
+                query quote($symbol: String!) {
+                    quote(symbol: $symbol) {
+                        symbol
+                        price
+                        lastUpdated
+                    }
+                }`,
+                variables: {
+                    symbol
+                },
             }),
-            transformResponse: (response: PostResponse) => response.data.post,
-        }),*/
+        })
     }),
 })
 
-export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery } = localBitcoinsApi

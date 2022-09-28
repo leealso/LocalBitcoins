@@ -8,7 +8,7 @@ const SummaryRow = ({ label, value, reference }) => {
       <Col xs={4}>
         <span className='text-secondary align-middle'>{label}</span>
       </Col>
-      <Col xs={5} className='text-end'>
+      <Col xs={5} className='text-end text-light'>
         <span className='fs-4'>{value}</span>
       </Col>
       <Col xs={3} className='text-end'>

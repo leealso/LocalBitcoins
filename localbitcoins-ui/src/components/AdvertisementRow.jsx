@@ -11,7 +11,7 @@ const AdvertisementRow = ({ advertisement, isBuy }) => {
             <td>{advertisement.username}</td>
             <td>{advertisement.currency}</td>
             <td>
-                {<FormattedNumber text={advertisement.tempPriceUsd} decimals={0} prefix='$' />}
+                <FormattedNumber text={advertisement.tempPriceUsd} decimals={0} prefix='$' />
             </td>
             <td className="text-center">
                 <BuySellButton isBuy={isBuy} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
