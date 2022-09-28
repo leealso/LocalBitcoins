@@ -42,8 +42,8 @@ public class LocalBitcoinsQuery
         return await queryService.GetSellAdvertisementsAsync(countryCode, cancellationToken);
     }
 
-    public async Task<Quote> GetQuotesAsync([Service] IQuoteService queryService, CancellationToken cancellationToken = default)
+    public async Task<Quote> GetQuoteAsync(string symbol, [Service] IQuoteService queryService, CancellationToken cancellationToken = default)
     {
-        return await queryService.GetQuoteAsync(default, cancellationToken);
+        return await queryService.GetQuoteAsync(symbol, cancellationToken);
     }
 }

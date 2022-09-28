@@ -11,15 +11,15 @@ public class CoinMarketCapHttpClient : ICoinMarketCapHttpClient
 
     public CoinMarketCapHttpClient(HttpClient httpClient, IConfiguration configuration, ILogger<CoinMarketCapHttpClient> logger)
     {
-        httpClient.BaseAddress = new Uri(configuration.GetValue<string>("CoinMarketCap:Url"));
-        httpClient.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", configuration.GetValue<string>("CoinMarketCap:Key"));
+        httpClient.BaseAddress = new Uri(configuration.GetValue<string>("CoinMarketCapApi:Url"));
+        httpClient.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", configuration.GetValue<string>("CoinMarketCapApi:Key"));
         _httpClient = httpClient;
         _logger = logger;
     }
 
     public async Task<CryptoCurrency> GetQuoteAsync(string symbol = "BTC", CancellationToken cancellationToken = default)
     {
-        var route = $"/cryptocurrency/quotes/latest/?symbol={symbol}";
+        var route = $"/v2/cryptocurrency/quotes/latest?symbol={symbol}";
         _logger.LogDebug($"Calling GET {route}");
         var response = await _httpClient.GetAsync(route, cancellationToken);
         _logger.LogDebug($"Calling GET {route} returned {response.StatusCode} {response.ReasonPhrase}");
