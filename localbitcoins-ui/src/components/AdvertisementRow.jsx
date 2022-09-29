@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
-import { truncate } from '../stringUtility'
+import { formatNumber, truncate } from '../stringUtility'
 import BuySellButton from './BuySellButton'
-import FormattedNumber from './FormattedNumber'
 import ProfitAndLossIndicator from './ProfitAndLossIndicator'
 
 const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
@@ -13,16 +12,18 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
         <tr>
             <td>{ truncate(advertisement.username) }</td>
             <td>{advertisement.currency}</td>
-            <td>
-                <FormattedNumber text={advertisement.tempPriceUsd} decimals={0} prefix='$' />
+            <td className='text-end'>
+                { formatNumber(advertisement.tempPriceUsd, '$', 0) }
             </td>
-            <td className="text-center">
+            <td className='text-center'>
                 <ProfitAndLossIndicator percentage={percentage} />
+            </td>
+            <td className='d-none d-md-table-cell text-center'>
+                <BuySellButton isBuy={isBuy} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
             </td>
         </tr>
     )
 }
-//<BuySellButton isBuy={isBuy} onClick={() => openInNewTab(advertisement.publicViewUrl)} />
 
 AdvertisementRow.defaultProps = {
     advertisement: {},

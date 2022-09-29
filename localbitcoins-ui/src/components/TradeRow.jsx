@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import FormattedNumber from './FormattedNumber'
 import dayjs from 'dayjs'
+import { formatNumber } from '../stringUtility'
 
 const TradeRow = ({ trade }) => {
     return (
@@ -9,19 +9,19 @@ const TradeRow = ({ trade }) => {
             <td className='d-md-none'>{ dayjs(trade.date).format('HH:mm') }</td>
             <td className='d-none d-md-table-cell'>{ dayjs(trade.date).format('MMM DD, YYYY HH:mm') }</td>
             <td className='d-md-none'>
-                <FormattedNumber text={trade.amountFiat} decimals={0} prefix='₡'/>
+                { formatNumber(trade.amountFiat, '₡', 0) }
             </td>
             <td className='d-none d-md-table-cell'>
-                <FormattedNumber text={trade.amountFiat} prefix='₡'/>
+                { formatNumber(trade.amountFiat, '₡') }
             </td>
             <td>
-                <FormattedNumber text={trade.amountBtc} decimals={8} thousandSeparator={false}/>
+                { formatNumber(trade.amountBtc, '', 8, false) }
             </td>
             <td className='d-md-none'>
-                <FormattedNumber text={trade.price} decimals={0} prefix='₡'/>
+                { formatNumber(trade.price, '₡', 0) }
             </td>
             <td className='d-none d-md-table-cell'>
-                <FormattedNumber text={trade.price} prefix='₡'/>
+                { formatNumber(trade.price, '₡') }
             </td>
         </tr>
     )
