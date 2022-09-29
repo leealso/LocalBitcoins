@@ -10,10 +10,14 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
     const percentage = advertisement.tempPriceUsd / btcPrice - 1
     return (
         <tr>
-            <td>{ truncate(advertisement.username) }</td>
+            <td className='d-md-none'>{ truncate(advertisement.username) }</td>
+            <td className='d-none d-md-table-cell'>{ advertisement.username }</td>
             <td>{advertisement.currency}</td>
-            <td className='text-end'>
+            <td className='text-end d-md-none'>
                 { formatNumber(advertisement.tempPriceUsd, '$', 0) }
+            </td>
+            <td className='text-end d-none d-md-table-cell'>
+                { formatNumber(advertisement.tempPriceUsd, '$', 2) }
             </td>
             <td className='text-center'>
                 <ProfitAndLossIndicator percentage={percentage} />
