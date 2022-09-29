@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types'
-import { Col, Row } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 
 const ProfitAndLossIndicator = ({ percentage }) => {
   const isSuccess = percentage >= 0
   return (
-    <Row className='gx-0'>
-      <Col xs={3}>
+    <Container fluid className={`px-0 ${isSuccess ? 'text-success' : 'text-danger'}`}>
         {
           isSuccess
-            ? <FaCaretUp className='text-success' />
-            : <FaCaretDown className='text-danger' />
+            ? <FaCaretUp />
+            : <FaCaretDown />
         }
-      </Col>
-      <Col xs={9}>
-        <span className={`align-middle ${isSuccess ? 'text-success' : 'text-danger'}`}>
+        <span className='align-middle ms-1'>
           {`${(Math.abs(percentage * 100)).toFixed(2)}%`}
         </span>
-      </Col>
-    </Row>
+    </Container>
   );
 }
 

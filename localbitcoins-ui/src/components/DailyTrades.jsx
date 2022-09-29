@@ -11,6 +11,7 @@ import ContentHeader from './ContentHeader'
 import ContentBody from './ContentBody'
 import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
+import { formatNumber } from '../stringUtility'
 
 const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const { data: trades, isLoading: isLoadingTrades, isFetching: isFetchingTrades, refetch: refetchTrades } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
     const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refetch: refetchSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
 
-    const fiatVolumeFormatted = `₡${dailySummary?.dailySummary?.fiatVolume.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`)}`
+    const fiatVolumeFormatted = formatNumber(dailySummary?.dailySummary?.fiatVolume, '₡', 2)
     const isToday = startDate.toDateString() === new Date().toDateString()
     const refresh = () => {
         if (isToday) {
@@ -53,9 +54,9 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
                 <SummaryContainer>
-                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage} />
-                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage} />
-                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage} />
+                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage ?? 1} />
+                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage ?? 1} />
+                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage ?? 1} />
                 </SummaryContainer>
                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
             </ContentBody>
