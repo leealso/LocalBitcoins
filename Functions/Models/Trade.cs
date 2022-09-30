@@ -33,7 +33,7 @@ public class Trade
         
     }
 
-    public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = Default.CurrencyCode)
+    public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = CurrencyCode.CRC
     {
         TransactionId = localBitcoinsTrade.TId;
         Date = DateTimeUtility.FromEpoch(localBitcoinsTrade.Date);
