@@ -25,7 +25,7 @@ namespace LocalBitcoins.Functions
         [FunctionName("UpdateExchangeRateFunction")]
         public async Task Run([TimerTrigger("0 0 0,12,18,19 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
         {
-            var date = DateTime.Now;
+            var date = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
             var indicators = await _bccrHttpClient.GetExchangeRateAsync(date, default, cancellationToken);
             var indicator = indicators.FirstOrDefault();
             if (indicator == null)
@@ -34,7 +34,7 @@ namespace LocalBitcoins.Functions
             await _localBitcoinsApiGraphClient.MutationAsync<ExchangeRate>(GraphQlMutation.AddExchangeRate, new {
                 FromCurrencyCode = CurrencyCode.CRC,
                 ToCurrencyCode = CurrencyCode.USD,
-                Date = date,
+                Date = indicator.Date,
                 Value = indicator.Value
             }, cancellationToken);
         }
