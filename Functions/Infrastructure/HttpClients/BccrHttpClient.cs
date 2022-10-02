@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using LocalBitcoins.Functions.Constants;
 using LocalBitcoins.Functions.Models;
 using System.Net.Http;
@@ -8,9 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 using LocalBitcoins.Functions.Utilities;
-using System.Linq;
-using System.Xml.Serialization;
-using System.IO;
+using LocalBitcoins.Functions.Extensions;
 
 namespace LocalBitcoins.Functions.Infrastructure.HttpClients;
 
@@ -33,22 +30,19 @@ public class BccrHttpClient : IBccrHttpClient
         _logger = logger;
     }
 
-    public async Task<IList<Indicator>> GetExchangeRateAsync(DateTime startDate, DateTime endDate, int indicatorCode = Default.IndicatorCode, CancellationToken cancellationToken = default)
+    public async Task<IList<BccrIndicator>> GetExchangeRateAsync(DateTime startDate, DateTime endDate, int indicatorCode = Default.IndicatorCode, CancellationToken cancellationToken = default)
     {
         var startDateFormatted = startDate.ToString("dd/MM/yyyy");
         var endDateFormatted = endDate.ToString("dd/MM/yyyy");
-        var route = $"Suscripciones/WS/wsindicadoreseconomicos.asmx/ObtenerIndicadoresEconomicosXML?Indicador={indicatorCode}&Nombre=LBFunctions&SubNiveles=N&CorreoElectronico={_email}&Token={_token}&FechaInicio={startDateFormatted}&FechaFinal={endDateFormatted}";
+        var route = $"/Indicadores/Suscripciones/WS/wsindicadoreseconomicos.asmx/ObtenerIndicadoresEconomicosXML?Indicador={indicatorCode}&Nombre=LBFunctions&SubNiveles=N&CorreoElectronico={_email}&Token={_token}&FechaInicio={startDateFormatted}&FechaFinal={endDateFormatted}";
         _logger.LogDebug($"Calling GET {route}");
         var response = await _httpClient.GetAsync(route, cancellationToken);
         _logger.LogDebug($"Calling GET {route} returned {response.StatusCode} {response.ReasonPhrase}");
         response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        var xmlSerializer = new XmlSerializer(typeof(BccrIndicatorResponse));
-        using var xmlReader = new StringReader(responseContent);
-        var bccrIndicatorResponse = (BccrIndicatorResponse)xmlSerializer.Deserialize(xmlReader );
-        _logger.LogDebug($"Calling GET {route} response body {responseContent}");
+        var bccrIndicatorResponse = await response.DeserializeXmlAsync<BccrIndicatorResponse>(cancellationToken);
+        _logger.LogDebug($"Calling GET {route} response body {bccrIndicatorResponse}");
 
-        return bccrIndicatorResponse.Data;
+        return bccrIndicatorResponse.Indicators;
     }
 }

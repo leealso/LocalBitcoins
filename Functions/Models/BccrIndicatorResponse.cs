@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace LocalBitcoins.Functions.Models;
 
-[Serializable]
+[XmlRoot(ElementName = "Datos_de_INGC011_CAT_INDICADORECONOMIC")]
 public class BccrIndicatorResponse
 {
-    [XmlArray("Datos_de_INGC011_CAT_INDICADORECONOMIC")] 
-    [XmlArrayItem("INGC011_CAT_INDICADORECONOMIC")]
-    public IList<Indicator> Data { get; set; }
+    [XmlElement(ElementName = "INGC011_CAT_INDICADORECONOMIC")]
+    public List<BccrIndicator> Indicators { get; set; }
 }

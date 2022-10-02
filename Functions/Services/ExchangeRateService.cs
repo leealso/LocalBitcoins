@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LocalBitcoins.Functions.Constants;
-using LocalBitcoins.Functions.Extensions;
 using LocalBitcoins.Functions.Infrastructure.HttpClients;
 using LocalBitcoins.Functions.Models;
 using Microsoft.Extensions.Logging;
@@ -48,7 +47,7 @@ public class ExchangeRateService : IExchangeRateService
         }  
     }
 
-    private async Task<ExchangeRate> AddExchangeRateAsync(Indicator indicator, CancellationToken cancellationToken = default)
+    private async Task<ExchangeRate> AddExchangeRateAsync(BccrIndicator indicator, CancellationToken cancellationToken = default)
     {
         return await _localBitcoinsApiGraphClient.MutationAsync<ExchangeRate>(GraphQlMutation.AddExchangeRate, new {
             FromCurrencyCode = CurrencyCode.CRC,

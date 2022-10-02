@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace LocalBitcoins.Functions.Models;
 
-public class Indicator
+public class BccrIndicator
 {
     [XmlElement("COD_INDICADORINTERNO")]
     public int Code { get; set; }
@@ -14,7 +14,7 @@ public class Indicator
     [XmlElement("NUM_VALOR")]
     public decimal Value { get; set; }
 
-    public Indicator()
+    public BccrIndicator()
     {
         
     }

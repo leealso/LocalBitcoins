@@ -20,20 +20,9 @@ namespace LocalBitcoins.Functions
         }
         
         [FunctionName("UpdateExchangeRateFunction")]
-        public async Task Run([TimerTrigger("0 42 13 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
+        public async Task Run([TimerTrigger("0 0 0,12,18,19 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                var startDate = new DateTime(2022, 01, 01);
-                var endDate = new DateTime(2022, 12, 12);
-                await _exchangeRateService.UpdateExchangeRatesAsync(startDate, endDate, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.Message);
-                _logger.LogError(ex, ex.Message);
-            }
+            await _exchangeRateService.UpdateExchangeRateAsync(cancellationToken);
         }
     }
 }
