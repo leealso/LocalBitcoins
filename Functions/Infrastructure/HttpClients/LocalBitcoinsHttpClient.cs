@@ -32,7 +32,7 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         _logger = logger;
     }
 
-    public async Task<IList<LocalBitcoinsTrade>> GetTradesAsync(int maxTransactionId = 0, string currencyCode = Default.CurrencyCode, CancellationToken cancellationToken = default)
+    public async Task<IList<LocalBitcoinsTrade>> GetTradesAsync(int maxTransactionId = 0, string currencyCode = CurrencyCode.CRC, CancellationToken cancellationToken = default)
     {
         var route = $"/bitcoincharts/{currencyCode}/trades.json?max_tid={maxTransactionId}";
         _logger.LogDebug($"Calling GET {route}");

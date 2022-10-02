@@ -8,13 +8,13 @@ namespace LocalBitcoins.Functions.Infrastructure.HttpClients;
 
 public interface ILocalBitcoinsHttpClient
 {
-    Task<IList<LocalBitcoinsTrade>> GetTradesAsync(int maxTransactionId = 0, string currencyCode = Default.CurrencyCode, CancellationToken cancellationToken = default);
+    Task<IList<LocalBitcoinsTrade>> GetTradesAsync(int maxTransactionId = 0, string currencyCode = CurrencyCode.CRC, CancellationToken cancellationToken = default);
 
     Task<IList<LocalBitcoinsTrade>> GetTradesAsync(int maxTransactionId = 0, CancellationToken cancellationToken = default) =>
-        GetTradesAsync(maxTransactionId, Default.CurrencyCode, cancellationToken);
+        GetTradesAsync(maxTransactionId, CurrencyCode.CRC, cancellationToken);
 
     Task<IList<LocalBitcoinsTrade>> GetTradesAsync(CancellationToken cancellationToken = default) =>
-        GetTradesAsync(default, Default.CurrencyCode, cancellationToken);
+        GetTradesAsync(default, CurrencyCode.CRC, cancellationToken);
 
     Task<IList<LocalBitcoinsContactData>> GetClosedTradesAsync(CancellationToken cancellationToken = default);
 }
