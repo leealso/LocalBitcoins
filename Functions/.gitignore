@@ -264,3 +264,7 @@ __pycache__/
 *.pyc
 
 .vscode/
+
+local.settings.json
+/local.settings.json
+**/local.settings.json

@@ -21,10 +21,10 @@ namespace LocalBitcoins.Functions
             builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
             builder.Services.AddHttpClient<IBccrHttpClient, BccrHttpClient>();
             builder.Services.AddSingleton<IGraphQLWebsocketJsonSerializer, NewtonsoftJsonSerializer>();
-            var localBitcoinsApiUrl = new Uri(ApplicationSettingsUtility.Get(ApplicationSettings.BccrIndicatorsToken));
+            var localBitcoinsApiUrl = new Uri(ApplicationSettingsUtility.Get(ApplicationSettings.LocalBitcoinsGraphQlUrl));
             builder.Services.AddHttpClient<GraphQLHttpClient>();
             builder.Services.AddSingleton(new GraphQLHttpClientOptions { EndPoint = localBitcoinsApiUrl });
-            builder.Services.AddScoped<ILocalBitcoinsApiGraphClient, LocalBitcoinsApiGraphClient>();
+            builder.Services.AddSingleton<ILocalBitcoinsApiGraphClient, LocalBitcoinsApiGraphClient>();
             builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
             builder.Services.AddScoped<ITradeService, TradeService>();
             builder.Services.AddScoped<IClosedTradeService, ClosedTradeService>();

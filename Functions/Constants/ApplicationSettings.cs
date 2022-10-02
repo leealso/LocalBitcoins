@@ -15,4 +15,6 @@ public static class ApplicationSettings
     public const string BccrIndicatorsToken = "BCCR_INDICATORS_TOKEN";
 
     public const string BccrIndicatorsEmail = "BCCR_INDICATORS_EMAIL";
+
+    public const string LocalBitcoinsGraphQlUrl = "LOCALBITCOINS_GRAPHQL_URL";
 }
