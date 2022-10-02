@@ -25,6 +25,7 @@ namespace LocalBitcoins.Functions
             builder.Services.AddHttpClient<GraphQLHttpClient>();
             builder.Services.AddSingleton(new GraphQLHttpClientOptions { EndPoint = localBitcoinsApiUrl });
             builder.Services.AddScoped<ILocalBitcoinsApiGraphClient, LocalBitcoinsApiGraphClient>();
+            builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
             builder.Services.AddScoped<ITradeService, TradeService>();
             builder.Services.AddScoped<IClosedTradeService, ClosedTradeService>();
             builder.Services.AddDbContext<LocalBitcoinsDbContext>();
