@@ -11,6 +11,12 @@ public interface IBccrHttpClient
 {
     Task<IList<Indicator>> GetExchangeRateAsync(DateTime startDate, DateTime endDate, int indicatorCode = Default.IndicatorCode, CancellationToken cancellationToken = default);
 
+    Task<IList<Indicator>> GetExchangeRateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+        => GetExchangeRateAsync(startDate, endDate, Default.IndicatorCode, cancellationToken);
+
+    Task<IList<Indicator>> GetExchangeRateAsync(DateTime date, CancellationToken cancellationToken = default)
+        => GetExchangeRateAsync(date, date, Default.IndicatorCode, cancellationToken);
+
     Task<IList<Indicator>> GetExchangeRateAsync(DateTime date, int indicatorCode = Default.IndicatorCode, CancellationToken cancellationToken = default)
         => GetExchangeRateAsync(date, date, indicatorCode, cancellationToken);
 }
