@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using LocalBitcoins.Functions.Constants;
+using CurrencyCodeConstant = LocalBitcoins.Functions.Constants.CurrencyCode;
 using LocalBitcoins.Functions.Utilities;
 
 namespace LocalBitcoins.Functions.Models;
@@ -33,7 +33,7 @@ public class Trade
         
     }
 
-    public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = CurrencyCode.CRC
+    public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = CurrencyCodeConstant.CRC)
     {
         TransactionId = localBitcoinsTrade.TId;
         Date = DateTimeUtility.FromEpoch(localBitcoinsTrade.Date);
