@@ -11,7 +11,7 @@ const SummaryRow = ({ label, value, reference }) => {
       <Col xs={5} className='text-end text-light fs-4'>
         <span>{value}</span>
       </Col>
-      <Col xs={3} className='text-end'>
+      <Col xs={3} className='text-end ps-1 pe-1'>
         <ProfitAndLossIndicator percentage={reference} />
       </Col>
     </Row>
@@ -19,9 +19,9 @@ const SummaryRow = ({ label, value, reference }) => {
 }
 
 SummaryRow.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  reference: PropTypes.number.isRequired
+  label: PropTypes.string,
+  value: PropTypes.string,
+  reference: PropTypes.number
 }
 
 export default SummaryRow;

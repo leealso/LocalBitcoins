@@ -50,6 +50,15 @@ export interface Quote {
     lastUpdated: Date
 }
 
+export interface GetExchangeRateResponse {
+    exchangeRate: ExchangeRate
+}
+
+export interface ExchangeRate {
+    date: Date
+    value: number
+}
+
 export const localBitcoinsApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
         url: 'https://localbitcoinsapi.azurewebsites.net/graphql',
@@ -167,8 +176,24 @@ export const localBitcoinsApi = createApi({
                     symbol
                 },
             }),
+        }),
+        getExchangeRate: builder.query<
+            BaseResponse<GetExchangeRateResponse>,
+            { date: string }
+        >({
+            query: ({ date }) => ({
+                document: gql`
+                query exchangeRate($date: DateTime!) {
+                    exchangeRate(date: $date) {
+                        value
+                    }
+                }`,
+                variables: {
+                    date
+                },
+            }),
         })
     }),
 })
 
-export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery, useGetExchangeRateQuery } = localBitcoinsApi
