@@ -1,4 +1,5 @@
 using LocalBitcoinsAPI.GraphQL;
+using LocalBitcoinsAPI.GraphQL.ObjectTypes;
 using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Infrastructure.HttpClients;
 using LocalBitcoinsAPI.Services;
@@ -28,7 +29,8 @@ builder.Services
     .AddSorting()
     .RegisterDbContext<LocalBitcoinsDbContext>()
     .AddQueryType<LocalBitcoinsQuery>()
-    .AddMutationType<LocalBitcoinsMutation>();
+    .AddMutationType<LocalBitcoinsMutation>()
+    .AddType<ExchangeRateType>();
 
 var app = builder.Build();
 
