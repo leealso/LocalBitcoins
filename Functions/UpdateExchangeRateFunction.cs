@@ -1,10 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LocalBitcoins.Functions.Constants;
-using LocalBitcoins.Functions.Infrastructure.HttpClients;
-using LocalBitcoins.Functions.Models;
+using LocalBitcoins.Functions.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
@@ -12,31 +9,20 @@ namespace LocalBitcoins.Functions
 {
     public class UpdateExchangeRateFunction
     {
-        private readonly ILocalBitcoinsApiGraphClient _localBitcoinsApiGraphClient;
+        private readonly IExchangeRateService _exchangeRateService;
 
-        private readonly IBccrHttpClient _bccrHttpClient;
+        private readonly ILogger<UpdateExchangeRateFunction> _logger;
 
-        public UpdateExchangeRateFunction(ILocalBitcoinsApiGraphClient localBitcoinsApiGraphClient, IBccrHttpClient bccrHttpClient)
+        public UpdateExchangeRateFunction(IExchangeRateService exchangeRateService, ILogger<UpdateExchangeRateFunction> logger)
         {
-            _localBitcoinsApiGraphClient = localBitcoinsApiGraphClient;
-            _bccrHttpClient = bccrHttpClient;
+            _exchangeRateService = exchangeRateService;
+            _logger = logger;
         }
         
         [FunctionName("UpdateExchangeRateFunction")]
         public async Task Run([TimerTrigger("0 0 0,12,18,19 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
         {
-            var date = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
-            var indicators = await _bccrHttpClient.GetExchangeRateAsync(date, default, cancellationToken);
-            var indicator = indicators.FirstOrDefault();
-            if (indicator == null)
-                return;
-            
-            await _localBitcoinsApiGraphClient.MutationAsync<ExchangeRate>(GraphQlMutation.AddExchangeRate, new {
-                FromCurrencyCode = CurrencyCode.CRC,
-                ToCurrencyCode = CurrencyCode.USD,
-                Date = indicator.Date,
-                Value = indicator.Value
-            }, cancellationToken);
+            await _exchangeRateService.UpdateExchangeRateAsync(cancellationToken);
         }
     }
 }
