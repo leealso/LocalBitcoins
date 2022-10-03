@@ -50,8 +50,8 @@ public class ExchangeRateService : IExchangeRateService
     private async Task<ExchangeRate> AddExchangeRateAsync(BccrIndicator indicator, CancellationToken cancellationToken = default)
     {
         return await _localBitcoinsApiGraphClient.MutationAsync<ExchangeRate>(GraphQlMutation.AddExchangeRate, new {
-            FromCurrencyCode = CurrencyCode.CRC,
-            ToCurrencyCode = CurrencyCode.USD,
+            FromCurrencyCode = CurrencyCode.USD,
+            ToCurrencyCode = CurrencyCode.CRC,
             Date = indicator.Date,
             Value = indicator.Value
         }, cancellationToken);  

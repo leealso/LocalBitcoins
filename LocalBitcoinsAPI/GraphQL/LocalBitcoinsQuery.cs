@@ -1,3 +1,4 @@
+using LocalBitcoinsAPI.Constants;
 using LocalBitcoinsAPI.Models;
 using LocalBitcoinsAPI.Services;
 
@@ -45,5 +46,10 @@ public class LocalBitcoinsQuery
     public async Task<Quote> GetQuoteAsync(string symbol, [Service] IQuoteService queryService, CancellationToken cancellationToken = default)
     {
         return await queryService.GetQuoteAsync(symbol, cancellationToken);
+    }
+
+    public async Task<ExchangeRate> GetExchangeRateAsync(DateTime date, [Service] IExchangeRateService queryService, string? fromCurrencyCode = CurrencyCode.USD, string? toCurrencyCode = CurrencyCode.CRC, CancellationToken cancellationToken = default)
+    {
+        return await queryService.GetExchangeRateAsync(date, fromCurrencyCode, toCurrencyCode, cancellationToken);
     }
 }

@@ -13,6 +13,7 @@ builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
 builder.Services.AddHttpClient<ICoinMarketCapHttpClient, CoinMarketCapHttpClient>();
 builder.Services.AddTransient<ITradeService, TradeService>();
