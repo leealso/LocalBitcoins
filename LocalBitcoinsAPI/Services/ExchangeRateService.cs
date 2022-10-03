@@ -1,3 +1,4 @@
+using LocalBitcoinsAPI.Extensions;
 using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Models;
 using LocalBitcoinsAPI.Utilities;
@@ -12,10 +13,16 @@ public class ExchangeRateService : IExchangeRateService, IAsyncDisposable
 
     private readonly IMemoryCache _memoryCache;
 
-    public ExchangeRateService(IDbContextFactory<LocalBitcoinsDbContext> dbContextFactory, IMemoryCache memoryCache)
+    private readonly int _absoluteExpirationMinutes;
+    
+    private readonly int _slidingExpirationMinutes;
+
+    public ExchangeRateService(IDbContextFactory<LocalBitcoinsDbContext> dbContextFactory, IMemoryCache memoryCache, IConfiguration configuration)
     {
         _dbContext = dbContextFactory.CreateDbContext();
         _memoryCache = memoryCache;
+        _absoluteExpirationMinutes = configuration.GetValue<int>("MemoryCache:AbsoluteExpirationMinutes");
+        _slidingExpirationMinutes = configuration.GetValue<int>("MemoryCache:SlidingExpirationMinutes");
     }
 
     public async Task<ExchangeRate> AddAsync(string fromCurrencyCode, string toCurrencyCode, DateTime date, decimal value, CancellationToken cancellationToken = default)
@@ -43,8 +50,7 @@ public class ExchangeRateService : IExchangeRateService, IAsyncDisposable
     {
         return await _memoryCache.GetOrCreateAsync<ExchangeRate>($"{fromCurrencyCode}_{toCurrencyCode}_{date.Date}", async entry => 
         {
-            entry.SetAbsoluteExpiration(TimeSpan.FromHours(1));
-            entry.SetSlidingExpiration(TimeSpan.FromHours(1));
+            entry.SetExpiration(_absoluteExpirationMinutes, _slidingExpirationMinutes);
             return await GetExchangeRateFromSourceAsync(date, fromCurrencyCode, toCurrencyCode, cancellationToken);
         });
     }

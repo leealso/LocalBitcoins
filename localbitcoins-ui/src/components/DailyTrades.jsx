@@ -54,9 +54,9 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
                 <SummaryContainer>
-                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage ?? 1} />
-                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage ?? 1} />
-                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage ?? 1} />
+                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage} />
+                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage} />
+                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage} />
                 </SummaryContainer>
                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
             </ContentBody>
