@@ -36,7 +36,7 @@ public class ExchangeRateService : IExchangeRateService, IAsyncDisposable
             throw QueryExceptionUtility.NotFoundException($"Currency {toCurrencyCode} could not be found");
 
         var currentExchangeRate = await _dbContext.ExchanteRates
-            .SingleOrDefaultAsync(x => x.FromCurrencyId == fromCurrency.Id && x.ToCurrencyId == toCurrency.Id && x.Date == date, cancellationToken);
+            .SingleOrDefaultAsync(x => x.FromCurrencyId == fromCurrency.Id && x.ToCurrencyId == toCurrency.Id && x.Date.Date == date.Date, cancellationToken);
 
         if (currentExchangeRate == null)
             return await AddAsync(fromCurrency.Id, toCurrency.Id, date, value, cancellationToken);
