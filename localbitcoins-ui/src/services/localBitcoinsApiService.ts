@@ -57,6 +57,7 @@ export interface GetExchangeRateResponse {
 export interface ExchangeRate {
     date: Date
     value: number
+    percentChange24h: number
 }
 
 export const localBitcoinsApi = createApi({
@@ -190,6 +191,7 @@ export const localBitcoinsApi = createApi({
                 query exchangeRate($date: DateTime!) {
                     exchangeRate(date: $date) {
                         value
+                        percentChange24h
                     }
                 }`,
                 variables: {
