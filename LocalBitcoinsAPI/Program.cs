@@ -30,6 +30,7 @@ builder.Services
     .RegisterDbContext<LocalBitcoinsDbContext>()
     .AddQueryType<LocalBitcoinsQuery>()
     .AddMutationType<LocalBitcoinsMutation>()
+    .AddType<TradeType>()
     .AddType<ExchangeRateType>();
 
 var app = builder.Build();

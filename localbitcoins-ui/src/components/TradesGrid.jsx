@@ -22,9 +22,9 @@ const TradesGrid = ({ trades, totalCount, pageSize, selectedPage, onPageClick })
                         <th className='d-none d-md-table-cell'>Transaction ID</th>
                         <th className='d-md-none'>Time</th>
                         <th className='d-none d-md-table-cell'>Date</th>
-                        <th>Fiat</th>
-                        <th>BTC</th>
-                        <th>Price</th>
+                        <th className='text-center'>Fiat</th>
+                        <th className='text-center'>BTC</th>
+                        <th className='text-center'>Price</th>
                     </tr>
                 </thead>
                 <tbody>
