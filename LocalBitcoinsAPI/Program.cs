@@ -1,5 +1,4 @@
-using LocalBitcoinsAPI.GraphQL;
-using LocalBitcoinsAPI.GraphQL.ObjectTypes;
+using LocalBitcoinsAPI.Extensions;
 using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Infrastructure.HttpClients;
 using LocalBitcoinsAPI.Services;
@@ -23,15 +22,7 @@ builder.Services.AddTransient<IDailySummaryService, DailySummaryService>();
 builder.Services.AddTransient<IAdvertisementService, AdvertisementService>();
 builder.Services.AddTransient<IQuoteService, QuoteService>();
 builder.Services.AddTransient<IExchangeRateService, ExchangeRateService>();
-builder.Services
-    .AddGraphQLServer()
-    .AddFiltering()
-    .AddSorting()
-    .RegisterDbContext<LocalBitcoinsDbContext>()
-    .AddQueryType<LocalBitcoinsQuery>()
-    .AddMutationType<LocalBitcoinsMutation>()
-    .AddType<TradeType>()
-    .AddType<ExchangeRateType>();
+builder.Services.AddCustomGraphQL();
 
 var app = builder.Build();
 
