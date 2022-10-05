@@ -19,6 +19,9 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
             <td className='text-end d-none d-md-table-cell'>
                 { formatNumber(advertisement.tempPriceUsd, '$', 2) }
             </td>
+            <td className='text-end d-none d-md-table-cell'>
+                { formatNumber(advertisement.tempPrice, '₡', 2) }
+            </td>
             <td className='text-center'>
                 <ProfitAndLossIndicator percentage={percentage} />
             </td>
