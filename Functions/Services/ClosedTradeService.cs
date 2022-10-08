@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LocalBitcoins.Functions.Extensions;
+using LocalBitcoins.Functions.Constants;
 using LocalBitcoins.Functions.Infrastructure.Data;
 using LocalBitcoins.Functions.Infrastructure.HttpClients;
 using LocalBitcoins.Functions.Models;
@@ -13,16 +13,17 @@ namespace LocalBitcoins.Functions.Services;
 
 public class ClosedTradeService : IClosedTradeService
 {
-    private readonly LocalBitcoinsDbContext _dbContext;
-
     private readonly ILocalBitcoinsHttpClient _localBitcoinsHttpClient;
+
+    private readonly ILocalBitcoinsApiGraphClient _localBitcoinsApiGraphClient;
 
     private readonly ILogger<ClosedTradeService> _logger;
 
-    public ClosedTradeService(LocalBitcoinsDbContext dbContext, ILocalBitcoinsHttpClient localBitcoinsHttpClient, ILogger<ClosedTradeService> logger)
+    public ClosedTradeService(ILocalBitcoinsHttpClient localBitcoinsHttpClient, 
+        ILocalBitcoinsApiGraphClient localBitcoinsApiGraphClient, ILogger<ClosedTradeService> logger)
     {
-        _dbContext = dbContext;
         _localBitcoinsHttpClient = localBitcoinsHttpClient;
+        _localBitcoinsApiGraphClient = localBitcoinsApiGraphClient;
         _logger = logger;
     }
 
@@ -46,21 +47,22 @@ public class ClosedTradeService : IClosedTradeService
 
     private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContactData> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var addedTrades = new List<ClosedTrade>();
-        var asyncTrades = localBitcoinsTrades.Select(x => new ClosedTrade(x)).ToAsyncEnumerable();
+        var closedAt = localBitcoinsTrades.Min(x => x.ClosedAt);
+        var contactIds = localBitcoinsTrades.Select(x => x.ContactId);
 
-        await foreach(var trade in asyncTrades)
-        {
-            if (!_dbContext.ClosedTrades.Any(x => x.ContactId == trade.ContactId))
-            {
-                var result = await _dbContext.ClosedTrades.AddAsync(trade, cancellationToken);
-                addedTrades.Add(result.Entity);
-            }
-        }
+        var missingContactIds = await _localBitcoinsApiGraphClient.QueryAsync<IList<int>>(GraphQlQuery.MissingContactIds, new {
+            closedAt,
+            contactIds
+        }, cancellationToken);
 
-        if (addedTrades.Count > 0)
-            await _dbContext.SaveChangesAsync(cancellationToken);
+        var closedTrades = localBitcoinsTrades
+            .Where(x => missingContactIds.Contains(x.ContactId))
+            .Select(x => new ClosedTrade(x));
 
+        var addedTrades = await _localBitcoinsApiGraphClient.MutationAsync<IList<ClosedTrade>>(GraphQlMutation.AddClosedTrades, new {
+            closedTrades = closedTrades
+        });
+        
         return addedTrades;
     }
 }
