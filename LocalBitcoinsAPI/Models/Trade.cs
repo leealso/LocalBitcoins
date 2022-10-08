@@ -26,6 +26,9 @@ public class Trade
     [Column("currency_code")]
     public string CurrencyCode { get; set; }
 
+    [Column("contact_id")]
+    public int? ContactId { get; set; }
+
     public Trade()
     {
         

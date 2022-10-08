@@ -16,7 +16,7 @@ namespace LocalBitcoins.Functions
         }
         
         [FunctionName("UpdateClosedTradesFunction")]
-        public async Task Run([TimerTrigger("0 15 0,6,18 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
+        public async Task Run([TimerTrigger("0 2,17,32,47 0-6,13-23 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
         {
             await _closedTradeService.UpdateClosedTradesAsync(cancellationToken);
         }

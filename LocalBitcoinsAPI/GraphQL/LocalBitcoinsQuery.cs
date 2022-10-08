@@ -22,6 +22,11 @@ public class LocalBitcoinsQuery
         return queryService.GetClosedTrades();
     }
 
+    public IList<int> GetMissingContactIds(DateTime closedAt, IList<int> contactIds, [Service] IClosedTradeService queryService)
+    {
+        return queryService.GetMissingContactIds(closedAt, contactIds);
+    }
+
     public DailySummary GetDailySummary(DateTime date, [Service] IDailySummaryService queryService)
     {
         return queryService.GetDailySummary(date);
