@@ -31,6 +31,8 @@ public class LocalBitcoinsContactData
     [JsonProperty("closed_at")]
     public DateTime ClosedAt { get; set; }
 
-    [JsonProperty("payment_completed_at")]
-    public DateTime? PaymentCompletedAt { get; set; }
+    [JsonProperty("released_at")]
+    public DateTime? ReleasedAt { get; set; }
+
+    public bool isReleased() => ReleasedAt.HasValue;
 }

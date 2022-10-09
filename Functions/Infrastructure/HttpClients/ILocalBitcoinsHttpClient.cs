@@ -16,5 +16,5 @@ public interface ILocalBitcoinsHttpClient
     Task<IList<LocalBitcoinsTrade>> GetTradesAsync(CancellationToken cancellationToken = default) =>
         GetTradesAsync(default, CurrencyCode.CRC, cancellationToken);
 
-    Task<IList<LocalBitcoinsContactData>> GetClosedTradesAsync(CancellationToken cancellationToken = default);
+    Task<IList<LocalBitcoinsContactData>> GetReleasedTradesAsync(CancellationToken cancellationToken = default);
 }
