@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^14.4.3",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
+    "bootswatch": "^5.2.1",
     "dayjs": "^1.11.5",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",

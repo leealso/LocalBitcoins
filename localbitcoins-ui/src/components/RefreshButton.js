@@ -7,7 +7,7 @@ const RefreshButton = ({ isLoading, onClick }) => {
     return (
         <Button
             className="ms-2 text-light"
-            variant="info"
+            variant="secondary"
             onClick={!isLoading ? onClick : null}
         >
             <FaSyncAlt className={isLoading ? 'icon-spin' : ''}/>
