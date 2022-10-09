@@ -39,7 +39,7 @@ public static class LocalBitcoinsUtility
         }
     }
 
-    private static string UrlEncodeParams(Dictionary<string, string> args)
+    public static string UrlEncodeParams(Dictionary<string, string> args)
     {
         var stringBuilder = new StringBuilder();
 
