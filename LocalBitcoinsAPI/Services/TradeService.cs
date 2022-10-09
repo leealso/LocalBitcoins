@@ -16,6 +16,16 @@ public class TradeService : ITradeService, IAsyncDisposable
 
     public async Task<Trade> AddAsync(Trade trade, CancellationToken cancellationToken = default)
     {
+        var closedTrade = await _dbContext.ClosedTrades.SingleOrDefaultAsync(x => 
+            x.ClosedAt == trade.Date
+            && x.AmountBtc == trade.AmountBtc
+            && x.AmountFiat == trade.AmountFiat
+            && x.CurrencyCode == trade.CurrencyCode,
+            cancellationToken
+        );
+        if (closedTrade != null)
+            trade.ContactId = closedTrade.ContactId;
+
         var result = await _dbContext.AddAsync(trade, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         return result.Entity;
