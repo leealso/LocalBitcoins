@@ -27,16 +27,24 @@ export interface GetAdvertisementsResponse {
     }
 }
 
-export interface GetDailySummaryResponse {
-    dailySummary: {
-        date: Date
-        transactionCount: number
-        btcVolume: number
-        fiatVolume: number
-        transactionCountPercentage: number
-        btcVolumePercentage: number
-        fiatVolumePercentage: number
-    }
+export interface GetSummaryResponse {
+    response: Summary
+}
+
+export interface Summary {
+    startDate: Date
+    endDate: Date
+    transactionCount: number
+    btcVolume: number
+    fiatVolume: number
+    price: number
+    closedTransactionCount: number
+    closedBtcVolume: number
+    closedFiatVolume: number
+    closedPrice: number
+    closedTransactionCountPercentage: number
+    closedBtcVolumePercentage: number
+    closedFiatVolumePercentage: number
 }
 
 export interface GetQuoteResponse {
@@ -95,20 +103,25 @@ export const localBitcoinsApi = createApi({
             }),
         }),
         getDailySummary: builder.query<
-            BaseResponse<GetDailySummaryResponse>,
+            BaseResponse<GetSummaryResponse>,
             { date: string }
         >({
             query: ({ date }) => ({
                 document: gql`
-                query dailySummary($date: DateTime!) {
-                    dailySummary(date: $date) {
+                query daySummary($startDate: DateTime!) {
+                    response: daySummary(startDate: $startDate) {
                         date
                         transactionCount
                         btcVolume
                         fiatVolume
-                        transactionCountPercentage
-                        btcVolumePercentage
-                        fiatVolumePercentage
+                        price
+                        closedTransactionCount
+                        closedBtcVolume
+                        closedFiatVolume
+                        closedPrice
+                        closedTransactionCountPercentage
+                        closedBtcVolumePercentage
+                        closedFiatVolumePercentage
                     }
                 }`,
                 variables: {

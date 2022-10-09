@@ -38,7 +38,7 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const { data: trades, isLoading: isLoadingTrades, isFetching: isFetchingTrades, refetch: refetchTrades } = useGetTradesQuery({ take: pageSize, skip: skip, where: where })
     const { data: dailySummary, isLoading: isLoadingSummary, isFetching: isFetchingSummary, refetch: refetchSummary } = useGetDailySummaryQuery({ date: startDate.toISOString() })
 
-    const fiatVolumeFormatted = formatNumber(dailySummary?.dailySummary?.fiatVolume, '₡', 2)
+    const fiatVolumeFormatted = formatNumber(dailySummary?.response?.fiatVolume, '₡', 2)
     const isToday = startDate.toDateString() === new Date().toDateString()
     const refresh = () => {
         if (isToday) {
@@ -54,9 +54,9 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
                 <SummaryContainer>
-                    <SummaryRow label={'Transactions'} value={`${dailySummary?.dailySummary?.transactionCount}`} reference={dailySummary?.dailySummary?.transactionCountPercentage} />
-                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.dailySummary?.btcVolume}`} reference={dailySummary?.dailySummary?.btcVolumePercentage} />
-                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.dailySummary?.fiatVolumePercentage} />
+                    <SummaryRow label={'Transactions'} value={`${dailySummary?.response?.transactionCount}`} reference={dailySummary?.response?.closedTransactionCountPercentage} />
+                    <SummaryRow label={'BTC Volume'} value={`${dailySummary?.response?.btcVolume}`} reference={dailySummary?.response?.closedBtcVolumePercentage} />
+                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.response?.fclosedFatVolumePercentage} />
                 </SummaryContainer>
                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
             </ContentBody>
