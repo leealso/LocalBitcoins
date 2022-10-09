@@ -10,5 +10,5 @@ public interface IClosedTradeService
     
     IQueryable<ClosedTrade> GetClosedTrades();
 
-    IList<int> GetMissingContactIds(DateTime closedAt, IList<int> contactIds);
+    int GetLatestContactId();
 }

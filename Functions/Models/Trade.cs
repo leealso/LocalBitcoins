@@ -1,37 +1,24 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using CurrencyCodeConstant = LocalBitcoins.Functions.Constants.CurrencyCode;
 using LocalBitcoins.Functions.Utilities;
 
 namespace LocalBitcoins.Functions.Models;
 
-[Table("trades")]
 public class Trade
 {
-    [Key]
-    [Column("tid")]
     public int TransactionId { get; set; }
 
-    [Column("date")]
     public DateTime Date { get; set; }
 
-    [Column("price")]
     public decimal Price { get; set; }
 
-    [Column("amount_btc")]
     public decimal AmountBtc { get; set; }
 
-    [Column("amount_fiat")]
     public decimal AmountFiat { get; set; }
 
-    [Column("currency_code")]
     public string CurrencyCode { get; set; }
 
-    public Trade()
-    {
-        
-    }
+    public int? ContactId { get; set; }
 
     public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = CurrencyCodeConstant.CRC)
     {
@@ -41,5 +28,6 @@ public class Trade
         AmountBtc = localBitcoinsTrade.Amount;
         AmountFiat = Price * AmountBtc;
         CurrencyCode = currencyCode;
+        ContactId = null;
     }
 }
