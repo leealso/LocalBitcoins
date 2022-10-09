@@ -22,7 +22,7 @@ public class Summary
 
     public decimal ClosedPrice => ClosedFiatVolume / ClosedBtcVolume;
 
-    public int ClosedTransactionCountPercentage => ClosedTransactionCount / TransactionCount;
+    public decimal ClosedTransactionCountPercentage => ClosedTransactionCount / TransactionCount;
 
     public decimal ClosedBtcVolumePercentage => ClosedBtcVolume / BtcVolume;
 
