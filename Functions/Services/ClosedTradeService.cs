@@ -55,6 +55,9 @@ public class ClosedTradeService : IClosedTradeService
             contactIds
         }, cancellationToken);
 
+        if (!missingContactIds.Any())
+            return Array.Empty<ClosedTrade>();
+
         var closedTrades = localBitcoinsTrades
             .Where(x => missingContactIds.Contains(x.ContactId))
             .Select(x => new ClosedTrade(x));
