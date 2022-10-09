@@ -82,6 +82,7 @@ export const localBitcoinsApi = createApi({
                             price
                             date
                             currencyCode
+                            contactId
                         }
                         totalCount
                     }

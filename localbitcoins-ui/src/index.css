@@ -50,3 +50,7 @@ li.page-item.active span.page-link {
   --bs-border-opacity: 1;
   border-color: rgba(var(--bs-light-rgb),var(--bs-border-opacity))!important;
 }
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+  color: rgba(var(--bs-info-rgb),var(--bs-text-opacity))!important;
+}
