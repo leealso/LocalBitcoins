@@ -16,7 +16,7 @@ const TradesGrid = ({ trades, totalCount, pageSize, selectedPage, onPageClick })
     return (
         <div>
             
-            <Table striped variant="dark" className='border-secondary border-bottom'>
+            <Table className='border-secondary border-bottom'>
                 <thead>
                     <tr>
                         <th className='d-none d-md-table-cell'>Transaction ID</th>

@@ -1,3 +1,5 @@
+import { ClosedTrade } from "./closedTrade"
+
 export class Trade {
     transactionId: number
     amountBtc: number
@@ -5,4 +7,6 @@ export class Trade {
     price: number
     date: Date
     currencyCode: string
+    contactId: number | null
+    closedTrade: ClosedTrade
 }

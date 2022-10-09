@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
-import { formatNumber } from '../stringUtility'
+import { formatNumber, getTradeTypeClass } from '../stringUtility'
 
 const TradeRow = ({ trade }) => {
+    const className = getTradeTypeClass(trade.closedTrade?.tradeType)
     return (
-        <tr className={ trade.contactId > 0 ? 'text-info' : ''}>
+        <tr className={className}>
             <td className='d-none d-md-table-cell'>{ trade.transactionId }</td>
             <td className='d-md-none'>{ dayjs(trade.date).format('HH:mm') }</td>
             <td className='d-none d-md-table-cell'>{ dayjs(trade.date).format('MMM DD, YYYY HH:mm') }</td>
