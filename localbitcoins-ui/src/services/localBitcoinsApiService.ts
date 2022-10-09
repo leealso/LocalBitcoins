@@ -110,7 +110,8 @@ export const localBitcoinsApi = createApi({
                 document: gql`
                 query daySummary($startDate: DateTime!) {
                     response: daySummary(startDate: $startDate) {
-                        date
+                        startDate
+                        endDate
                         transactionCount
                         btcVolume
                         fiatVolume
@@ -125,7 +126,7 @@ export const localBitcoinsApi = createApi({
                     }
                 }`,
                 variables: {
-                    date
+                    startDate: date
                 },
             }),
         }),

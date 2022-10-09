@@ -56,7 +56,7 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
                 <SummaryContainer>
                     <SummaryRow label={'Transactions'} value={`${dailySummary?.response?.transactionCount}`} reference={dailySummary?.response?.closedTransactionCountPercentage} />
                     <SummaryRow label={'BTC Volume'} value={`${dailySummary?.response?.btcVolume}`} reference={dailySummary?.response?.closedBtcVolumePercentage} />
-                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.response?.fclosedFatVolumePercentage} />
+                    <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={dailySummary?.response?.closedFiatVolumePercentage} />
                 </SummaryContainer>
                 <TradesGrid trades={trades?.trades?.items ?? []} totalCount={trades?.trades?.totalCount} pageSize={pageSize} selectedPage={selectedPage} onPageClick={(page) => dispatch(setSelectedPage(page))} />
             </ContentBody>
