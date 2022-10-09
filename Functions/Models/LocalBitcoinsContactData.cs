@@ -30,7 +30,4 @@ public class LocalBitcoinsContactData
 
     [JsonProperty("closed_at")]
     public DateTime ClosedAt { get; set; }
-
-    [JsonProperty("payment_completed_at")]
-    public DateTime? PaymentCompletedAt { get; set; }
 }

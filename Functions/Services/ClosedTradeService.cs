@@ -30,8 +30,7 @@ public class ClosedTradeService : IClosedTradeService
     {
         _logger.LogInformation($"Updating LocalBitcoins closed trades at {DateTime.Now}");
         
-        var localBitcoinsTrades = await _localBitcoinsHttpClient.GetClosedTradesAsync(cancellationToken);
-        localBitcoinsTrades = localBitcoinsTrades.Where(x => x.PaymentCompletedAt.HasValue).ToList();
+        var localBitcoinsTrades = await _localBitcoinsHttpClient.GetReleasedTradesAsync(cancellationToken);
 
         if (localBitcoinsTrades.Any())
         {
