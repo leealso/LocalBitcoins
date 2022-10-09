@@ -14,6 +14,11 @@ public class LocalBitcoinsQuery
         return queryService.GetTrades();
     }
 
+    public int GetLatestTransactionId([Service] ITradeService queryService)
+    {
+        return queryService.GetLatestTransactionId();
+    }
+
     [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
     [UseFiltering]
     [UseSorting]
@@ -22,9 +27,9 @@ public class LocalBitcoinsQuery
         return queryService.GetClosedTrades();
     }
 
-    public IList<int> GetMissingContactIds(DateTime closedAt, IList<int> contactIds, [Service] IClosedTradeService queryService)
+    public int GetLatestContactId([Service] IClosedTradeService queryService)
     {
-        return queryService.GetMissingContactIds(closedAt, contactIds);
+        return queryService.GetLatestContactId();
     }
 
     public DailySummary GetDailySummary(DateTime date, [Service] IDailySummaryService queryService)

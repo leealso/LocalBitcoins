@@ -1,4 +1,3 @@
-using LocalBitcoins.Functions.Infrastructure.Data;
 using LocalBitcoins.Functions.Infrastructure.HttpClients;
 using LocalBitcoins.Functions.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -18,7 +17,6 @@ namespace LocalBitcoins.Functions
             builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
             builder.Services.AddScoped<ITradeService, TradeService>();
             builder.Services.AddScoped<IClosedTradeService, ClosedTradeService>();
-            builder.Services.AddDbContext<LocalBitcoinsDbContext>();
         }
     }
 }

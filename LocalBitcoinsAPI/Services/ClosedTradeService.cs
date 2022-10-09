@@ -50,11 +50,9 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
         return _dbContext.ClosedTrades.AsQueryable();
     }
 
-    public IList<int> GetMissingContactIds(DateTime closedAt, IList<int> contactIds)
+    public int GetLatestContactId()
     {
-        var existingContactIds = _dbContext.ClosedTrades.Where(x => x.ClosedAt >= closedAt)
-            .Select(x => x.ContactId);
-        return contactIds.Except(existingContactIds).ToList();
+        return _dbContext.ClosedTrades.Max(x => x.ContactId);
     }
 
     public ValueTask DisposeAsync()

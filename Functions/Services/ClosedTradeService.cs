@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LocalBitcoins.Functions.Constants;
-using LocalBitcoins.Functions.Infrastructure.Data;
 using LocalBitcoins.Functions.Infrastructure.HttpClients;
 using LocalBitcoins.Functions.Models;
 using Microsoft.Extensions.Logging;
@@ -47,20 +46,14 @@ public class ClosedTradeService : IClosedTradeService
 
     private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContactData> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var closedAt = localBitcoinsTrades.Min(x => x.ClosedAt);
-        var contactIds = localBitcoinsTrades.Select(x => x.ContactId);
-
-        var missingContactIds = await _localBitcoinsApiGraphClient.QueryAsync<IList<int>>(GraphQlQuery.MissingContactIds, new {
-            closedAt,
-            contactIds
-        }, cancellationToken);
-
-        if (!missingContactIds.Any())
-            return Array.Empty<ClosedTrade>();
+        var latestContactId = await _localBitcoinsApiGraphClient.QueryAsync<int>(GraphQlQuery.GetLatestContactId, cancellationToken);
 
         var closedTrades = localBitcoinsTrades
-            .Where(x => missingContactIds.Contains(x.ContactId))
+            .Where(x => x.ContactId > latestContactId)
             .Select(x => new ClosedTrade(x));
+
+        if (!closedTrades.Any())
+            return Array.Empty<ClosedTrade>();
 
         var addedTrades = await _localBitcoinsApiGraphClient.MutationAsync<IList<ClosedTrade>>(GraphQlMutation.AddClosedTrades, new {
             closedTrades = closedTrades
