@@ -12,7 +12,7 @@ public class Summary
 
     public decimal FiatVolume { get; set; }
 
-    public decimal Price => FiatVolume / BtcVolume;
+    public decimal Price => Math.Round(FiatVolume / BtcVolume, 2);
 
     public int ClosedTransactionCount { get; set; }
 
@@ -20,13 +20,13 @@ public class Summary
 
     public decimal ClosedFiatVolume { get; set; }
 
-    public decimal ClosedPrice => ClosedFiatVolume / Math.Max(1, ClosedBtcVolume);
+    public decimal ClosedPrice => Math.Round(ClosedFiatVolume / ClosedBtcVolume > 0 ? ClosedBtcVolume : 1, 2);
 
-    public decimal ClosedTransactionCountPercentage => Math.Round((decimal)ClosedTransactionCount / TransactionCount, 2);
+    public decimal ClosedTransactionCountPercentage => Math.Round((decimal)ClosedTransactionCount / TransactionCount, 4);
 
-    public decimal ClosedBtcVolumePercentage => ClosedBtcVolume / Math.Max(1, BtcVolume);
+    public decimal ClosedBtcVolumePercentage => Math.Round(ClosedBtcVolume / BtcVolume, 4);
 
-    public decimal ClosedFiatVolumePercentage => ClosedFiatVolume / Math.Max(1, FiatVolume);
+    public decimal ClosedFiatVolumePercentage => Math.Round(ClosedFiatVolume / FiatVolume, 4);
 
     public Summary()
     {

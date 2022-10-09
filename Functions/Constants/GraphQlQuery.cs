@@ -10,7 +10,7 @@ public static class GraphQlQuery
 
     public const string GetLatestTransactionDate = @"query query { response:trades(take: 1 order: { date: DESC }) { items { date } }}";
 
-    public const string GetMaxTransactionId = @"query query { response:trades(take: 1 order: { transactionId: DEC }) { items { transactionId } }}";
+    public const string GetMaxTransactionId = @"query query { response:trades(take: 1 order: { transactionId: DESC }) { items { transactionId } }}";
 
     public const string GetMinTransactionId = @"query query { response:trades(take: 1 order: { transactionId: ASC }) { items { transactionId } }}";
 }
