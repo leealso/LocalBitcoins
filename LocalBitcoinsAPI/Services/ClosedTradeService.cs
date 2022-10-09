@@ -17,6 +17,11 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
 
     public async Task<ClosedTrade> AddAsync(ClosedTrade closedTrade, CancellationToken cancellationToken = default)
     {
+        var currentClosedTrade = await _dbContext.ClosedTrades
+            .SingleOrDefaultAsync(x => x.ContactId == closedTrade.ContactId, cancellationToken);
+        if (currentClosedTrade != null)
+            return currentClosedTrade;
+            
         var result = await _dbContext.AddAsync(closedTrade, cancellationToken);
         
         var trade = await _dbContext.Trades.SingleOrDefaultAsync(x => 
