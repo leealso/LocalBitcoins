@@ -91,6 +91,9 @@ export const localBitcoinsApi = createApi({
                             date
                             currencyCode
                             contactId
+                            closedTrade {
+                                tradeType
+                            }
                         }
                         totalCount
                     }

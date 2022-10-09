@@ -9,7 +9,7 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
     };
     const percentage = advertisement.tempPriceUsd / btcPrice - 1
     return (
-        <tr>
+        <tr className='align-middle'>
             <td className='d-md-none'>{ truncate(advertisement.username) }</td>
             <td className='d-none d-md-table-cell'>{ advertisement.username }</td>
             <td>{advertisement.currency}</td>

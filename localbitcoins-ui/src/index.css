@@ -38,7 +38,3 @@ code {
             transform: rotate(359deg);
   }
 }
-
-.table-striped>tbody>tr:nth-of-type(odd)>* {
-  color: rgba(var(--bs-info-rgb),var(--bs-text-opacity))!important;
-}

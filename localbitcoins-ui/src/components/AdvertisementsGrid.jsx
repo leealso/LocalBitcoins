@@ -5,7 +5,7 @@ import AdvertisementRow from './AdvertisementRow'
 const AdvertisementsGrid = ({ advertisements, isBuy, btcPrice }) => {
     return (
         <div>
-            <Table striped hover variant="dark" className='border-secondary border-bottom'>
+            <Table className='border-secondary border-bottom'>
                 <thead>
                     <tr>
                         <th>User ID</th>
