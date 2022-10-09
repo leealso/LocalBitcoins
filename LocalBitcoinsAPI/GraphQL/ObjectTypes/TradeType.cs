@@ -25,7 +25,8 @@ public class TradeType : ObjectType<Trade>
                 if (!trade.ContactId.HasValue)
                     return null;
                 var dataLoader = context.DataLoader<ClosedTradesBatchDataLoader>();
-                return await dataLoader.LoadAsync(trade.ContactId, context.RequestAborted);
+                var algo = await dataLoader.LoadAsync(trade.ContactId.Value, context.RequestAborted);
+                return algo;
             });
     }
 }
