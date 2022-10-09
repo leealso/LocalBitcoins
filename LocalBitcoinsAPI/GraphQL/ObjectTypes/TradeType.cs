@@ -1,3 +1,4 @@
+using LocalBitcoinsAPI.GraphQL.DataLoaders;
 using LocalBitcoinsAPI.Models;
 using LocalBitcoinsAPI.Services;
 
@@ -14,6 +15,17 @@ public class TradeType : ObjectType<Trade>
                 var trade = context.Parent<Trade>();
                 var exchangeRate = await context.Service<IExchangeRateService>().GetExchangeRateAsync(trade.Date.Date, context.RequestAborted);
                 return Math.Round(trade.Price / exchangeRate.Value, 2);
+            });
+        
+        descriptor.Field("closedTrade")
+            .Type<ObjectType<ClosedTrade>>()
+            .Resolve(async context => 
+            {
+                var trade = context.Parent<Trade>();
+                if (!trade.ContactId.HasValue)
+                    return null;
+                var dataLoader = context.DataLoader<ClosedTradesBatchDataLoader>();
+                return await dataLoader.LoadAsync(trade.ContactId, context.RequestAborted);
             });
     }
 }
