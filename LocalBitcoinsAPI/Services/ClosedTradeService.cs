@@ -19,23 +19,24 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
     {
         var currentClosedTrade = await _dbContext.ClosedTrades
             .SingleOrDefaultAsync(x => x.ContactId == closedTrade.ContactId, cancellationToken);
-        if (currentClosedTrade != null)
-            return currentClosedTrade;
-            
-        var result = await _dbContext.AddAsync(closedTrade, cancellationToken);
+        if (currentClosedTrade == null)
+        {
+            var result = await _dbContext.AddAsync(closedTrade, cancellationToken);
+            currentClosedTrade = result.Entity;
+        }
         
         var trade = await _dbContext.Trades.SingleOrDefaultAsync(x => 
-            x.Date == closedTrade.ClosedAt
-            && x.AmountBtc == closedTrade.AmountBtc
-            && x.AmountFiat == closedTrade.AmountFiat
-            && x.CurrencyCode == closedTrade.CurrencyCode,
+            x.Date == currentClosedTrade.ClosedAt
+            && x.AmountBtc == currentClosedTrade.AmountBtc
+            && x.AmountFiat == currentClosedTrade.AmountFiat
+            && x.CurrencyCode == currentClosedTrade.CurrencyCode,
             cancellationToken
         );
         if (trade != null)
-            trade.ContactId = closedTrade.ContactId;
+            trade.ContactId = currentClosedTrade.ContactId;
             
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return result.Entity;
+        return currentClosedTrade;
     }
 
     public async Task<IList<ClosedTrade>> AddAsync(IList<ClosedTrade> closedTrades, CancellationToken cancellationToken = default)
