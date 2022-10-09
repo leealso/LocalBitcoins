@@ -47,12 +47,20 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         return trades;
     }
 
-    public async Task<IList<LocalBitcoinsContactData>> GetReleasedTradesAsync(CancellationToken cancellationToken = default)
+    public async Task<IList<LocalBitcoinsContactData>> GetReleasedTradesAsync(DateTime? startDate = null, CancellationToken cancellationToken = default)
     {
         var route = $"/api/dashboard/released/";
         var nonce = DateTimeUtility.GetNonce();
-        var signature = LocalBitcoinsUtility.GetSignature(_hmacKey, _hmacSecret, route, nonce);
+        var args = new Dictionary<string, string>()
+        {
+            { "order_by", "-closed_at"}
+        };
+        if (startDate.HasValue)
+            args.Add("start_at", startDate.Value.ToString("yyyy-MM-dd HH:mm:ss+00:00"));
+        Console.WriteLine(LocalBitcoinsUtility.UrlEncodeParams(args));
+        var signature = LocalBitcoinsUtility.GetSignature(_hmacKey, _hmacSecret, route, nonce, args);
 
+        route = $"{route}?{LocalBitcoinsUtility.UrlEncodeParams(args)}";
         using var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_httpClient.BaseAddress, route));
         request.Headers.Add("Apiauth-Nonce", nonce);
         request.Headers.Add("Apiauth-Signature", signature);

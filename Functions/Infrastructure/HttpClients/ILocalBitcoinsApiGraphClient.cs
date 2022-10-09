@@ -5,7 +5,7 @@ namespace LocalBitcoins.Functions.Infrastructure.HttpClients;
 
 public interface ILocalBitcoinsApiGraphClient
 {
-    Task<TResult> QueryAsync<TResult>(string query, object? variables = null, CancellationToken cancellationToken = default);
+    Task<TResult> QueryAsync<TResult>(string query, object? variables, CancellationToken cancellationToken = default);
 
     Task<TResult> QueryAsync<TResult>(string query, CancellationToken cancellationToken = default)
         => QueryAsync<TResult>(query, default, cancellationToken);

@@ -20,6 +20,11 @@ public class Trade
 
     public int? ContactId { get; set; }
 
+    public Trade()
+    {
+        
+    }
+
     public Trade(LocalBitcoinsTrade localBitcoinsTrade, string currencyCode = CurrencyCodeConstant.CRC)
     {
         TransactionId = localBitcoinsTrade.TId;

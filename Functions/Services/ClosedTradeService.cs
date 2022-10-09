@@ -31,16 +31,12 @@ public class ClosedTradeService : IClosedTradeService
         _logger.LogInformation($"Updating LocalBitcoins closed trades at {DateTime.Now}");
         
         var localBitcoinsTrades = await _localBitcoinsHttpClient.GetReleasedTradesAsync(cancellationToken);
-
-        if (localBitcoinsTrades.Any())
-        {
-            var addedTrades = await AddAsync(localBitcoinsTrades, cancellationToken);
+        
+        var addedTrades = await AddAsync(localBitcoinsTrades, cancellationToken);
+        if (addedTrades.Any())
             _logger.LogInformation($"Successfully added {addedTrades.Count} new LocalBitcoins closed trades at {DateTime.Now}");
-        }
         else 
-        {
             _logger.LogInformation($"There were no new LocalBitcoins closed trades at {DateTime.Now}");
-        }        
     }
 
     private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContactData> localBitcoinsTrades, CancellationToken cancellationToken = default)
@@ -59,5 +55,33 @@ public class ClosedTradeService : IClosedTradeService
         });
         
         return addedTrades;
+    }
+
+    public async Task UpdateClosedTradesAsync(DateTime startDate, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation($"Updating LocalBitcoins closed trades from {startDate.Date} to {DateTime.Now}");
+
+        var completed = false;
+        DateTime? closedAt = null;
+        do 
+        {
+            var localBitcoinsTrades = await _localBitcoinsHttpClient.GetReleasedTradesAsync(closedAt, cancellationToken);
+            localBitcoinsTrades = localBitcoinsTrades.Where(x => x.ClosedAt >= startDate.Date)
+                .ToList();
+            
+            if (!localBitcoinsTrades.Any())
+                completed = true;
+            else
+            {
+                closedAt = localBitcoinsTrades.Min(x => x.ClosedAt);
+                var addedClosedTrades = await _localBitcoinsApiGraphClient.MutationAsync<IList<Trade>>(GraphQlMutation.AddClosedTrades, new {
+                    closedTrades = localBitcoinsTrades.Select(x => new ClosedTrade(x))
+                });
+                if (addedClosedTrades.Any())
+                    _logger.LogInformation($"Successfully added {addedClosedTrades.Count} new LocalBitcoins closed trades at {DateTime.Now}");
+                else 
+                    _logger.LogInformation($"There were no new LocalBitcoins closed trades at {DateTime.Now}");
+            }
+        } while (!completed);
     }
 }

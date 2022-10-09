@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LocalBitcoins.Functions.Constants;
 using LocalBitcoins.Functions.Infrastructure.HttpClients;
 using LocalBitcoins.Functions.Models;
+using LocalBitcoins.Functions.Utilities;
 using Microsoft.Extensions.Logging;
 
 namespace LocalBitcoins.Functions.Services;
@@ -41,10 +42,13 @@ public class TradeService : ITradeService
 
     private async Task<IList<Trade>> AddAsync(IList<LocalBitcoinsTrade> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var latestTransactionId = await _localBitcoinsApiGraphClient.QueryAsync<int>(GraphQlQuery.GetLatestTransactionId, cancellationToken);
+        var maxTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMaxTransactionId);
+        int maxTransactionId = maxTrade.Items.Any() 
+            ? maxTrade.Items.Select(x => x.TransactionId).First()
+            : default;
 
         var trades = localBitcoinsTrades
-            .Where(x => x.TId > latestTransactionId)
+            .Where(x => x.TId > maxTransactionId)
             .Select(x => new Trade(x));
 
         if (!trades.Any())
@@ -57,23 +61,34 @@ public class TradeService : ITradeService
         return addedTrades;
     }
 
-    /*public async Task<IList<Trade>> UpdateTradesAsync(CancellationToken cancellationToken = default)
+    public async Task UpdateTradesAsync(DateTime startDate, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation($"Updating LocalBitcoins trades at {DateTime.Now}");
-        var trades = new List<Trade>(); 
-        var latestTransactionId = 0;
+        _logger.LogInformation($"Updating LocalBitcoins trades from {startDate.Date} to {DateTime.Now}");
 
-        do
+        var completed = false;
+        do 
         {
-            var localBitcoinsTrades = await _localBitcoinsHttpClient.GetTradesAsync(latestTransactionId, cancellationToken);
-            latestTransactionId = localBitcoinsTrades.Min(x => x.TId);
-            
-            var addedTrades = await AddAsync(localBitcoinsTrades, cancellationToken);
-            trades.AddRange(addedTrades);
-        }
-        while (latestTransactionId > Default.MaxTransactionId);
+            var minTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMinTransactionId);
+            int minTransactionId = minTrade.Items.Any() 
+                ? minTrade.Items.Select(x => x.TransactionId).First()
+                : default;
 
-        _logger.LogInformation($"Successfully updated LocalBitcoins trades at {DateTime.Now} ({trades.Count})");
-        return trades;
-    }*/
+            var localBitcoinsTrades = await _localBitcoinsHttpClient.GetTradesAsync(minTransactionId, cancellationToken);
+            localBitcoinsTrades = localBitcoinsTrades.Where(x => DateTimeUtility.FromEpoch(x.Date) >= startDate.Date)
+                .ToList();
+            
+            if (!localBitcoinsTrades.Any())
+                completed = true;
+            else
+            {
+                var addedTrades = await _localBitcoinsApiGraphClient.MutationAsync<IList<Trade>>(GraphQlMutation.AddTrades, new {
+                    trades = localBitcoinsTrades.Select(x => new Trade(x))
+                });
+                if (addedTrades.Any())
+                    _logger.LogInformation($"Successfully added {addedTrades.Count} new LocalBitcoins trades at {DateTime.Now}");
+                else 
+                    _logger.LogInformation($"There were no new LocalBitcoins trades at {DateTime.Now}");
+            }
+        } while (!completed);
+    }
 }
