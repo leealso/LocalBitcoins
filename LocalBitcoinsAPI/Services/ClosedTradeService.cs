@@ -1,6 +1,7 @@
 using LocalBitcoinsAPI.Extensions;
 using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Models;
+using LocalBitcoinsAPI.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocalBitcoinsAPI.Services;
@@ -43,6 +44,19 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
         }
 
         return addedClosedTrades;
+    }
+
+    public async Task<ClosedTrade> GetAsync(int contactId, CancellationToken cancellationToken = default)
+    {
+        var closedTrade = await _dbContext.ClosedTrades.SingleOrDefaultAsync(x => x.ContactId == contactId, cancellationToken);
+        if (closedTrade == null)
+            throw QueryExceptionUtility.NotFoundException($"Closed trade {contactId} could not be found");
+        return closedTrade;
+    }
+
+    public async Task<IList<ClosedTrade>> GetAsync(IReadOnlyList<int> contactIds, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.ClosedTrades.Where(x => contactIds.Contains(x.ContactId)).ToListAsync(cancellationToken);
     }
 
     public IQueryable<ClosedTrade> GetClosedTrades()

@@ -1,4 +1,5 @@
 using LocalBitcoinsAPI.GraphQL;
+using LocalBitcoinsAPI.GraphQL.DataLoaders;
 using LocalBitcoinsAPI.GraphQL.ObjectTypes;
 using LocalBitcoinsAPI.Infrastructure.Data;
 
@@ -15,6 +16,7 @@ public static class ServiceCollectionExtensions
             .RegisterDbContext<LocalBitcoinsDbContext>()
             .AddQueryType<LocalBitcoinsQuery>()
             .AddMutationType<LocalBitcoinsMutation>()
+            .AddDataLoader<ClosedTradesBatchDataLoader>()
             .AddType<TradeType>()
             .AddType<ExchangeRateType>();
 
