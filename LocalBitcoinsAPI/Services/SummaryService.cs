@@ -13,9 +13,8 @@ public class SummaryService : ISummaryService, IAsyncDisposable
         _dbContext = dbContextFactory.CreateDbContext();
     }
 
-    public Summary GetDaySummary(DateTime startDate)
+    public Summary GetSummary(DateTime startDate, DateTime endDate)
     {
-        var endDate = startDate.AddDays(1);
         var trades = _dbContext.Trades.Where(x => x.Date >= startDate && x.Date < endDate);
         return new Summary(startDate, endDate, trades);
     }

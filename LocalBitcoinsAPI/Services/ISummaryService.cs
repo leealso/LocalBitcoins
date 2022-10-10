@@ -4,5 +4,8 @@ namespace LocalBitcoinsAPI.Services;
 
 public interface ISummaryService
 {
-    Summary GetDaySummary(DateTime startDate);
+    Summary GetSummary(DateTime startDate, DateTime endDate);
+
+    Summary GetSummary(DateTime date)
+        => GetSummary(date, date.AddDays(1));
 }

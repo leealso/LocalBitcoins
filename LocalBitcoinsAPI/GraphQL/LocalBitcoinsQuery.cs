@@ -32,9 +32,14 @@ public class LocalBitcoinsQuery
         return queryService.GetLatestContactId();
     }
 
-    public Summary GetDaySummary(DateTime startDate, [Service] ISummaryService queryService)
+    public Summary GetDaySummary(DateTime date, [Service] ISummaryService queryService)
     {
-        return queryService.GetDaySummary(startDate);
+        return queryService.GetSummary(date);
+    }
+
+    public Summary GetSummary(DateTime startDate, DateTime endDate, [Service] ISummaryService queryService)
+    {
+        return queryService.GetSummary(startDate, endDate);
     }
 
     [UseOffsetPaging(MaxPageSize = 100, IncludeTotalCount = true)]
