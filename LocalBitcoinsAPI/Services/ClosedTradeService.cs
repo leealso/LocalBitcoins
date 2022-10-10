@@ -25,7 +25,6 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
         var trade = await _dbContext.Trades.SingleOrDefaultAsync(x => 
             x.Date == closedTrade.ClosedAt
             && x.AmountBtc == closedTrade.AmountBtc
-            && x.AmountFiat == closedTrade.AmountFiat
             && x.CurrencyCode == closedTrade.CurrencyCode,
             cancellationToken
         );
