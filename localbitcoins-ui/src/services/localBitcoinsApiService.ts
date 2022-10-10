@@ -111,8 +111,8 @@ export const localBitcoinsApi = createApi({
         >({
             query: ({ date }) => ({
                 document: gql`
-                query daySummary($startDate: DateTime!) {
-                    response: daySummary(startDate: $startDate) {
+                query daySummary($date: DateTime!) {
+                    response: daySummary(date: $date) {
                         startDate
                         endDate
                         transactionCount
@@ -129,7 +129,36 @@ export const localBitcoinsApi = createApi({
                     }
                 }`,
                 variables: {
-                    startDate: date
+                    date
+                },
+            }),
+        }),
+        getSummary: builder.query<
+            BaseResponse<GetSummaryResponse>,
+            { startDate: string, endDate: string }
+        >({
+            query: ({ startDate, endDate }) => ({
+                document: gql`
+                query summary($startDate: DateTime! $endDate: DateTime!) {
+                    response: summary(startDate: $startDate endDate: $endDate) {
+                        startDate
+                        endDate
+                        transactionCount
+                        btcVolume
+                        fiatVolume
+                        price
+                        closedTransactionCount
+                        closedBtcVolume
+                        closedFiatVolume
+                        closedPrice
+                        closedTransactionCountPercentage
+                        closedBtcVolumePercentage
+                        closedFiatVolumePercentage
+                    }
+                }`,
+                variables: {
+                    startDate,
+                    endDate
                 },
             }),
         }),
@@ -220,4 +249,4 @@ export const localBitcoinsApi = createApi({
     }),
 })
 
-export const { useGetTradesQuery, useGetDailySummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery, useGetExchangeRateQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery, useGetSummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery, useGetExchangeRateQuery } = localBitcoinsApi

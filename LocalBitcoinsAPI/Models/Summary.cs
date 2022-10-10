@@ -20,7 +20,7 @@ public class Summary
 
     public decimal ClosedFiatVolume { get; set; }
 
-    public decimal ClosedPrice => Math.Round(ClosedFiatVolume / ClosedBtcVolume > 0 ? ClosedBtcVolume : 1, 2);
+    public decimal ClosedPrice => ClosedBtcVolume <= 0 ? 0 : Math.Round((decimal)ClosedFiatVolume / ClosedBtcVolume, 2);
 
     public decimal ClosedTransactionCountPercentage => Math.Round((decimal)ClosedTransactionCount / TransactionCount, 4);
 
