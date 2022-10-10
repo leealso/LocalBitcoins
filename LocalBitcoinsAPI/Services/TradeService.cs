@@ -18,8 +18,6 @@ public class TradeService : ITradeService, IAsyncDisposable
     {
         var currentTrade = await _dbContext.Trades
             .SingleOrDefaultAsync(x => x.TransactionId == trade.TransactionId, cancellationToken);
-        if (currentTrade == null)
-            await _dbContext.AddAsync(trade, cancellationToken);
 
         var closedTrade = await _dbContext.ClosedTrades.SingleOrDefaultAsync(x => 
             x.ClosedAt == trade.Date
@@ -28,10 +26,16 @@ public class TradeService : ITradeService, IAsyncDisposable
             && x.CurrencyCode == trade.CurrencyCode,
             cancellationToken
         );
-        if (closedTrade != null)
+
+        if (currentTrade == null)
         {
-            trade.ContactId = closedTrade.ContactId;
-            _dbContext.Update(trade);
+            trade.ContactId = closedTrade?.ContactId;
+            await _dbContext.AddAsync(trade, cancellationToken);
+        }
+        else 
+        {
+            currentTrade.ContactId = closedTrade?.ContactId;
+            _dbContext.Update(currentTrade);
         }
             
         await _dbContext.SaveChangesAsync(cancellationToken);

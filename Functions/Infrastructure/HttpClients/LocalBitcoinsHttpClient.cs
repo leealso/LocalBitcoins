@@ -57,7 +57,7 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         };
         if (startDate.HasValue)
             args.Add("start_at", startDate.Value.ToString("yyyy-MM-dd HH:mm:ss+00:00"));
-        Console.WriteLine(LocalBitcoinsUtility.UrlEncodeParams(args));
+        
         var signature = LocalBitcoinsUtility.GetSignature(_hmacKey, _hmacSecret, route, nonce, args);
 
         route = $"{route}?{LocalBitcoinsUtility.UrlEncodeParams(args)}";
