@@ -13,6 +13,10 @@ export function formatNumber(amount: number, symbol: string = '', decimals: numb
     return `${symbol}${formattedAmount}`
 }
 
+export function formatDate(date: Date, locale: string = 'en-US') {
+    return date.toLocaleDateString(locale, {year: 'numeric', month: '2-digit', day: '2-digit'})
+}
+
 export function getTradeTypeClass(tradeType: string) {
     if (tradeType === 'BUY')
         return 'text-success'

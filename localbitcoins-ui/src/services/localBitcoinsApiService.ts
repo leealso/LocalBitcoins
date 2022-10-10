@@ -31,6 +31,10 @@ export interface GetSummaryResponse {
     response: Summary
 }
 
+export interface GetSummariesResponse {
+    response: Summary[]
+}
+
 export interface Summary {
     startDate: Date
     endDate: Date
@@ -162,6 +166,35 @@ export const localBitcoinsApi = createApi({
                 },
             }),
         }),
+        getDailySummaries: builder.query<
+            BaseResponse<GetSummariesResponse>,
+            { startDate: string, endDate: string }
+        >({
+            query: ({ startDate, endDate }) => ({
+                document: gql`
+                query query($startDate: DateTime! $endDate: DateTime!) {
+                    response: dailySummary(startDate: $startDate endDate: $endDate order: { startDate: ASC }) {
+                        startDate
+                        endDate
+                        transactionCount
+                        btcVolume
+                        fiatVolume
+                        price
+                        closedTransactionCount
+                        closedBtcVolume
+                        closedFiatVolume
+                        closedPrice
+                        closedTransactionCountPercentage
+                        closedBtcVolumePercentage
+                        closedFiatVolumePercentage
+                    }
+                }`,
+                variables: {
+                    startDate,
+                    endDate
+                },
+            }),
+        }),
         getBuyAds: builder.query<
             BaseResponse<GetAdvertisementsResponse>,
             { countryCode: string }
@@ -249,4 +282,4 @@ export const localBitcoinsApi = createApi({
     }),
 })
 
-export const { useGetTradesQuery, useGetDailySummaryQuery, useGetSummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery, useGetExchangeRateQuery } = localBitcoinsApi
+export const { useGetTradesQuery, useGetDailySummaryQuery, useGetSummaryQuery, useGetBuyAdsQuery, useGetSellAdsQuery, useGetQuoteQuery, useGetExchangeRateQuery, useGetDailySummariesQuery } = localBitcoinsApi
