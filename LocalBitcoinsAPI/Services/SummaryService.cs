@@ -22,7 +22,7 @@ public class SummaryService : ISummaryService, IAsyncDisposable
 
     public IList<Summary> GetDailysummaries(DateTime startDate, DateTime endDate)
     {
-        IList<Summary> dailySummaries = Array.Empty<Summary>();
+        var dailySummaries = new List<Summary>();
         foreach (var date in startDate.To(endDate))
         {
             dailySummaries.Add(GetSummary(date.Date, date.AddDays(1)));
