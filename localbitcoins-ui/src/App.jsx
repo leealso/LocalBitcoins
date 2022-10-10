@@ -4,6 +4,7 @@ import store from './store/index.ts'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import BuyAdvertisements from './components/BuyAdvertisements'
 import SellAdvertisements from './components/SellAdvertisements'
+import MonthlyTrades from './components/MonthlyTrades'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={<DailyTrades/>} />
             <Route exact path='/trades' element={<DailyTrades/>} />
+            <Route exact path='/monthly' element={<MonthlyTrades/>} />
             <Route exact path='/ads/buy' element={<BuyAdvertisements/>} />
             <Route exact path='/ads/sell' element={<SellAdvertisements/>} />
           </Routes>
