@@ -20,10 +20,10 @@
 name: LocalBitcoins - Functions
 
 env:
-  AZURE_FUNCTIONAPP_NAME: Functions    # set this to the name of your Azure Web App
+  AZURE_FUNCTIONAPP_NAME: 'localbitcoins-functions'    # set this to the name of your Azure Web App
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '6.0'                 # set this to the .NET Core version to use
-  AZURE_FUNCTIONAPP_NAME: 'localbitcoins-functions'
+  PROJECT_PATH: Functions
 
 on:
   push:
@@ -56,10 +56,10 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Build with dotnet
-        run: dotnet build ${{ env.AZURE_FUNCTIONAPP_NAME }} --configuration Release
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ${{ env.AZURE_FUNCTIONAPP_NAME }} -c Release -o ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
