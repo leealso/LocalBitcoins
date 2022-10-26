@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Chart } from 'react-google-charts'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import DatePickerButton from './DatePickerButton'
 import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
@@ -11,7 +11,7 @@ import ContentHeader from './ContentHeader'
 import ContentBody from './ContentBody'
 import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
-import { formatDate, formatNumber } from '../stringUtility'
+import { formatNumber } from '../stringUtility'
 
 const MonthlyTrades = ({ date }) => {
     const selectedDate = new Date(date)
@@ -28,57 +28,24 @@ const MonthlyTrades = ({ date }) => {
     const priceReference = 1 - summary?.response?.closedPrice / summary?.response?.price
     const isCurrentMonth = selectedDate.getMonth() === new Date().getMonth()
 
-    let data = [
-        ['Transactions', 'Total', 'Closed']
-    ]
-    let dataBtcVolume = [
-        ['BTC Volume', 'Total', 'Closed']
-    ]
+    let btcVolumeData = []
+    let transactionCountData = []
     dailySummary?.response.forEach(x => {
-        const formattedDate = formatDate(new Date(x.startDate))
-        data.push([formattedDate, x.transactionCount, x.closedTransactionCount])
-        dataBtcVolume.push([formattedDate, x.btcVolume, x.closedBtcVolume])
+        const date = new Date(x.startDate).getDate()
+        btcVolumeData.push({
+            day: date,
+            btcVolume: x.btcVolume - x.closedBtcVolume,
+            closedBtcVolume: x.closedBtcVolume
+        })
+        transactionCountData.push({
+            day: date,
+            transactionCount: x.transactionCount - x.closedTransactionCount,
+            closedTransactionCount: x.closedTransactionCount
+        })
     })
-    const options = {
-        title: 'Transactions',
-        backgroundColor: 'transparent',
-        colors: ['#ee5f5b','#62c462'],
-        legend: 'none',
-        titleTextStyle: {
-            color: "#e9ecef",
-            fontSize: 20
-        },
-        vAxsis: {
-            titleTextStyle: {
-                color: "#e9ecef",
-            }
-        },
-        hAxsis: {
-            titleTextStyle: {
-                color: "#e9ecef",
-            }
-        }
-    }
-    const optionsBtcVolume = {
-        title: 'BTC Volume',
-        backgroundColor: 'transparent',
-        colors: ['#ee5f5b','#62c462'],
-        legend: 'none',
-        titleTextStyle: {
-            color: "#e9ecef",
-            fontSize: 20
-        },
-        vAxsis: {
-            titleTextStyle: {
-                color: "#e9ecef",
-            }
-        },
-        hAxsis: {
-            titleTextStyle: {
-                color: "#e9ecef",
-            }
-        }
-    }
+
+    const toPercent = (decimal) => decimal ? `${(decimal * 100)}%` : '';
+
     const refresh = () => {
         if (isCurrentMonth) {
             refetchSummary()
@@ -98,19 +65,32 @@ const MonthlyTrades = ({ date }) => {
                     <SummaryRow label={'Fiat Volume'} value={`${fiatVolumeFormatted}`} reference={summary?.response?.closedFiatVolumePercentage} />
                     <SummaryRow label={'Average Price'} value={`${priceFormatted}`} reference={priceReference} />
                 </SummaryContainer>
-                <Chart
-                    chartType='AreaChart'
-                    data={data}
-                    options={options}
-                    width={'100%'}
-                />
-                <Chart
-                    chartType='AreaChart'
-                    data={dataBtcVolume}
-                    options={optionsBtcVolume}
-                    width={'100%'}
-                    className='text-light'
-                />
+                <h5 className="text-light text-center">BTC Volume</h5>
+                <ResponsiveContainer width="100%" height={400}>
+                    <AreaChart
+                        data={btcVolumeData}
+                        stackOffset="expand"
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="day" stroke="#fff" />
+                        <YAxis tickFormatter={toPercent} stroke="#fff" />
+                        <Area type="monotone" dataKey="closedBtcVolume" stackId="1" stroke="#62c462" fill="#62c462" />
+                        <Area type="monotone" dataKey="btcVolume" stackId="1" stroke="#ee5f5b" fill="#ee5f5b" />
+                    </AreaChart>
+                </ResponsiveContainer>
+                <h5 className="text-light text-center">Transactions</h5>
+                <ResponsiveContainer width="100%" height={400}>
+                    <AreaChart
+                        data={transactionCountData}
+                        stackOffset="expand"
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="day" stroke="#fff" />
+                        <YAxis tickFormatter={toPercent} stroke="#fff" />
+                        <Area type="monotone" dataKey="closedTransactionCount" stackId="1" stroke="#62c462" fill="#62c462" />
+                        <Area type="monotone" dataKey="transactionCount" stackId="1" stroke="#ee5f5b" fill="#ee5f5b" />
+                    </AreaChart>
+                </ResponsiveContainer>
             </ContentBody>
         </Container>
     )
