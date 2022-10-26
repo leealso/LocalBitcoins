@@ -202,7 +202,7 @@ export const localBitcoinsApi = createApi({
             query: ({ countryCode }) => ({
                 document: gql`
                 query buyAdvertisements($countryCode: String!) {
-                    ads: buyAdvertisements(countryCode: $countryCode order: {
+                    ads: buyAdvertisements(take: 25 countryCode: $countryCode order: {
                         tempPriceUsd: ASC
                     }) {
                         items {
@@ -226,7 +226,7 @@ export const localBitcoinsApi = createApi({
             query: ({ countryCode }) => ({
                 document: gql`
                 query sellAdvertisements($countryCode: String!) {
-                    ads: sellAdvertisements(countryCode: $countryCode order: {
+                    ads: sellAdvertisements(take: 25 countryCode: $countryCode order: {
                         tempPriceUsd: DESC
                     }) {
                         items {
