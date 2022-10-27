@@ -13,6 +13,10 @@ public class Advertisement
 
     public decimal TempPriceUsd { get; set; }
 
+    public decimal MaxAmountAvailable { get; set; }
+
+    public decimal MinAmountAvailable { get; set; }
+
     public string PublicViewUrl { get; set; }
 
     public Advertisement(LocalBitcoinsAdvertisement localBitcoinsAdvertisement, ExchangeRate exchangeRate)
@@ -26,6 +30,8 @@ public class Advertisement
         TempPriceUsd = isUsd 
             ? decimal.Parse(localBitcoinsAdvertisement.Data.TempPriceUsd)
             : Math.Round(decimal.Parse(localBitcoinsAdvertisement.Data.TempPrice) / exchangeRate.Value, 2);
+        MaxAmountAvailable = decimal.Parse(localBitcoinsAdvertisement.Data.MaxAmountAvailable);
+        MinAmountAvailable = decimal.Parse(localBitcoinsAdvertisement.Data.MinAmountAvailable);
         PublicViewUrl = localBitcoinsAdvertisement.Actions.PublicView;
     }
 }
