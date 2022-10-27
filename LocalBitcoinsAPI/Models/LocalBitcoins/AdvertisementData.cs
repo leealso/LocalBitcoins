@@ -15,13 +15,13 @@ public class AdvertisementData
     public string OnlineProvider { get; set; }
 
     [JsonProperty("min_amount_available")]
-    public string? MinAmountAvailable { get; set; }
+    public string MinAmountAvailable { get; set; }
 
     [JsonProperty("max_amount")]
     public string? MaxAmount { get; set; }
 
     [JsonProperty("max_amount_available")]
-    public string? MaxAmountAvailable { get; set; }
+    public string MaxAmountAvailable { get; set; }
 
     [JsonProperty("temp_price_usd")]
     public string TempPriceUsd { get; set; }
