@@ -9,5 +9,5 @@ public interface ISummaryService
     Summary GetSummary(DateTime date)
         => GetSummary(date, date.AddDays(1));
 
-    IList<Summary> GetDailysummaries(DateTime startDate, DateTime endDate);
+    IList<Summary> GetDailySummaries(DateTime startDate, DateTime endDate);
 }
