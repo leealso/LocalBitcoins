@@ -20,7 +20,7 @@ public class SummaryService : ISummaryService, IAsyncDisposable
         return new Summary(startDate, endDate, trades);
     }
 
-    public IList<Summary> GetDailysummaries(DateTime startDate, DateTime endDate)
+    public IList<Summary> GetDailySummaries(DateTime startDate, DateTime endDate)
     {
         var dailySummaries = new List<Summary>();
         foreach (var date in startDate.To(endDate))

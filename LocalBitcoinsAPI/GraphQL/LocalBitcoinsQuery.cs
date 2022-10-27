@@ -38,9 +38,9 @@ public class LocalBitcoinsQuery
     }
 
     [UseSorting]
-    public IList<Summary> GetDailySummary(DateTime startDate, DateTime endDate, [Service] ISummaryService queryService)
+    public IList<Summary> GetDailySummaries(DateTime startDate, DateTime endDate, [Service] ISummaryService queryService)
     {
-        return queryService.GetDailysummaries(startDate, endDate);
+        return queryService.GetDailySummaries(startDate, endDate);
     }
 
     public Summary GetSummary(DateTime startDate, DateTime endDate, [Service] ISummaryService queryService)
