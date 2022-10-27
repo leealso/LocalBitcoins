@@ -8,6 +8,9 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
     const percentage = advertisement.tempPriceUsd / btcPrice - 1
+    const symbol = advertisement.currency === 'CRC'
+        ? '₡'
+        : '$'
     return (
         <tr className='align-middle'>
             <td className='d-md-none'>{ truncate(advertisement.username) }</td>
@@ -21,6 +24,12 @@ const AdvertisementRow = ({ advertisement, isBuy, btcPrice }) => {
             </td>
             <td className='text-end d-none d-md-table-cell'>
                 { formatNumber(advertisement.tempPrice, '₡', 2) }
+            </td>
+            <td className='text-end d-none d-lg-table-cell'>
+                { formatNumber(advertisement.minAmountAvailable, symbol, 2) }
+            </td>
+            <td className='text-end d-none d-lg-table-cell'>
+                { formatNumber(advertisement.maxAmountAvailable, symbol, 2) }
             </td>
             <td className='text-center'>
                 <ProfitAndLossIndicator percentage={percentage} />

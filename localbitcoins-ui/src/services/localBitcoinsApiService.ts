@@ -173,7 +173,7 @@ export const localBitcoinsApi = createApi({
             query: ({ startDate, endDate }) => ({
                 document: gql`
                 query query($startDate: DateTime! $endDate: DateTime!) {
-                    response: dailySummary(startDate: $startDate endDate: $endDate order: { startDate: ASC }) {
+                    response: dailySummaries(startDate: $startDate endDate: $endDate order: { startDate: ASC }) {
                         startDate
                         endDate
                         transactionCount
@@ -210,6 +210,8 @@ export const localBitcoinsApi = createApi({
                             currency
                             tempPrice
                             tempPriceUsd
+                            minAmountAvailable
+                            maxAmountAvailable
                             publicViewUrl
                         }
                     }
@@ -234,6 +236,8 @@ export const localBitcoinsApi = createApi({
                             currency
                             tempPrice
                             tempPriceUsd
+                            minAmountAvailable
+                            maxAmountAvailable
                             publicViewUrl
                         }
                     }
