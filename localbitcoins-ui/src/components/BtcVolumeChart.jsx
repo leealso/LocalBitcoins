@@ -8,12 +8,13 @@ const BtcVolumeChart = ({ dailySummary }) => {
     let data = []
     dailySummary?.response.forEach(x => {
         data.push({
-            day: new Date(x.startDate).getDate(),
+            day: new Date(x.startDate),
             Others: x.btcVolume - x.closedBtcVolume,
             Closed: x.closedBtcVolume
         })
     })
     const toPercent = (decimal) => decimal ? `${(decimal * 100)}%` : ''
+    const toDate = (date) => date.getDate()
 
     return (
         <Container fluid className='g-0'>
@@ -24,7 +25,7 @@ const BtcVolumeChart = ({ dailySummary }) => {
                     stackOffset='expand'
                 >
                     <CartesianGrid strokeDasharray='3 3' />
-                    <XAxis dataKey='day' stroke='#fff' />
+                    <XAxis dataKey='day' tickFormatter={toDate} stroke='#fff' />
                     <YAxis tickFormatter={toPercent} stroke='#fff' />
                     <Tooltip content={<BtcVolumeChartTooltip />} />
                     <Area type='monotone' dataKey='Closed' stackId='1' stroke='#62c462' fill='#62c462' />

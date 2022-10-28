@@ -8,12 +8,13 @@ const TransactionCountChart = ({ dailySummary }) => {
     let data = []
     dailySummary?.response.forEach(x => {
         data.push({
-            day: new Date(x.startDate).getDate(),
+            day: new Date(x.startDate),
             Others: x.transactionCount - x.closedTransactionCount,
             Closed: x.closedTransactionCount
         })
     })
     const toPercent = (decimal) => decimal ? `${(decimal * 100)}%` : ''
+    const toDate = (date) => date.getDate()
 
     return (
         <Container fluid className='g-0'>
@@ -24,7 +25,7 @@ const TransactionCountChart = ({ dailySummary }) => {
                         stackOffset='expand'
                     >
                         <CartesianGrid strokeDasharray='3 3' />
-                        <XAxis dataKey='day' stroke='#fff' />
+                        <XAxis dataKey='day' tickFormatter={toDate} stroke='#fff' />
                         <YAxis tickFormatter={toPercent} stroke='#fff' />
                         <Tooltip content={<TransactionCountChartTooltip />} />
                         <Area type='monotone' dataKey='Closed' stackId='1' stroke='#62c462' fill='#62c462' />

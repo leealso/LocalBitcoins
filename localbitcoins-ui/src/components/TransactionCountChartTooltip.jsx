@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import React from 'react'
-import { formatNumber, formatPercentage } from '../stringUtility'
+import { formatNumber, formatPercentage, formatDate } from '../stringUtility'
 
 const TransactionCountChartTooltip = ({ payload, label }) => {
     const total = payload.reduce((result, entry) => result + entry.value, 0)
@@ -16,13 +16,8 @@ const TransactionCountChartTooltip = ({ payload, label }) => {
     return (
         <Container className='bg-light opacity-75'>
             <Row>
-                <Col xs={4} className='text-end'>
-                    <span>Total:</span>
-                </Col>
-                <Col className='text-end me-1'>
-                    <span>{`${formatNumber(total, '', 0, false)}`}</span>
-                </Col>
-                <Col xs={5}>
+                <Col className='text-center text-primary'>
+                    <span><b>{ label ? formatDate(label) : '' }</b></span>
                 </Col>
             </Row>
             {payload.map((entry, index) => (
@@ -38,6 +33,16 @@ const TransactionCountChartTooltip = ({ payload, label }) => {
                     </Col>
                 </Row>
             ))}
+            <Row>
+                <Col xs={4} className='text-end'>
+                    <span>Total:</span>
+                </Col>
+                <Col className='text-end me-1'>
+                    <span>{`${formatNumber(total, '', 0, false)}`}</span>
+                </Col>
+                <Col xs={5}>
+                </Col>
+            </Row>
         </Container>
     )
 }
