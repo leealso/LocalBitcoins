@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import AdvertisementsGrid from './AdvertisementsGrid'
 import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
@@ -12,7 +11,7 @@ import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
 
-const SellAdvertisements = ({ }) => {
+const SellAdvertisements = () => {
     const navigate = useNavigate();
     const onBuySellClick = () => {
         navigate(`/ads/buy`);
