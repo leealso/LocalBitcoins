@@ -25,9 +25,9 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(authApi.endpoints.getToken.matchFulfilled, (state, action) => {
-        state.access_token = action.payload.access_token
-        state.id_token = action.payload.id_token
-        state.user_id = action.payload.user_id
+        state.access_token = action.payload[0].access_token
+        state.id_token = action.payload[0].id_token
+        state.user_id = action.payload[0].user_id
         state.is_authenticated = true
       })
   },
