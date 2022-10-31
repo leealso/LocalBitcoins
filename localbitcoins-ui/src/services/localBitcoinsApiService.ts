@@ -3,6 +3,8 @@ import { gql } from 'graphql-request'
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 import { Trade } from '../types/trade'
 import { Advertisement } from '../types/advertisement'
+import { RootState } from '../store'
+import { useGetTokenQuery } from './authApiService'
 
 export interface BaseResponse<TResponse> {
     data: TResponse
@@ -75,7 +77,16 @@ export interface ExchangeRate {
 export const localBitcoinsApi = createApi({
     baseQuery: graphqlRequestBaseQuery({
         url: 'https://localbitcoinsapi.azurewebsites.net/graphql',
+        prepareHeaders: (headers) => {
+            const { data: authInfo } = useGetTokenQuery()
+            const token = authInfo.access_token
+            if (token) {
+                headers.set('authentication', `Bearer ${token}`)
+            }
+            return headers
+        }
     }),
+    reducerPath: 'localBitcoinsApi',
     endpoints: (builder) => ({
         getTrades: builder.query<
             BaseResponse<GetTradesResponse>,
