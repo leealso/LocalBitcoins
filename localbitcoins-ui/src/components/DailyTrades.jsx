@@ -12,8 +12,10 @@ import ContentBody from './ContentBody'
 import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
+import { useGetTokenQuery } from '../services/authApiService'
 
 const DailyTrades = ({ date, pageSize, selectedPage }) => {
+    useGetTokenQuery()
     const dispatch = useDispatch()
     let startDate = new Date(date)
     startDate.setHours(0, 0, 0, 0)
