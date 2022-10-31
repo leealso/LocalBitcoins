@@ -5,8 +5,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import BuyAdvertisements from './components/BuyAdvertisements'
 import SellAdvertisements from './components/SellAdvertisements'
 import MonthlyTrades from './components/MonthlyTrades'
+import { useGetTokenQuery } from './services/authApiService'
 
 function App() {
+  useGetTokenQuery()
+
   return (
     <Provider store ={store}>
       <div className="App">
