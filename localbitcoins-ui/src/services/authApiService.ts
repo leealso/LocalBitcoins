@@ -1,10 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-export interface AuthInfo {
-    access_token: string
-    id_token: string
-    user_id: string
-}
+import { AuthState } from '../store/reducers/authSlice'
 
 export const authApi = createApi({
     baseQuery: fetchBaseQuery({
@@ -12,7 +7,7 @@ export const authApi = createApi({
     }),
     reducerPath: 'authApi',
     endpoints: (builder) => ({
-        getToken: builder.query<AuthInfo, void>({
+        getToken: builder.query<AuthState, void>({
             query: () => `.auth/me`
         }),
     }),
