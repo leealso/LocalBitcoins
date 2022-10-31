@@ -3,17 +3,17 @@ import { authApi } from '../../services/authApiService'
 import type { RootState } from '../index'
 
 export interface AuthState {
-    access_token: string
-    id_token: string
-    user_id: string
-    is_authenticated: boolean
+  access_token: string
+  id_token: string
+  user_id: string
+  is_authenticated: boolean
 }
 
 const initialState = {
-    access_token: null,
-    id_token: null,
-    user_id: null,
-    is_authenticated: false,
+  access_token: null,
+  id_token: null,
+  user_id: null,
+  is_authenticated: false,
 } as AuthState
 
 const slice = createSlice({

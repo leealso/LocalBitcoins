@@ -10,8 +10,10 @@ import ContentBody from './ContentBody'
 import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
+import { useGetTokenQuery } from '../services/authApiService'
 
 const SellAdvertisements = () => {
+    useGetTokenQuery()
     const navigate = useNavigate();
     const onBuySellClick = () => {
         navigate(`/ads/buy`);
