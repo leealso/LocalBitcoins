@@ -38,3 +38,6 @@ export default slice.reducer
 
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.is_authenticated
+
+export const selectAccessToken = (state: RootState) =>
+  state.auth.access_token
