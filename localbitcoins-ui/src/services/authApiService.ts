@@ -8,7 +8,8 @@ export const authApi = createApi({
     reducerPath: 'authApi',
     endpoints: (builder) => ({
         getToken: builder.query<AuthState[], void>({
-            query: () => `.auth/me`
+            query: () => `.auth/me`,
+            keepUnusedDataFor: 21600 // 6 hours
         }),
     }),
 })
