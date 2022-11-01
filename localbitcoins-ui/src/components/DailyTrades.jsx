@@ -12,7 +12,6 @@ import ContentBody from './ContentBody'
 import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
-import { useGetTokeQuery } from '../services/authApiService'
 
 const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const dispatch = useDispatch()
