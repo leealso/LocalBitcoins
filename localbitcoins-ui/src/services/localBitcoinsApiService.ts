@@ -79,7 +79,7 @@ export const localBitcoinsApi = createApi({
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.access_token
             if (token) {
-                headers.set('authentication', `Bearer ${token}`)
+                headers.set('Authorization', `Bearer ${token}`)
             }
             return headers
         }

@@ -13,10 +13,8 @@ import SummaryRow from './SummaryRow'
 import BtcVolumeChart from './BtcVolumeChart'
 import TransactionCountChart from './TransactionCountChart'
 import { formatNumber } from '../stringUtility'
-import { useGetTokenQuery } from '../services/authApiService'
 
 const MonthlyTrades = ({ date }) => {
-    useGetTokenQuery()
     const selectedDate = new Date(date)
     const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
     const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 0, 0, 0);
