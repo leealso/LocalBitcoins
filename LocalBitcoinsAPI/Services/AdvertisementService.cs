@@ -20,7 +20,9 @@ public class AdvertisementService : IAdvertisementService
         var advertisements = await _httpClient.GetBuyAdsAsync(countryCode, cancellationToken);
         var date = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow.Date, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
         var exchangeRate = await _exchangeRateService.GetExchangeRateAsync(date.Date, cancellationToken);
-        return advertisements.Select(x => new Advertisement(x, exchangeRate)).AsQueryable();
+        return advertisements.Select(x => new Advertisement(x, exchangeRate))
+            .Where(IsAdvertisementValid)
+            .AsQueryable();
     }
 
     public async Task<IQueryable<Advertisement>> GetSellAdvertisementsAsync(string countryCode, CancellationToken cancellationToken = default)
@@ -28,6 +30,13 @@ public class AdvertisementService : IAdvertisementService
         var advertisements = await _httpClient.GetSellAdsAsync(countryCode, cancellationToken);
         var date = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow.Date, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
         var exchangeRate = await _exchangeRateService.GetExchangeRateAsync(date.Date, cancellationToken);
-        return advertisements.Select(x => new Advertisement(x, exchangeRate)).AsQueryable();
+        return advertisements.Select(x => new Advertisement(x, exchangeRate))
+            .Where(IsAdvertisementValid)
+            .AsQueryable();
+    }
+
+    private bool IsAdvertisementValid(Advertisement advertisement)
+    {
+        return advertisement.MaxAmountAvailable >= advertisement.MinAmountAvailable;
     }
 }
