@@ -8,7 +8,7 @@ const AuthWrapper = ({ children }) => {
 
     const showSpinner = isLoading || isFetching
     return (
-        <Container fluid>
+        <Container fluid className='p-0'>
             {
                 showSpinner
                     ? <LoadingSpinner isLoading={showSpinner} />
