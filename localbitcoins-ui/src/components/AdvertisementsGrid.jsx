@@ -9,7 +9,7 @@ const AdvertisementsGrid = ({ advertisements, isBuy, btcPrice }) => {
                 <thead>
                     <tr>
                         <th>User ID</th>
-                        <th>Currency</th>
+                        <th className='text-center'>Currency</th>
                         <th className='text-center'>Price</th>
                         <th className='text-center d-none d-md-table-cell'>Price</th>
                         <th colSpan='2' className='text-center d-none d-lg-table-cell'>Limits</th>
