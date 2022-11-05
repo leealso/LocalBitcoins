@@ -9,9 +9,12 @@ export const authApi = createApi({
     endpoints: (builder) => ({
         getToken: builder.query<AuthState[], void>({
             query: () => `.auth/me`,
-            keepUnusedDataFor: 3600 // 1 hour
+            keepUnusedDataFor: 2700 // 45 mins
         }),
+        refreshToken: builder.query<void, void>({
+            query: () => `.auth/refresh`
+        })
     }),
 })
 
-export const { useGetTokenQuery } = authApi
+export const { useGetTokenQuery, useRefreshTokenQuery } = authApi
