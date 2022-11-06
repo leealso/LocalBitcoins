@@ -42,7 +42,7 @@ public class AuthHttpClient : IAuthHttpClient
         _logger.LogDebug($"Calling POST {route}");
         var data = new[]
         {
-            new KeyValuePair<string, string>("grant_type", "client_credential"),
+            new KeyValuePair<string, string>("grant_type", "client_credentials"),
             new KeyValuePair<string, string>("client_id", _clientId),
             new KeyValuePair<string, string>("client_secret", _clientSecret),
             new KeyValuePair<string, string>("resource", _resource)
