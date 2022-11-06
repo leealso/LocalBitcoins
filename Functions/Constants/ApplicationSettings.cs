@@ -15,4 +15,14 @@ public static class ApplicationSettings
     public const string BccrIndicatorsEmail = "BCCR_INDICATORS_EMAIL";
 
     public const string LocalBitcoinsGraphQlUrl = "LOCALBITCOINS_GRAPHQL_URL";
+
+    public const string AuthUrl = "AUTH_URL";
+
+    public const string AuthTenantId = "AUTH_TENANT_ID";
+
+    public const string AuthClientId = "AUTH_CLIENT_ID";
+
+    public const string AuthClientSecret = "AUTH_CLIENT_SECRET";
+
+    public const string AuthResource = "AUTH_RESOURCE";
 }

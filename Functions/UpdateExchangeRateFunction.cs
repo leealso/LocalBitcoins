@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using LocalBitcoins.Functions.Services;
@@ -20,7 +19,7 @@ namespace LocalBitcoins.Functions
         }
         
         [FunctionName("UpdateExchangeRateFunction")]
-        public async Task Run([TimerTrigger("0 5 0,6,12-23 * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
+        public async Task Run([TimerTrigger("0 5 * * * *")]TimerInfo myTimer, ILogger log, CancellationToken cancellationToken = default)
         {
             await _exchangeRateService.UpdateExchangeRateAsync(cancellationToken);
         }
