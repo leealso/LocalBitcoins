@@ -8,11 +8,14 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
 {
     private readonly HttpClient _httpClient;
 
+    private readonly string[] _onlineProviders; 
+
     private readonly ILogger<LocalBitcoinsHttpClient> _logger;
 
     public LocalBitcoinsHttpClient(HttpClient httpClient, IConfiguration configuration, ILogger<LocalBitcoinsHttpClient> logger)
     {
         httpClient.BaseAddress = new Uri(configuration.GetValue<string>("LocalBitcoinsApi:Url"));
+        _onlineProviders = configuration.GetSection("LocalBitcoinsApi:OnlineProviders").Get<string[]>();
         _httpClient = httpClient;
         _logger = logger;
     }
@@ -29,6 +32,7 @@ public class LocalBitcoinsHttpClient : ILocalBitcoinsHttpClient
         var advertisementsResponse = JsonConvert.DeserializeObject<Response<AdvertisementsResponse>>(responseContent);
         _logger.LogDebug($"Calling GET {route} response body {advertisementsResponse.Data.Advertisements}");
 
-        return advertisementsResponse.Data.Advertisements;
+        return advertisementsResponse.Data.Advertisements
+            .Where(x => _onlineProviders.Contains(x.Data.OnlineProvider));
     }
 }
