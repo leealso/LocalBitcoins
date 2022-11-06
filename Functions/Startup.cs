@@ -11,6 +11,7 @@ namespace LocalBitcoins.Functions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            builder.Services.AddHttpClient<IAuthHttpClient, AuthHttpClient>();
             builder.Services.AddHttpClient<ILocalBitcoinsHttpClient, LocalBitcoinsHttpClient>();
             builder.Services.AddHttpClient<IBccrHttpClient, BccrHttpClient>();
             builder.Services.AddScoped<ILocalBitcoinsApiGraphClient, LocalBitcoinsApiGraphClient>();
