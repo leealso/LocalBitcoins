@@ -30,7 +30,8 @@ const BuyAdvertisements = () => {
     const usdCrcFormatted = formatNumber(usdCrc, '₡')
     const btcCrcFormatted = formatNumber(btcCrc, '₡')
 
-    const isLoading = isLoadingBuyAds || isFetchingBuyAds || isLoadingQuote || isFetchingQuote || isLoadingExchangeRate || isFetchingExchangeRate
+    const isLoading = isLoadingBuyAds || isLoadingQuote || isLoadingExchangeRate
+    const isFetching = isLoading || isFetchingBuyAds || isFetchingQuote || isFetchingExchangeRate
     const refresh = () => {
         refetchQuote()
         refetchExchangeRate()
@@ -38,7 +39,7 @@ const BuyAdvertisements = () => {
     }
     return (
         <Container className='pt-2'>
-            <ContentHeader title={'Sell Ads'} isLoading={isLoading} onRefreshClick={refresh}>
+            <ContentHeader title={'Sell Ads'} isLoading={isFetching} onRefreshClick={refresh}>
                 <BuySellButton isBuy={false} onClick={onBuySellClick} />
             </ContentHeader>
             <ContentBody isLoading={isLoading}>

@@ -40,16 +40,18 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
 
     const fiatVolumeFormatted = formatNumber(dailySummary?.response?.fiatVolume, '₡', 2)
     const isToday = startDate.toDateString() === new Date().toDateString()
+    
+    const isLoading = isLoadingTrades || isLoadingSummary
+    const isFetching = isLoading || isFetchingTrades || isFetchingSummary
     const refresh = () => {
         if (isToday) {
             refetchTrades()
             refetchSummary()
         }
     }
-    const isLoading = isLoadingTrades || isFetchingTrades || isLoadingSummary || isFetchingSummary
     return (
         <Container className='pt-2'>
-            <ContentHeader title={'Daily Trades'} isLoading={isLoading} onRefreshClick={refresh}>
+            <ContentHeader title={'Daily Trades'} isLoading={isFetching} onRefreshClick={refresh}>
                 <DatePickerButton date={date} onDateChange={(date) => dispatch(setSelectedDate(date.getTime()))} />
             </ContentHeader>
             <ContentBody isLoading={isLoading}>
