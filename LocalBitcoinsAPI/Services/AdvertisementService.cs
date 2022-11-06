@@ -5,7 +5,7 @@ namespace LocalBitcoinsAPI.Services;
 
 public class AdvertisementService : IAdvertisementService
 {
-    private readonly IExchangeRateService _exchangeRateService;
+    private readonly IExchangeRateService _exchangeRateService; 
 
     private readonly ILocalBitcoinsHttpClient _httpClient;
 
