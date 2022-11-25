@@ -41,7 +41,7 @@ public class ClosedTradeService : IClosedTradeService
 
     private async Task<IList<ClosedTrade>> AddAsync(IList<LocalBitcoinsContactData> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var todaysClosedTrades = await _localBitcoinsApiGraphClient.QueryAsync<IList<ClosedTrade>>(GraphQlQuery.GetClosedTrades, cancellationToken);
+        var todaysClosedTrades = await _localBitcoinsApiGraphClient.QueryAsync<List<ClosedTrade>>(GraphQlQuery.GetClosedTrades, cancellationToken);
         var contactIds = todaysClosedTrades.Select(x => x.ContactId);
 
         var closedTrades = localBitcoinsTrades
