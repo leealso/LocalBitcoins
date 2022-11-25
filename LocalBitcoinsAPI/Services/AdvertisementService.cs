@@ -9,10 +9,13 @@ public class AdvertisementService : IAdvertisementService
 
     private readonly ILocalBitcoinsHttpClient _httpClient;
 
-    public AdvertisementService(IExchangeRateService exchangeRateService, ILocalBitcoinsHttpClient httpClient)
+    private readonly string[] _blockedAdvertisers; 
+
+    public AdvertisementService(IExchangeRateService exchangeRateService, ILocalBitcoinsHttpClient httpClient, IConfiguration configuration)
     {
         _exchangeRateService = exchangeRateService;
         _httpClient = httpClient;
+        _blockedAdvertisers = configuration.GetSection("LocalBitcoinsApi:BlockedAdvertisers").Get<string[]>();
     }
 
     public async Task<IQueryable<Advertisement>> GetBuyAdvertisementsAsync(string countryCode, CancellationToken cancellationToken = default)
@@ -37,6 +40,7 @@ public class AdvertisementService : IAdvertisementService
 
     private bool IsAdvertisementValid(Advertisement advertisement)
     {
-        return advertisement.MaxAmountAvailable >= advertisement.MinAmountAvailable;
+        return advertisement.MaxAmountAvailable >= advertisement.MinAmountAvailable
+            && !_blockedAdvertisers.Contains(advertisement.Username);
     }
 }
