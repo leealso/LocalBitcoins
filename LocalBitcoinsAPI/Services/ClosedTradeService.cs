@@ -25,7 +25,8 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
         var trade = await _dbContext.Trades.SingleOrDefaultAsync(x => 
             x.Date == closedTrade.ClosedAt
             && x.AmountBtc == closedTrade.AmountBtc
-            && x.CurrencyCode == closedTrade.CurrencyCode,
+            && x.CurrencyCode == closedTrade.CurrencyCode
+            && x.ContactId == null,
             cancellationToken
         );
         if (trade != null)
@@ -33,8 +34,10 @@ public class ClosedTradeService : IClosedTradeService, IAsyncDisposable
             trade.ContactId = closedTrade.ContactId;
             _dbContext.Update(trade);
         }
+
+        if (currentClosedTrade == null || trade != null)   
+            await _dbContext.SaveChangesAsync(cancellationToken);
             
-        await _dbContext.SaveChangesAsync(cancellationToken);
         return closedTrade;
     }
 
