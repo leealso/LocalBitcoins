@@ -15,7 +15,7 @@ public class AdvertisementService : IAdvertisementService
     {
         _exchangeRateService = exchangeRateService;
         _httpClient = httpClient;
-        _blockedAdvertisers = configuration.GetSection("LocalBitcoinsApi:BlockedAdvertisers").Get<string[]>();
+        _blockedAdvertisers = configuration.GetSection("LocalBitcoinsApi:BlockedAdvertisers").Get<string[]>() ?? Array.Empty<string>();
     }
 
     public async Task<IQueryable<Advertisement>> GetBuyAdvertisementsAsync(string countryCode, CancellationToken cancellationToken = default)
