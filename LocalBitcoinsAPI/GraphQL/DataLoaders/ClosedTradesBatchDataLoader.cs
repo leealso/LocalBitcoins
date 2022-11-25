@@ -1,4 +1,3 @@
-using System.Linq;
 using HotChocolate.Fetching;
 using LocalBitcoinsAPI.Models;
 using LocalBitcoinsAPI.Services;
