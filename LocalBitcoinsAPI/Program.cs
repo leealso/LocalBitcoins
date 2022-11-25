@@ -3,10 +3,18 @@ using LocalBitcoinsAPI.Infrastructure.Data;
 using LocalBitcoinsAPI.Infrastructure.HttpClients;
 using LocalBitcoinsAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console()
+    .ReadFrom.Configuration(ctx.Configuration));
+
 builder.Services.AddCors();
 builder.Services.AddPooledDbContextFactory<LocalBitcoinsDbContext>(options => 
 {
@@ -26,13 +34,13 @@ builder.Services.AddCustomGraphQL();
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
     .SetIsOriginAllowed(origin => true)
 );
-//app.UseAuthorization();
 app.MapGraphQL();
 
 app.Run();
