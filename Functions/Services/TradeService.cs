@@ -42,7 +42,7 @@ public class TradeService : ITradeService
 
     private async Task<IList<Trade>> AddAsync(IList<LocalBitcoinsTrade> localBitcoinsTrades, CancellationToken cancellationToken = default)
     {
-        var maxTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMaxTransactionId);
+        var maxTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMaxTransactionId, cancellationToken);
         int maxTransactionId = maxTrade.Items.Any() 
             ? maxTrade.Items.Select(x => x.TransactionId).First()
             : default;
@@ -68,7 +68,7 @@ public class TradeService : ITradeService
         var completed = false;
         do 
         {
-            var minTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMinTransactionId);
+            var minTrade = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<Trade>>(GraphQlQuery.GetMinTransactionId, cancellationToken);
             int minTransactionId = minTrade.Items.Any() 
                 ? minTrade.Items.Select(x => x.TransactionId).First()
                 : default;

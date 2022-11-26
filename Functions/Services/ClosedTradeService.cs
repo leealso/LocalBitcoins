@@ -44,8 +44,9 @@ public class ClosedTradeService : IClosedTradeService
         var todaysClosedTrades = await _localBitcoinsApiGraphClient.QueryAsync<GraphQlPagination<ClosedTrade>>(GraphQlQuery.GetClosedTrades, cancellationToken);
         var contactIds = todaysClosedTrades.Items.Select(x => x.ContactId);
 
+        var today = DateTime.UtcNow.Date;
         var closedTrades = localBitcoinsTrades
-            .Where(x => !contactIds.Contains(x.ContactId))
+            .Where(x => x.ClosedAt >= today && !contactIds.Contains(x.ContactId))
             .Select(x => new ClosedTrade(x));
 
         if (!closedTrades.Any())
