@@ -34,7 +34,6 @@ builder.Services.AddCustomGraphQL();
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseCors(x => x
     .AllowAnyMethod()
