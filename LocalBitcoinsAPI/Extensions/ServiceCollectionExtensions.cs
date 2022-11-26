@@ -13,6 +13,8 @@ public static class ServiceCollectionExtensions
             .AddGraphQLServer()
             .AddFiltering()
             .AddSorting()
+            .AddDiagnosticEventListener<GraphQLDiagnosticEventListener>()
+            .AddErrorFilter<GraphQLErrorFilter>()
             .RegisterDbContext<LocalBitcoinsDbContext>()
             .AddQueryType<LocalBitcoinsQuery>()
             .AddMutationType<LocalBitcoinsMutation>()
