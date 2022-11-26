@@ -23,6 +23,11 @@ public class ClosedTrade
 
     public DateTime ClosedAt { get; set; }
 
+    public ClosedTrade()
+    {
+        
+    }
+
     public ClosedTrade(LocalBitcoinsContactData localBitcoinsContact)
     {
         ContactId = localBitcoinsContact.ContactId;
