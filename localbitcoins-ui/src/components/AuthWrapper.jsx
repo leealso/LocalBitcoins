@@ -6,18 +6,15 @@ import { useGetTokenQuery, useRefreshTokenQuery } from '../services/authApiServi
 const AuthWrapper = ({ children }) => {
     const { 
         isLoading: isLoadingRefreshToken, 
-        isFetching: isFetchingRefreshToken, 
         refetch: refetchRefreshToken 
     } = useRefreshTokenQuery()
     
     const { 
         isLoading: isLoadingGetToken, 
-        isFetching: isFetchingGetToken, 
         refetch: refetchGetToken 
     } = useGetTokenQuery()
 
-    const showSpinner = isLoadingRefreshToken || isFetchingRefreshToken 
-        || isLoadingGetToken || isFetchingGetToken
+    const showSpinner = isLoadingRefreshToken || isLoadingGetToken
 
     const refresh = () => {
         refetchRefreshToken()
