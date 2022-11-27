@@ -13,7 +13,7 @@ import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
 
-const DailyTrades = ({ date, pageSize, selectedPage }) => {
+const DailyTrades = ({ date, pageSize, selectedPage, refreshAuth }) => {
     const dispatch = useDispatch()
     let startDate = new Date(date)
     startDate.setHours(0, 0, 0, 0)
@@ -45,6 +45,7 @@ const DailyTrades = ({ date, pageSize, selectedPage }) => {
     const isFetching = isLoading || isFetchingTrades || isFetchingSummary
     const refresh = () => {
         if (isToday) {
+            refreshAuth()
             refetchTrades()
             refetchSummary()
         }
