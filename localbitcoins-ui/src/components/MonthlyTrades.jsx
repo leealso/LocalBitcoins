@@ -14,7 +14,7 @@ import BtcVolumeChart from './BtcVolumeChart'
 import TransactionCountChart from './TransactionCountChart'
 import { formatNumber } from '../stringUtility'
 
-const MonthlyTrades = ({ date }) => {
+const MonthlyTrades = ({ date, refreshAuth }) => {
     const selectedDate = new Date(date)
     const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0);
     const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0, 0, 0, 0);
@@ -32,6 +32,7 @@ const MonthlyTrades = ({ date }) => {
 
     const refresh = () => {
         if (isCurrentMonth) {
+            refreshAuth()
             refetchSummary()
             refetchDailySummary()
         }

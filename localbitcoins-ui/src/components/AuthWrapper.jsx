@@ -4,16 +4,32 @@ import LoadingSpinner from './LoadingSpinner'
 import { useGetTokenQuery, useRefreshTokenQuery } from '../services/authApiService'
 
 const AuthWrapper = ({ children }) => {
-    useRefreshTokenQuery()
-    const { isLoading, isFetching } = useGetTokenQuery()
-    const showSpinner = isLoading || isFetching
+    const { 
+        isLoading: isLoadingRefreshToken, 
+        isFetching: isFetchingRefreshToken, 
+        refetch: refetchRefreshToken 
+    } = useRefreshTokenQuery()
+    
+    const { 
+        isLoading: isLoadingGetToken, 
+        isFetching: isFetchingGetToken, 
+        refetch: refetchGetToken 
+    } = useGetTokenQuery()
+
+    const showSpinner = isLoadingRefreshToken || isFetchingRefreshToken 
+        || isLoadingGetToken || isFetchingGetToken
+
+    const refresh = () => {
+        refetchRefreshToken()
+        refetchGetToken()
+    }
     
     return (
         <Container fluid className='p-0'>
             {
                 showSpinner
                     ? <LoadingSpinner isLoading={showSpinner} />
-                    : children
+                    : React.cloneElement(children, { refreshAuth: refresh })
             }
         </Container>
     )

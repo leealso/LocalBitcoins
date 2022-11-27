@@ -11,7 +11,7 @@ import SummaryContainer from './SummaryContainer'
 import SummaryRow from './SummaryRow'
 import { formatNumber } from '../stringUtility'
 
-const SellAdvertisements = () => {
+const SellAdvertisements = ( { refreshAuth }) => {
     const navigate = useNavigate();
     const onBuySellClick = () => {
         navigate(`/ads/buy`);
@@ -33,6 +33,7 @@ const SellAdvertisements = () => {
     const isLoading = isLoadingBuyAds || isLoadingQuote || isLoadingExchangeRate
     const isFetching = isLoading || isFetchingBuyAds || isFetchingQuote || isFetchingExchangeRate
     const refresh = () => {
+        refreshAuth()
         refetchQuote()
         refetchExchangeRate()
         refetchBuyAds()
