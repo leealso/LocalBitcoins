@@ -14,7 +14,7 @@ public class ExchangeRateType : ObjectType<ExchangeRate>
                 var exchangeRate = context.Parent<ExchangeRate>();
                 var yesterday = exchangeRate.Date.AddDays(-1).Date;
                 var yesterdayExchangeRate = await context.Service<IExchangeRateService>().GetExchangeRateAsync(yesterday, context.RequestAborted);
-                return Math.Round(exchangeRate.Value / yesterdayExchangeRate.Value - 1, 2);
+                return Math.Round(exchangeRate.Value / yesterdayExchangeRate.Value - 1, 4);
             });
     }
 }
