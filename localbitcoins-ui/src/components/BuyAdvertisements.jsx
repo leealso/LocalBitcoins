@@ -26,6 +26,9 @@ const BuyAdvertisements = ({ refreshAuth}) => {
     const btcUsd = quote?.quote?.price
     const usdCrc = exchangeRate?.exchangeRate?.value
     const btcCrc = btcUsd * usdCrc
+    const btcCrcPercentChange24h = exchangeRate?.exchangeRate?.percentChange24h 
+        + quote?.quote?.percentChange24h / 100 
+        + (exchangeRate?.exchangeRate?.percentChange24h * quote?.quote?.percentChange24h / 100)
     const btcUsdFormatted = formatNumber(btcUsd, '$')
     const usdCrcFormatted = formatNumber(usdCrc, '₡')
     const btcCrcFormatted = formatNumber(btcCrc, '₡')
@@ -46,7 +49,7 @@ const BuyAdvertisements = ({ refreshAuth}) => {
             <ContentBody isLoading={isLoading}>
                 <SummaryContainer>
                     <SummaryRow label={'BTC USD'} value={btcUsdFormatted} reference={quote?.quote?.percentChange24h / 100} />
-                    <SummaryRow label={'BTC CRC'} value={btcCrcFormatted} reference={quote?.quote?.percentChange24h / 100} />
+                    <SummaryRow label={'BTC CRC'} value={btcCrcFormatted} reference={btcCrcPercentChange24h} />
                     <SummaryRow label={'USD CRC'} value={usdCrcFormatted} reference={exchangeRate?.exchangeRate?.percentChange24h} />
                 </SummaryContainer>
                 <AdvertisementsGrid advertisements={advertisements?.ads?.items ?? []} isBuy={true} btcPrice={quote?.quote?.price} />
