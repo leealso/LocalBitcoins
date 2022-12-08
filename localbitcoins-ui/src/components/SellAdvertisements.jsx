@@ -50,8 +50,8 @@ const SellAdvertisements = ( { refreshAuth }) => {
             <ContentBody isLoading={isLoading}>
                 <SummaryContainer>
                     <SummaryRow label={'BTC USD'} value={btcUsdFormatted} reference={quote?.quote?.percentChange24h / 100} />
-                    <SummaryRow label={'BTC CRC'} value={btcCrcFormatted} reference={quote?.quote?.percentChange24h / 100} />
-                    <SummaryRow label={'USD CRC'} value={usdCrcFormatted} reference={btcCrcPercentChange24h} />
+                    <SummaryRow label={'BTC CRC'} value={btcCrcFormatted} reference={btcCrcPercentChange24h} />
+                    <SummaryRow label={'USD CRC'} value={usdCrcFormatted} reference={exchangeRate?.exchangeRate?.percentChange24h} />
                 </SummaryContainer>
                 <AdvertisementsGrid advertisements={advertisements?.ads?.items ?? []} isBuy={false} btcPrice={quote?.quote?.price} />
             </ContentBody>
