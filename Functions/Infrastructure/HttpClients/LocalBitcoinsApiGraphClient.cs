@@ -29,8 +29,8 @@ public class LocalBitcoinsApiGraphClient : ILocalBitcoinsApiGraphClient
 
     public async Task<TResult> QueryAsync<TResult>(string query, object? variables = null, CancellationToken cancellationToken = default)
     {
-        var accessToken = await _authHttpClient.GetAccessTokenAsync(cancellationToken);
-        _httpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{accessToken}");
+        // var accessToken = await _authHttpClient.GetAccessTokenAsync(cancellationToken);
+        // _httpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", $"{accessToken}");
         
         var graphQlQuery = new GraphQLRequest
         {
